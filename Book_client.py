@@ -30,7 +30,11 @@ class Login(QDialog):
         self.pw_Edit.returnPressed.connect(self.try_login)
     
     def try_login(self):
-        print("로그인시도")
+        id = self.id_Edit.text()
+        pw = self.pw_Edit.text()
+        lo = id +"/"+pw
+        
+        sock.send(lo.encode())
 
     def join(self):
         sock.send("signup".encode())

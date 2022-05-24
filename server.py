@@ -20,7 +20,6 @@ def handle_clnt(clnt_sock):
     for i in range(0, clnt_cnt):
         if clnt_imfor[i][0] == clnt_sock:
             clnt_num = i
-            print(clnt_num)
             break
 
     while True:
@@ -45,12 +44,17 @@ def sign_up(clnt_sock, clnt_num):
 
     while True:
         check = 0
+        print("while시작")
         imfor = clnt_sock.recv(BUF_SIZE)
+        db.execute("SELECT id FROM Users") # Users 테이블에서 id 컬럼 추출
         print(imfor)
-        db.execute("SELECT * FROM Users where id=?", (imfor,))
-        for row in db.fetchall():
-            if row == imfor:
+        #print(db.fetchall())
+        
+        for row in db: # id 컬럼
+            print(row)
+            if imfor in row:       # 클라이언트가 입력한 id가 DB에 있으면
                 clnt_sock.send('NO'.encode())
+                print("중복확인")
                 check = 1
                 break
         if check == 1:
@@ -61,7 +65,7 @@ def sign_up(clnt_sock, clnt_num):
 
         user_data.append(imfor)
         clnt_imfor[clnt_num].append((imfor.decode()))
-        print(user_data)
+        #print(user_data)
         imfor = clnt_sock.recv(BUF_SIZE)  # password/name/email
         imfor = imfor.decode()
         imfor = imfor.split('/')  # 구분자 /로 잘라서 리스트 생성
