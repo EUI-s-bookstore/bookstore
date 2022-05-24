@@ -84,6 +84,7 @@ if __name__ == '__main__':
 
         lock.acquire()
 
+
         clnt_imfor.insert(clnt_cnt, [clnt_sock])
         clnt_cnt += 1
 
@@ -91,3 +92,4 @@ if __name__ == '__main__':
 
         t = threading.Thread(target=handle_clnt, args=(clnt_sock,))
         t.start()
+
