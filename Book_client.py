@@ -1,17 +1,21 @@
 import sys
 import socket
+import smtplib
+import re
+import random
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QThread, pyqtSlot
 from PyQt5 import QtCore
 from PyQt5 import uic
 from PyQt5.QtCore import QCoreApplication
+from email.mime.text import MIMEText # 이메일 전송을 위한 라이브러리 import
 
 BUF_SIZE = 1024
 IP= "127.0.0.1"
 Port = 2091
-a="3"
-b="4"
+check_msg=""
+
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
@@ -42,7 +46,7 @@ class reg(QDialog):
         #버튼 이벤트들
         self.id_Btn.clicked.connect(self.check_id)
         self.pw_Btn.clicked.connect(self.check_pw)
-        self.email_Btn.clicked.connect(self.check_email)
+        self.email_Btn.clicked.connect(self.send_email)
         self.email_C_Btn.clicked.connect(self.check_E_num)
         self.join_Btn.clicked.connect(self.join)
 
@@ -68,12 +72,30 @@ class reg(QDialog):
             self.name_Edit.setEnabled(True)
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
-    def check_email(self):
+    def send_email(self):
         #이메일 체크
+        global check_msg
+        email = self.email_Edit.text()
+        check = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+        
+        if check.match(email) != None:
+            ses = smtplib.SMTP('smtp.gmail.com', 587) # smtp 세션 설정
+            ses.starttls()
+            ses.login('saverock1235@gmail.com', "ohjo tynp pojs xjcx") # 이메일을 보낼 gmail 계정에 접속
+            
+            check_msg = str(random.randrange(1000, 10000))
+            msg = MIMEText('인증번호: '+check_msg) # 보낼 메세지 내용을 적는다
+            msg['subject'] = '의혀닝책방에서 인증코드를 발송했습니다.' # 보낼 이메일의 제목을 적는다
+            ses.sendmail("saverock1235@gmail.com", email, msg.as_string()) # 앞에는 위에서 설정한 계정, 두번째에는 이메일을 보낼 계정을 입력
+
+            ses.quit() # 세선종료  
+                 
         self.emailnum_Edit.setEnabled(True)
         self.email_C_Btn.setEnabled(True)
     def check_E_num(self):
-        self.join_Btn.setEnabled(True)
+        check_num = self.emailnum_Edit.text()
+        if check_num == check_msg:
+            self.join_Btn.setEnabled(True)
     def join(self):
         #텍스트창에 있는걸 변수에 집어넣는다
         pw=self.pw_Edit.text()

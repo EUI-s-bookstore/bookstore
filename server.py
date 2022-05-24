@@ -72,8 +72,8 @@ def sign_up(clnt_sock, clnt_num):
         query = "INSERT INTO Users(id, password, name, email) VALUES(?, ?, ?, ?)"
         db.executemany(query, (user_data,))  # DB에 user_data 추가
         con.commit()
-
         lock.release()
+        break
 
 
 # def login(clnt_sock):
@@ -123,7 +123,7 @@ def sign_up(clnt_sock, clnt_num):
 #             # 정보일치x
 #             continue
 
-
+'''
 def find_pw(clnt_sock):
     while True:
         imfor = clnt_sock.recv(BUF_SIZE)  # id/name/email
@@ -144,6 +144,7 @@ def find_pw(clnt_sock):
         else:
             # 정보일치x
             continue
+        '''
 
 
 def delete_imfor(clnt_sock):
