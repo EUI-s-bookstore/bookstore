@@ -43,7 +43,6 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('find_pw/'):
             clnt_msg = clnt_msg.replace('find_pw/', '')
             find_pw(clnt_sock, clnt_msg)
-
         else:
             continue
 
@@ -87,36 +86,34 @@ def sign_up(clnt_sock, clnt_num):
 
 
 def log_in(clnt_sock, data, num):
-    print('hi')
     con, c = dbcon()
 
     data = data.split('/')
     user_id = data[0]
-    print(user_id)
     c.execute("SELECT password FROM Users where id=?", (user_id,))  # DB에서 id 같은 password 컬럼 선택
     user_pw = c.fetchone()             # 한 행 추출
-    print(user_pw)
 
     if user_pw == None:  # DB에 없는 id 입력시
         clnt_sock.send('iderror'.encode())
-        print('iderror')
-        con.close()
+        con.close
         return
 
     if (data[1],) == user_pw:
         # 로그인성공 시그널
-        # clnt_sock.send('OK'.encode())
+        c.execute("SELECT * FROM Users where id=?", (user_id,))
+        row = c.fetchone()
+        print(row)
+        clnt_sock.send('!OK'.encode())
         print("login sucess")
         clnt_imfor[num].append(data[0])
-        print(clnt_imfor[num])
-        
     else:
         # 로그인실패 시그널
-        # clnt_sock.send('NO'.encode())
+        clnt_sock.send('!NO'.encode())
         print("login failure")
 
     con.close()
     return   
+
 
 def find_id(clnt_sock, email):
     con, c = dbcon()
@@ -124,7 +121,6 @@ def find_id(clnt_sock, email):
     c.execute("SELECT id FROM Users where email=?", (email,))
     id = c.fetchone()
     id = ''.join(id)
-    print(id)
 
     if id == None:
         clnt_sock.send('!NO'.encode())
@@ -132,23 +128,21 @@ def find_id(clnt_sock, email):
         con.close()
         return
     else:
-        print("else실행")
         clnt_sock.send('!OK'.encode())
-        print("!ok send")
         msg = clnt_sock.recv(BUF_SIZE)
         msg = msg.decode()
-        print(msg)
         if msg == 'plz_id':
             clnt_sock.send(id.encode())
             print('sendid')
         con.close()
         return
 
+
 def find_pw(clnt_sock, id):
-  
     con, c = dbcon()
     c.execute("SELECT password, email FROM Users where id=?", (id,))
     row = c.fetchone()
+    print(row)
     if row == None:
         clnt_sock.send('!NO'.encode())
         print('iderror')
@@ -161,17 +155,14 @@ def find_pw(clnt_sock, id):
 
     if row[1] == email:
         clnt_sock.send('!OK'.encode())
-        
         msg = clnt_sock.recv(BUF_SIZE)
         msg = msg.decode()
         if msg == 'plz_pw':
             pw = ''.join(row[1])
             clnt_sock.send(pw.encode())
             print('sendpw')
-    con.close()
-
-
-
+    con.close() 
+    return
 
 def delete_imfor(clnt_sock):
     global clnt_cnt
