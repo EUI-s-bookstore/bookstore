@@ -77,6 +77,7 @@ class Login(QDialog):  # 로그인창 시작
         sock.send(lo.encode())
         ck = check_rcv()
         user = ck.split("/")
+        print(user)
         if user[0] == "!OK":
             # 메인화면 열기
             m_window = Main_Window()
