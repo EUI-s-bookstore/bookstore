@@ -30,13 +30,13 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
         ses = smtplib.SMTP('smtp.gmail.com', 587)  # smtp 세션 설정
         ses.starttls()
         # 이메일을 보낼 gmail 계정에 접속
-        ses.login('uihyeon.bookstore@gmail.com', "ttqe mztd lljo tguh")
+        ses.login('saverock1235@gmail.com', "ohjo tynp pojs xjcx")
 
         check_msg = str(random.randrange(1000, 10000))
         msg = MIMEText('인증번호: '+check_msg)  # 보낼 메세지 내용을 적는다
         msg['subject'] = '의혀닝책방에서 인증코드를 발송했습니다.'  # 보낼 이메일의 제목을 적는다
         # 앞에는 위에서 설정한 계정, 두번째에는 이메일을 보낼 계정을 입력
-        ses.sendmail("uihyeon.bookstore@gmail.com", email, msg.as_string())
+        ses.sendmail("saverock1235@gmail.com", email, msg.as_string())
 
         ses.quit()
 # 이메일 체크 종료
@@ -84,9 +84,11 @@ class id_Find(QDialog):  # 아이디찾기 시작
         self.ui = uic.loadUi("find_id.ui", self)
 
         self.email_Btn_2.clicked.connect(self.check_email)
+        self.join_btn.clicked.connect(self.end)
 
     def check_email(self):
         e_mail = self.email_Edit.text()
+        e_mail = "find_id/"+e_mail
         sock.send(e_mail.encode())
         while True:
             ck = sock.recv(BUF_SIZE)
@@ -102,6 +104,10 @@ class id_Find(QDialog):  # 아이디찾기 시작
         ck_code = self.emailnum_Edit.text()
         if ck_code == check_msg:
             self.join_Btn.setEnable(True)
+
+    def end(self):
+        # 아이디를 이메일로 보내주고 종료
+        self.close()
 # 아이디찾기 종료
 
 
@@ -110,12 +116,14 @@ class pw_Find(QDialog):  # 비밀번호찾기 시작
         super().__init__()
         self.ui = uic.loadUi("find_pw.ui", self)
 
-        self.id_Btn.clicked.connect(self.check_id)
+        self.id_Btn.clicked.connect(self.check_email)
         self.email_Btn_2.clicked.connect(self.send_email)
         self.email_C_Btn_2.clicked.connect(self.check_E_num)
+        self.join_Btn.clicked.connect(self.end)
 
-    def check_id(self):
-        id = self.id_Edit.text()  # 텍스트창에 있는걸 id 변수에 넣는다
+    def check_email(self):
+        e_mail = self.id_Edit.text()  # 텍스트창에 있는걸 id 변수에 넣는다
+        e_mail = "find_pw/"+e_mail
         sock.send(id.encode())
         while True:
             ck = sock.recv(BUF_SIZE)
@@ -136,6 +144,10 @@ class pw_Find(QDialog):  # 비밀번호찾기 시작
         check_num = self.emailnum_Edit.text()
         if check_num == check_msg:
             self.join_Btn.setEnabled(True)
+
+    def end(self):
+        # 비밀번호를 이메일로 보내주고 종료
+        self.close()
 # 비밀번호찾기 종료
 
 
