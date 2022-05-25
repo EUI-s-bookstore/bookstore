@@ -17,6 +17,9 @@
    <string notr="true"/>
   </property>
   <widget class="QLineEdit" name="pw_Edit">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -61,6 +64,9 @@ border:2px solid #353535;
    </property>
   </widget>
   <widget class="QPushButton" name="join_Btn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -148,6 +154,9 @@ border:2px solid #353535;
    </property>
   </widget>
   <widget class="QLineEdit" name="name_Edit">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -216,6 +225,9 @@ border:2px solid #353535;
    </property>
   </widget>
   <widget class="QLineEdit" name="repw_Edit">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -236,6 +248,9 @@ border:2px solid #353535;
    </property>
   </widget>
   <widget class="QLineEdit" name="emailnum_Edit">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -304,6 +319,9 @@ border:2px solid #353535;
    </property>
   </widget>
   <widget class="QLineEdit" name="email_Edit">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -357,6 +375,9 @@ color:#353535;
    </property>
   </widget>
   <widget class="QPushButton" name="pw_Btn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>450</x>
@@ -390,6 +411,9 @@ color:#353535;
    </property>
   </widget>
   <widget class="QPushButton" name="email_Btn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>450</x>
@@ -423,6 +447,9 @@ color:#353535;
    </property>
   </widget>
   <widget class="QPushButton" name="email_C_Btn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>450</x>
