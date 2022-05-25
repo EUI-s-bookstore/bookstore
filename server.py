@@ -29,17 +29,17 @@ def handle_clnt(clnt_sock):
             lock.release()
             break
         clnt_msg = clnt_msg.decode()
-        
+
         print(clnt_msg)
 
         if 'signup' == clnt_msg:
             sign_up(clnt_sock, clnt_num)
-        elif clnt_msg.startwith('login'):
+        elif clnt_msg.startswith('login'):
             clnt_msg = clnt_msg.replace('login', '')
-            print(clnt_msg)
-            log_in(clnt_sock, clnt_msg)
+            log_in(clnt_sock, clnt_msg, clnt_num)
         else:
             continue
+
 
 def sign_up(clnt_sock, clnt_num):
     con, db = dbcon()
@@ -50,10 +50,9 @@ def sign_up(clnt_sock, clnt_num):
         check = 0
         imfor = clnt_sock.recv(BUF_SIZE)
         imfor = imfor.decode()
-        db.execute("SELECT id FROM Users") # Users 테이블에서 id 컬럼 추출
-        
+        db.execute("SELECT id FROM Users")  # Users 테이블에서 id 컬럼 추출
 
-        for row in db: # id 컬럼
+        for row in db:  # id 컬럼
             if imfor in row:       # 클라이언트가 입력한 id가 DB에 있으면
                 clnt_sock.send('!NO'.encode())
                 print("중복확인")
@@ -62,12 +61,13 @@ def sign_up(clnt_sock, clnt_num):
         if check == 1:
             continue
         clnt_sock.send('!OK'.encode())
-
+        
         lock.acquire()
 
         user_data.append(imfor)
         imfor = clnt_sock.recv(BUF_SIZE)  # password/name/email
         imfor = imfor.decode()
+        print(imfor)
         imfor = imfor.split('/')  # 구분자 /로 잘라서 리스트 생성
         for i in range(3):
             user_data.append(imfor[i])       # user_data 리스트에 추가
@@ -79,32 +79,37 @@ def sign_up(clnt_sock, clnt_num):
         break
 
 
-def log_in(clnt_sock, data):
+def log_in(clnt_sock, data, num):
     print('hi')
     con, c = dbcon()
 
-    while True:
-        data = data.split('/')
-        user_id = data[0]
-        c.execute("SELECT password FROM Users where id=?", user_id)  # DB에서 id 같은 password 컬럼 선택
-        user_pw = c.fetchone()             # 한 행 추출
-        print(user_pw)
+    data = data.split('/')
+    user_id = data[0]
+    print(user_id)
+    c.execute("SELECT password FROM Users where id=?", (user_id,))  # DB에서 id 같은 password 컬럼 선택
+    user_pw = c.fetchone()             # 한 행 추출
+    print(user_pw)
 
-        if user_pw is None:  # DB에 없는 id 입력시
-            clnt_sock.send('iderror')
-            print('iderror')
-            continue
+    if user_pw == None:  # DB에 없는 id 입력시
+        clnt_sock.send('iderror'.encode())
+        print('iderror')
+        con.close
+        return
 
-        if data[1] == user_pw:
-            # 로그인성공 시그널
-            # clnt_sock.send('OK'.encode())
-            print("login sucess")
-            break
-        else:
-            # 로그인실패 시그널
-            # clnt_sock.send('NO'.encode())
-            print("login failure")
-            continue
+    if (data[1],) == user_pw:
+        # 로그인성공 시그널
+        # clnt_sock.send('OK'.encode())
+        print("login sucess")
+        clnt_imfor[num].append(data[0])
+        print(clnt_imfor[num])
+        
+    else:
+        # 로그인실패 시그널
+        # clnt_sock.send('NO'.encode())
+        print("login failure")
+
+    con.close
+    return   
 
 
 # def find_id(clnt_sock):
