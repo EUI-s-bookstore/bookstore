@@ -15,7 +15,7 @@ BUF_SIZE = 1024
 IP = "127.0.0.1"
 Port = 2090
 check_msg = ""
-
+user = ""
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
@@ -48,10 +48,8 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
 
 def check_rcv():  # 서버에서 받아오기
     while True:
-        print("recving...")
         ck = sock.recv(BUF_SIZE)
         ck = ck.decode()
-        print("i'm done!")
         if sys.getsizeof(ck) >= 1:
             break
     return ck
@@ -77,9 +75,12 @@ class Login(QDialog):  # 로그인창 시작
 
         sock.send(lo.encode())
         ck = check_rcv()
-        if ck == "!OK":
+        user = ck.split("/")
+        if user[0] == "!OK":
+            # 메인화면 열기
             m_window = Main_Window()
             m_window.exec_()
+            # 로그인화면 종료
             self.close()
 
     def join(self):
@@ -226,6 +227,7 @@ class reg(QDialog):  # 가입창 시작
         sock.send(msg.encode())
         print(msg)
         self.close()
+# 가입창 종료
 
 
 class Main_Window(QDialog):  # 메인화면 시작
