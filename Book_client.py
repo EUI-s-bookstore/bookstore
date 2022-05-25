@@ -76,9 +76,7 @@ class Login(QDialog):  # 로그인창 시작
         print(lo)
         sock.send(lo.encode())
         ck = check_rcv()
-        print(ck)
         user = ck.split("/")
-        print(user)
         if user[0] == "!OK":
             # 메인화면 열기
             m_window = Main_Window()
@@ -133,6 +131,9 @@ class ID_Find(QDialog):  # 아이디찾기 시작
         ck = check_rcv()
         # 아이디를 이메일로 보내주고 종료
         self.close()
+
+    def closeEvent(self, event):
+        sock.send("Q_id_Find".encode())
 # 아이디찾기 종료
 
 
@@ -177,6 +178,9 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
         ck = check_rcv()
         # 비밀번호를 이메일로 보내주고 종료
         self.close()
+
+    def closeEvent(self, event):
+        sock.send("Q_pw_Find".encode())
 # 비밀번호찾기 종료
 
 
@@ -232,6 +236,9 @@ class reg(QDialog):  # 가입창 시작
         sock.send(msg.encode())
         print(msg)
         self.close()
+
+    def closeEvent(self, event):
+        sock.send("Q_reg".encode())
 # 가입창 종료
 
 
