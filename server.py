@@ -102,10 +102,15 @@ def log_in(clnt_sock, data, num):
         # 로그인성공 시그널
         c.execute("SELECT * FROM Users where id=?", (user_id,))
         row = c.fetchone()
-        print(row)
-        clnt_sock.send('!OK'.encode())
+        row = list(row)
+        for i in range(0, len(row)):
+            if row[i] == None:
+                row[i] = 'X'
+        row = '/'.join(row)
+        clnt_sock.send(('!OK' + row).encode())
         print("login sucess")
         clnt_imfor[num].append(data[0])
+
     else:
         # 로그인실패 시그널
         clnt_sock.send('!NO'.encode())
