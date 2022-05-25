@@ -39,8 +39,7 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
         ses.sendmail('uihyeon.bookstore@gmail.com', email, msg.as_string())
         result_value = "success"
     else:
-        QMessageBox.question(
-            self.window, 'error', '이메일 형식이 아닙니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+        QMessageBox().about(self, "error"  ,"이메일 형식이 아닙니다.\n다시 시도해주세요.")
         result_value = "fail"
 
     ses.quit()  # 이메일 체크 종료
@@ -145,8 +144,7 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
-            QMessageBox.question(
-                self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox().about(self, "error"  ,"존재하지 않는 아이디입니다.\n다시 시도해주세요.")
 
     def send_email(self):
         email = self.email_Edit.text()
@@ -190,8 +188,7 @@ class reg(QDialog):  # 가입창 시작
             self.repw_Edit.setEnabled(True)
             self.pw_Btn.setEnabled(True)
         else:
-            QMessageBox.question(
-                self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox().about(self, "error"  ,"중복되는 아이디입니다.\n다시 시도해주세요.")
 
     def check_pw(self):
         a = self.pw_Edit.text()
@@ -201,8 +198,7 @@ class reg(QDialog):  # 가입창 시작
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
-            QMessageBox.question(
-                self.window, 'error', '비밀번호가 일치하지 않습니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox().about(self, "error"  ,"비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
 
     def send_email(self):
         func_result = send_email_to_clnt(self)
@@ -251,6 +247,6 @@ class search_Books(QDialog):  # 도서찾기화면 시작
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    chat_window = search_Books()
+    chat_window = Login()
     chat_window.show()
     app.exec_()
