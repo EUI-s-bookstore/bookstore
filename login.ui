@@ -273,6 +273,9 @@ color:#353535;
    </property>
   </widget>
   <widget class="QPushButton" name="search_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -311,6 +314,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="donation_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -349,6 +355,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="shopping_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -387,6 +396,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="return_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -425,6 +437,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="home_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -509,6 +524,9 @@ color:#353535;
    </property>
   </widget>
   <widget class="QPushButton" name="user_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>

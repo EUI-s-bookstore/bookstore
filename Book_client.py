@@ -118,6 +118,12 @@ class reg(QDialog): # 회원가입 클래스
         print(msg)
         self.close()
 
+class find_pw(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("Login.ui",self)
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     chat_window = Login()
