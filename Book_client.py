@@ -69,6 +69,7 @@ class Login(QDialog):  # 로그인창 시작
         self.pw_Edit.returnPressed.connect(self.try_login)
 
     def try_login(self):
+        global user
         id = self.id_Edit.text()
         pw = self.pw_Edit.text()
         lo = "login" + id + "/"+pw
