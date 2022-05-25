@@ -72,11 +72,13 @@ class Login(QDialog):  # 로그인창 시작
         global user
         id = self.id_Edit.text()
         pw = self.pw_Edit.text()
-        lo = "login" + id + "/"+pw
-
+        lo = "login/" + id + "/"+pw
+        print(lo)
         sock.send(lo.encode())
         ck = check_rcv()
+        print(ck)
         user = ck.split("/")
+        print(user)
         if user[0] == "!OK":
             # 메인화면 열기
             m_window = Main_Window()

@@ -34,8 +34,8 @@ def handle_clnt(clnt_sock):
 
         if 'signup' == clnt_msg:
             sign_up(clnt_sock, clnt_num)
-        elif clnt_msg.startswith('login'):
-            clnt_msg = clnt_msg.replace('login', '')
+        elif clnt_msg.startswith('login/'):
+            clnt_msg = clnt_msg.replace('login/', '')
             log_in(clnt_sock, clnt_msg, clnt_num)
         elif clnt_msg.startswith('find_id/'):
             clnt_msg = clnt_msg.replace('find_id/', '')
