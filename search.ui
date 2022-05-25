@@ -327,7 +327,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>90</y>
+     <y>60</y>
      <width>381</width>
      <height>41</height>
     </rect>
@@ -347,7 +347,7 @@ border:2px solid #353535;
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>90</y>
+     <y>60</y>
      <width>81</width>
      <height>41</height>
     </rect>
@@ -376,24 +376,11 @@ color:#353535;
     <string>검색</string>
    </property>
   </widget>
-  <widget class="QTextBrowser" name="search_list">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>150</y>
-     <width>381</width>
-     <height>192</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border:1px solid #353535;</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="search_add">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>340</y>
+     <y>390</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -436,10 +423,13 @@ color:#353535;
    </property>
   </widget>
   <widget class="QPushButton" name="search_clear">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>340</y>
+     <y>390</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -470,11 +460,24 @@ color:#353535;
     <string>목록 비우기</string>
    </property>
   </widget>
+  <widget class="QRadioButton" name="book_check">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>20</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>도서검색</string>
+   </property>
+  </widget>
   <widget class="QRadioButton" name="writer_check">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>60</y>
+     <x>280</x>
+     <y>20</y>
      <width>112</width>
      <height>23</height>
     </rect>
@@ -483,20 +486,23 @@ color:#353535;
     <string>저자검색</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="book_check">
+  <widget class="QListWidget" name="search_list">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>60</y>
-     <width>112</width>
-     <height>23</height>
+     <y>140</y>
+     <width>381</width>
+     <height>251</height>
     </rect>
    </property>
-   <property name="text">
-    <string>도서검색</string>
+   <property name="dragEnabled">
+    <bool>false</bool>
    </property>
-   <property name="checked">
+   <property name="alternatingRowColors">
     <bool>true</bool>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::MultiSelection</enum>
    </property>
   </widget>
   <zorder>textBrowser_2</zorder>
@@ -511,11 +517,11 @@ color:#353535;
   <zorder>user_icon</zorder>
   <zorder>search_box</zorder>
   <zorder>search_Btn</zorder>
-  <zorder>search_list</zorder>
   <zorder>search_add</zorder>
   <zorder>search_clear</zorder>
-  <zorder>writer_check</zorder>
   <zorder>book_check</zorder>
+  <zorder>writer_check</zorder>
+  <zorder>search_list</zorder>
  </widget>
  <resources/>
  <connections/>
