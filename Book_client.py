@@ -39,21 +39,20 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
         ses.sendmail('uihyeon.bookstore@gmail.com', email, msg.as_string())
         result_value = "success"
     else:
-        QMessageBox.question(
-            self.window, 'error', '이메일 형식이 아닙니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+        QMessageBox().about(self, "error", "이메일 형식이 아닙니다.\n다시 시도해주세요.")
         result_value = "fail"
 
-    ses.quit()
+    ses.quit()  # 이메일 체크 종료
     return result_value
-# 이메일 체크 종료
 
 
 def check_rcv():  # 서버에서 받아오기
     while True:
+        print("recving...")
         ck = sock.recv(BUF_SIZE)
         ck = ck.decode()
+        print("i'm done!")
         if sys.getsizeof(ck) >= 1:
-            ck = ck.split('/')
             break
     return ck
 # 받아오기 종료
@@ -150,8 +149,7 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
-            QMessageBox.question(
-                self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox().about(self, "error", "존재하지 않는 아이디입니다.\n다시 시도해주세요.")
 
     def send_email(self):
         email = self.email_Edit.text()
@@ -197,8 +195,7 @@ class reg(QDialog):  # 가입창 시작
             self.repw_Edit.setEnabled(True)
             self.pw_Btn.setEnabled(True)
         else:
-            QMessageBox.question(
-                self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox().about(self, "error", "중복되는 아이디입니다.\n다시 시도해주세요.")
 
     def check_pw(self):
         a = self.pw_Edit.text()
@@ -208,14 +205,13 @@ class reg(QDialog):  # 가입창 시작
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
-            QMessageBox.question(
-                self.window, 'error', '비밀번호가 일치하지 않습니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox().about(self, "error", "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
 
     def send_email(self):
         func_result = send_email_to_clnt(self)
         if func_result == "success":
             self.emailnum_Edit.setEnabled(True)
-            self.email_C_Btn_2.setEnabled(True)
+            self.email_C_Btn.setEnabled(True)
 
     def check_E_num(self):
         check_num = self.emailnum_Edit.text()
@@ -250,6 +246,9 @@ class search_Books(QDialog):  # 도서찾기화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("search.ui", self)
+
+        self.book_check.toggle()
+        self.writer_check.setChecked(False)
 # 도서찾기화면 종료
 
 
