@@ -201,32 +201,38 @@ class reg(QDialog):  # 가입창 시작
         sock.send(id.encode())
         ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
+            QMessageBox().information(self, "    ", "사용 가능한 아이디입니다.")
             self.pw_Edit.setEnabled(True)
             self.repw_Edit.setEnabled(True)
             self.pw_Btn.setEnabled(True)
         else:
-            QMessageBox().about(self, "error", "중복되는 아이디입니다.\n다시 시도해주세요.")
+            QMessageBox().about(self, "   ", "중복되는 아이디입니다.\n다시 시도해주세요.")
 
     def check_pw(self):
         a = self.pw_Edit.text()
         b = self.repw_Edit.text()
         if a == b:  # 비밀번호 확인이 완료했을시 입력칸 잠금해제
+            QMessageBox().information(self, "    ", "비밀번호가 일치합니다.")
             self.name_Edit.setEnabled(True)
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
-            QMessageBox().about(self, "error", "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
+            QMessageBox().about(self, "    ", "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
 
     def send_email(self):
         func_result = send_email_to_clnt(self)
         if func_result == "success":
+            QMessageBox().information(self, "    ", "인증번호가 전송되었습니다.")
             self.emailnum_Edit.setEnabled(True)
             self.email_C_Btn.setEnabled(True)
 
     def check_E_num(self):
         check_num = self.emailnum_Edit.text()
         if check_num == check_msg:
+            QMessageBox().information(self, "    ", "인증이 완료되었습니다.")
             self.join_Btn.setEnabled(True)
+        else:
+            QMessageBox().information(self, "    ", "인증번호가 일치하지않습니다.")
 
     def join(self):  # 텍스트창에 있는걸 변수에 집어넣는다
         pw = self.pw_Edit.text()
