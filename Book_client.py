@@ -56,7 +56,7 @@ def check_rcv():
 class Login(QDialog):  # 로그인창 시작
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi("Login.ui", self)
+        self.ui = uic.loadUi("login.ui", self)
 
         # 버튼 누를시 작동되는것들
         self.login_Btn.clicked.connect(self.try_login)
@@ -80,22 +80,22 @@ class Login(QDialog):  # 로그인창 시작
         reg_window.exec_()
 
     def find_id(self):
-        id_find_window = id_Find()
+        id_find_window = ID_Find()
         id_find_window.exec_()
 
     def find_pw(self):
-        pw_find_window = pw_Find()
+        pw_find_window = PW_Find()
         pw_find_window.exec_()
 # 로그인창 종료
 
 
-class id_Find(QDialog):  # 아이디찾기 시작
+class ID_Find(QDialog):  # 아이디찾기 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("find_id.ui", self)
 
         self.email_Btn_2.clicked.connect(self.check_email)
-        self.join_btn.clicked.connect(self.end)
+        self.join_Btn.clicked.connect(self.end)
 
     def check_email(self):
         e_mail = self.email_Edit.text()
@@ -119,7 +119,7 @@ class id_Find(QDialog):  # 아이디찾기 시작
 # 아이디찾기 종료
 
 
-class pw_Find(QDialog):  # 비밀번호찾기 시작
+class PW_Find(QDialog):  # 비밀번호찾기 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("find_pw.ui", self)
