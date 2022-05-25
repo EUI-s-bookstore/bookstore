@@ -7,41 +7,31 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>458</height>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>회원가입</string>
+   <string>비밀번호찾기</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QLineEdit" name="pw_Edit">
+  <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>100</y>
-     <width>261</width>
-     <height>31</height>
+     <x>170</x>
+     <y>80</y>
+     <width>401</width>
+     <height>301</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>80</y>
-     <width>71</width>
+     <y>240</y>
+     <width>91</width>
      <height>17</height>
     </rect>
    </property>
@@ -57,14 +47,87 @@ border:2px solid #353535;
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>비밀번호</string>
+    <string>인증번호 확인</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="emailnum_Edit">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>260</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{
+border:1px solid #000;
+background:#fff;
+}
+
+QLineEdit:focus{
+border:2px solid #353535;
+}</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="email_Edit">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>200</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{
+border:1px solid #000;
+background:#fff;
+}
+
+QLineEdit:focus{
+border:2px solid #353535;
+}</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="email_C_Btn">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>210</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+</string>
+   </property>
+   <property name="text">
+    <string>확인</string>
    </property>
   </widget>
   <widget class="QPushButton" name="join_Btn">
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>390</y>
+     <y>310</y>
      <width>261</width>
      <height>31</height>
     </rect>
@@ -93,173 +156,11 @@ color:#353535;
     <string>완료</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>20</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>아이디</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="id_Edit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>40</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
-  </widget>
-  <widget class="QTextBrowser" name="textBrowser">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>-10</y>
-     <width>401</width>
-     <height>481</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="name_Edit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>220</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>140</y>
-     <width>101</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>비밀번호 재입력</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>200</y>
-     <width>71</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>이름</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="repw_Edit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>160</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="emailnum_Edit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>340</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>260</y>
+     <y>180</y>
      <width>81</width>
      <height>17</height>
     </rect>
@@ -279,121 +180,11 @@ border:2px solid #353535;
     <string>이메일 주소</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>320</y>
-     <width>91</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>인증번호 확인</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="email_Edit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>280</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="id_Btn">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>40</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>확인</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pw_Btn">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>160</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>확인</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="email_Btn">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>280</y>
+     <x>830</x>
+     <y>150</y>
      <width>51</width>
      <height>31</height>
     </rect>
@@ -422,11 +213,11 @@ color:#353535;
     <string>전송</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="email_C_Btn">
+  <widget class="QPushButton" name="id_Btn">
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>340</y>
+     <y>140</y>
      <width>51</width>
      <height>31</height>
     </rect>
@@ -453,6 +244,172 @@ color:#353535;
    </property>
    <property name="text">
     <string>확인</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="id_Edit">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>140</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{
+border:1px solid #000;
+background:#fff;
+}
+
+QLineEdit:focus{
+border:2px solid #353535;
+}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>120</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>아이디</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="email_Btn_2">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>200</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+</string>
+   </property>
+   <property name="text">
+    <string>전송</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="email_C_Btn_2">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>260</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+</string>
+   </property>
+   <property name="text">
+    <string>확인</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>50</y>
+     <width>401</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>                                            비밀번호 찾기</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="donation_icon_2">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>295</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="home_icon_2">
@@ -485,82 +442,6 @@ border:2px solid #fff;
    <property name="icon">
     <iconset>
      <normaloff>icon/Icon1.png</normaloff>icon/Icon1.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>35</width>
-     <height>35</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="user_icon_2">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>365</y>
-     <width>71</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>16</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-background:#353535;
-border:none;
-}
-QPushButton:hover{
-border:2px solid #fff; 
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>40</width>
-     <height>40</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="shopping_icon_2">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>155</y>
-     <width>71</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>16</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-background:#353535;
-border:none;
-}
-QPushButton:hover{
-border:2px solid #fff; 
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -645,11 +526,11 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="donation_icon_2">
+  <widget class="QPushButton" name="shopping_icon_2">
    <property name="geometry">
     <rect>
      <x>730</x>
-     <y>295</y>
+     <y>155</y>
      <width>71</width>
      <height>71</height>
     </rect>
@@ -674,7 +555,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
+     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -683,11 +564,49 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
+  <widget class="QPushButton" name="user_icon_2">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>365</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+  </widget>
   <widget class="QTextBrowser" name="textBrowser_4">
    <property name="geometry">
     <rect>
      <x>730</x>
-     <y>-5</y>
+     <y>-20</y>
      <width>71</width>
      <height>471</height>
     </rect>
@@ -698,29 +617,25 @@ border:2px solid #fff;
   </widget>
   <zorder>textBrowser_4</zorder>
   <zorder>textBrowser</zorder>
-  <zorder>pw_Edit</zorder>
-  <zorder>label_3</zorder>
-  <zorder>join_Btn</zorder>
-  <zorder>label</zorder>
-  <zorder>id_Edit</zorder>
-  <zorder>name_Edit</zorder>
-  <zorder>label_2</zorder>
-  <zorder>label_4</zorder>
-  <zorder>repw_Edit</zorder>
-  <zorder>emailnum_Edit</zorder>
-  <zorder>label_5</zorder>
-  <zorder>label_6</zorder>
   <zorder>email_Edit</zorder>
-  <zorder>id_Btn</zorder>
-  <zorder>pw_Btn</zorder>
-  <zorder>email_Btn</zorder>
+  <zorder>label_6</zorder>
+  <zorder>emailnum_Edit</zorder>
   <zorder>email_C_Btn</zorder>
+  <zorder>join_Btn</zorder>
+  <zorder>label_5</zorder>
+  <zorder>email_Btn</zorder>
+  <zorder>id_Edit</zorder>
+  <zorder>label</zorder>
+  <zorder>id_Btn</zorder>
+  <zorder>email_Btn_2</zorder>
+  <zorder>email_C_Btn_2</zorder>
+  <zorder>label_2</zorder>
+  <zorder>donation_icon_2</zorder>
   <zorder>home_icon_2</zorder>
-  <zorder>user_icon_2</zorder>
-  <zorder>shopping_icon_2</zorder>
   <zorder>return_icon_2</zorder>
   <zorder>search_icon_2</zorder>
-  <zorder>donation_icon_2</zorder>
+  <zorder>shopping_icon_2</zorder>
+  <zorder>user_icon_2</zorder>
  </widget>
  <resources>
   <include location="re.qrc"/>

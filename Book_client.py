@@ -13,14 +13,13 @@ from email.mime.text import MIMEText # 이메일 전송을 위한 라이브러�
 
 BUF_SIZE = 1024
 IP= "127.0.0.1"
-Port = 2091
+Port = 2090
 check_msg=""
-
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
 
-class Login(QDialog):
+class Login(QDialog): # 로그인 클래스
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("Login.ui",self)
@@ -30,7 +29,19 @@ class Login(QDialog):
         self.pw_Edit.returnPressed.connect(self.try_login)
     
     def try_login(self):
-        print("로그인시도")
+        id = self.id_Edit.text()
+        pw = self.pw_Edit.text()
+        lo = "login" + id +"/"+pw
+        
+        sock.send(lo.encode())
+        # sock.recv(lo.encode())
+        # if문으로 로그인 여부 확인
+        self.home_icon.setEnabled(True)
+        self.search_icon.setEnabled(True)
+        self.shopping_icon.setEnabled(True)
+        self.return_icon.setEnabled(True)
+        self.donation_icon.setEnabled(True)
+        self.user_icon.setEnabled(True)
 
     def join(self):
         sock.send("signup".encode())
@@ -38,7 +49,7 @@ class Login(QDialog):
         reg_window = reg()
         reg_window.exec_()
 
-class reg(QDialog):
+class reg(QDialog): # 회원가입 클래스
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("register.ui", self)
