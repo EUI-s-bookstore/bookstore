@@ -133,7 +133,7 @@ def find_id(clnt_sock, email):
         return
     else:
         print("else실행")
-        clnt_sock.send('!OK/'.encode())
+        clnt_sock.send('!OK'.encode())
         print("!ok send")
         msg = clnt_sock.recv(BUF_SIZE)
         msg = msg.decode()

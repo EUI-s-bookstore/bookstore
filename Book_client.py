@@ -125,7 +125,7 @@ class ID_Find(QDialog):  # 아이디찾기 시작
             self.join_Btn.setEnable(True)
 
     def end(self):
-        sock.send("plz_id".endcode())
+        sock.send("plz_id".encode())
         ck = check_rcv()
         # 아이디를 이메일로 보내주고 종료
         self.close()
