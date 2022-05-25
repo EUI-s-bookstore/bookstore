@@ -84,9 +84,11 @@ class id_Find(QDialog):  # 아이디찾기 시작
         self.ui = uic.loadUi("find_id.ui", self)
 
         self.email_Btn_2.clicked.connect(self.check_email)
+        self.join_btn.clicked.connect(self.end)
 
     def check_email(self):
         e_mail = self.email_Edit.text()
+        e_mail = "find_id/"+e_mail
         sock.send(e_mail.encode())
         while True:
             ck = sock.recv(BUF_SIZE)
@@ -102,6 +104,10 @@ class id_Find(QDialog):  # 아이디찾기 시작
         ck_code = self.emailnum_Edit.text()
         if ck_code == check_msg:
             self.join_Btn.setEnable(True)
+
+    def end(self):
+        # 아이디를 이메일로 보내주고 종료
+        self.close()
 # 아이디찾기 종료
 
 
@@ -110,12 +116,14 @@ class pw_Find(QDialog):  # 비밀번호찾기 시작
         super().__init__()
         self.ui = uic.loadUi("find_pw.ui", self)
 
-        self.id_Btn.clicked.connect(self.check_id)
+        self.id_Btn.clicked.connect(self.check_email)
         self.email_Btn_2.clicked.connect(self.send_email)
         self.email_C_Btn_2.clicked.connect(self.check_E_num)
+        self.join_Btn.clicked.connect(self.end)
 
-    def check_id(self):
-        id = self.id_Edit.text()  # 텍스트창에 있는걸 id 변수에 넣는다
+    def check_email(self):
+        e_mail = self.id_Edit.text()  # 텍스트창에 있는걸 id 변수에 넣는다
+        e_mail = "find_pw/"+e_mail
         sock.send(id.encode())
         while True:
             ck = sock.recv(BUF_SIZE)
@@ -136,6 +144,10 @@ class pw_Find(QDialog):  # 비밀번호찾기 시작
         check_num = self.emailnum_Edit.text()
         if check_num == check_msg:
             self.join_Btn.setEnabled(True)
+
+    def end(self):
+        # 비밀번호를 이메일로 보내주고 종료
+        self.close()
 # 비밀번호찾기 종료
 
 
