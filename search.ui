@@ -376,35 +376,6 @@ color:#353535;
     <string>검색</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="book_check">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>60</y>
-     <width>92</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>도서검색</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="writer_check">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>60</y>
-     <width>92</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>저자검색</string>
-   </property>
-  </widget>
   <widget class="QTextBrowser" name="search_list">
    <property name="geometry">
     <rect>
@@ -499,6 +470,35 @@ color:#353535;
     <string>목록 비우기</string>
    </property>
   </widget>
+  <widget class="QRadioButton" name="writer_check">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>60</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>저자검색</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="book_check">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>60</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>도서검색</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>textBrowser_2</zorder>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
@@ -511,11 +511,11 @@ color:#353535;
   <zorder>user_icon</zorder>
   <zorder>search_box</zorder>
   <zorder>search_Btn</zorder>
-  <zorder>book_check</zorder>
-  <zorder>writer_check</zorder>
   <zorder>search_list</zorder>
   <zorder>search_add</zorder>
   <zorder>search_clear</zorder>
+  <zorder>writer_check</zorder>
+  <zorder>book_check</zorder>
  </widget>
  <resources/>
  <connections/>

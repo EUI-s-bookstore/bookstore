@@ -155,6 +155,9 @@ border:2px solid #353535;
      <height>481</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#dedede;</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="name_Edit">
    <property name="enabled">
@@ -410,6 +413,7 @@ QPushButton:hover{
 background-color:#fff;
 color:#353535;
 }
+
 </string>
    </property>
    <property name="text">
@@ -489,6 +493,9 @@ color:#353535;
    </property>
   </widget>
   <widget class="QPushButton" name="home_icon_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -527,6 +534,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="user_icon_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -565,6 +575,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="shopping_icon_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -603,6 +616,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="return_icon_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -641,6 +657,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="search_icon_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -679,6 +698,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QPushButton" name="donation_icon_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -717,6 +739,9 @@ border:2px solid #fff;
    </property>
   </widget>
   <widget class="QTextBrowser" name="textBrowser_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -745,7 +770,6 @@ border:2px solid #fff;
   <zorder>label_6</zorder>
   <zorder>email_Edit</zorder>
   <zorder>id_Btn</zorder>
-  <zorder>pw_Btn</zorder>
   <zorder>email_Btn</zorder>
   <zorder>email_C_Btn</zorder>
   <zorder>home_icon_2</zorder>
@@ -754,6 +778,7 @@ border:2px solid #fff;
   <zorder>return_icon_2</zorder>
   <zorder>search_icon_2</zorder>
   <zorder>donation_icon_2</zorder>
+  <zorder>pw_Btn</zorder>
  </widget>
  <resources>
   <include location="re.qrc"/>

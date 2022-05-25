@@ -37,6 +37,12 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('login'):
             clnt_msg = clnt_msg.replace('login', '')
             log_in(clnt_sock, clnt_msg, clnt_num)
+        elif clnt_msg.startswith('find_id/'):
+            clnt_msg = clnt_msg.replace('find_id/', '')
+            find_id(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('find_pw/'):
+            clnt_msg = clnt_msg.replace('find_pw/', '')
+            find_pw(clnt_sock, clnt_msg)
         else:
             continue
 
@@ -80,81 +86,86 @@ def sign_up(clnt_sock, clnt_num):
 
 
 def log_in(clnt_sock, data, num):
-    print('hi')
     con, c = dbcon()
 
     data = data.split('/')
     user_id = data[0]
-    print(user_id)
     c.execute("SELECT password FROM Users where id=?", (user_id,))  # DB에서 id 같은 password 컬럼 선택
     user_pw = c.fetchone()             # 한 행 추출
-    print(user_pw)
 
     if user_pw == None:  # DB에 없는 id 입력시
         clnt_sock.send('iderror'.encode())
-        print('iderror')
         con.close
         return
 
     if (data[1],) == user_pw:
         # 로그인성공 시그널
-        # clnt_sock.send('OK'.encode())
+        c.execute("SELECT * FROM Users where id=?", (user_id,))
+        row = c.fetchone()
+        row = list(row)
+        for i in range(0, len(row)):
+            if row[i] == None:
+                row[i] = 'X'
+        row = '/'.join(row)
+        clnt_sock.send(('!OK/' + row).encode())
         print("login sucess")
         clnt_imfor[num].append(data[0])
-        print(clnt_imfor[num])
-        
     else:
         # 로그인실패 시그널
-        # clnt_sock.send('NO'.encode())
+        clnt_sock.send('!NO'.encode())
         print("login failure")
 
     con.close
     return   
 
 
-# def find_id(clnt_sock):
-#     while True:
-#         imfor = clnt_sock.recv(BUF_SIZE)  # name/email
-#         imfor = imfor.split('/')
-#         user_name = imfor[0]
-#         c.execute("SELECT id, email FROM Users where name=?", user_name)
-#         row = c.fetchone()
+def find_id(clnt_sock, email):
+    con, c = dbcon()
+       
+    c.execute("SELECT id FROM Users where email=?", (email,))
+    id = c.fetchone()
+    id = ''.join(id)
 
-#         if row == NULL:
-#             continue
+    if id == None:
+        clnt_sock.send('!NO'.encode())
+        print('fail')
+        return
+    else:
+        clnt_sock.send('!OK'.encode())
+        msg = clnt_sock.recv(BUF_SIZE)
+        msg = msg.decode()
+        if msg == 'plz_id':
+            clnt_sock.send(id.encode())
+            print('sendid')
+        return
 
-#         user_id = row[0]
-#         user_email = row[1]
-#         if imfor[1] == user_email:
-#             # id 보내기(메일로?)
-#             # clnt_sock.send(user_id.encode())
-#             break
-#         else:
-#             # 정보일치x
-#             continue
 
-'''
-def find_pw(clnt_sock):
-    while True:
-        imfor = clnt_sock.recv(BUF_SIZE)  # id/name/email
-        imfor = imfor.split('/')
-        user_id = imfor[0]
-        c.execute("SELECT password, name, email FROM Users where id=?", user_id)
-        row = c.fetchone()
-        user_name = row[1]
-        user_email = row[2]
-        if imfor[1] == user_name:
-            if imfor[2] == user_email:
-                # password 보내기
-                # clnt_sock.send(user_email.encode())
-                break
-            else:
-                # 정보일치x
-                continue
-        else:
-            # 정보일치x
-            continue
-        '''
+def find_pw(clnt_sock, id):
+    con, c = dbcon()
+    print("비번찾기 함수")
+    c.execute("SELECT password, email FROM Users where id=?", (id,))
+    row = c.fetchone()
+    print(row)
+    if row == None:
+        clnt_sock.send('!NO'.encode())
+        print('iderror')
+        con.close()
+        return
+
+    clnt_sock.send('!OK'.encode())              #DB에 id 있으면 !OK 전송
+    email = clnt_sock.recv(BUF_SIZE)
+    email = email.decode()
+    print(row[1])
+    print(email)
+    if row[1] == email:
+        clnt_sock.send('!OK'.encode())
+        msg = clnt_sock.recv(BUF_SIZE)
+        msg = msg.decode()
+        if msg == 'plz_pw':
+            pw = ''.join(row[1])
+            clnt_sock.send(pw.encode())
+            print('sendpw')
+    con.close() 
 
 
 def delete_imfor(clnt_sock):
