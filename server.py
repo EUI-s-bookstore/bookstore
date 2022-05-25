@@ -1,9 +1,8 @@
-
 import socket
 import threading
 import sqlite3
 
-PORT = 2091
+PORT = 2090
 BUF_SIZE = 1024
 lock = threading.Lock()
 clnt_imfor = []  # [[소켓, id]]
@@ -20,7 +19,6 @@ def handle_clnt(clnt_sock):
     for i in range(0, clnt_cnt):
         if clnt_imfor[i][0] == clnt_sock:
             clnt_num = i
-            print(clnt_num)
             break
 
     while True:
@@ -36,21 +34,28 @@ def handle_clnt(clnt_sock):
 
         if 'signup' == clnt_msg:
             sign_up(clnt_sock, clnt_num)
+        elif clnt_msg.startswith('login'):
+            clnt_msg = clnt_msg.replace('login', '')
+            log_in(clnt_sock, clnt_msg)
+        else:
+            continue
 
 def sign_up(clnt_sock, clnt_num):
     con, db = dbcon()
-    print('hi')
     check = 0
     user_data = []
 
     while True:
         check = 0
         imfor = clnt_sock.recv(BUF_SIZE)
-        print(imfor)
-        db.execute("SELECT * FROM Users where id=?", (imfor,))
-        for row in db.fetchall():
-            if row == imfor:
-                clnt_sock.send('NO'.encode())
+        imfor = imfor.decode()
+        db.execute("SELECT id FROM Users") # Users 테이블에서 id 컬럼 추출
+        
+
+        for row in db: # id 컬럼
+            if imfor in row:       # 클라이언트가 입력한 id가 DB에 있으면
+                clnt_sock.send('!NO'.encode())
+                print("중복확인")
                 check = 1
                 break
         if check == 1:
@@ -60,46 +65,45 @@ def sign_up(clnt_sock, clnt_num):
         lock.acquire()
 
         user_data.append(imfor)
-        clnt_imfor[clnt_num].append((imfor.decode()))
-        print(user_data)
         imfor = clnt_sock.recv(BUF_SIZE)  # password/name/email
         imfor = imfor.decode()
         imfor = imfor.split('/')  # 구분자 /로 잘라서 리스트 생성
-        imfor[0] = imfor[0].encode()    # imfor[0]은 password라서 디코딩
         for i in range(3):
             user_data.append(imfor[i])       # user_data 리스트에 추가
-        print(user_data)
         query = "INSERT INTO Users(id, password, name, email) VALUES(?, ?, ?, ?)"
         db.executemany(query, (user_data,))  # DB에 user_data 추가
         con.commit()
+        con.close
         lock.release()
         break
 
 
-# def login(clnt_sock):
-#     while True:
-#         imfor = clnt_sock.recv(BUF_SIZE)  # id/password
-#         imfor = imfor.split('/')
-#         for i in range(2):
-#             imfor[i] = imfor[i].decode("UTF–8")
-#         user_id = imfor[0]
-#         c.execute("SELECT password FROM Users where id=?",
-#                   user_id)  # DB에서 id 같은 password 컬럼 선택
-#         user_pw = c.fetchone()             # 한 행 추출
+def log_in(clnt_sock, data):
+    print('hi')
+    con, c = dbcon()
 
-#         if user_pw == NULL:  # DB에 없는 id 입력시
-#             continue
+    while True:
+        data = data.split('/')
+        user_id = data[0]
+        c.execute("SELECT password FROM Users where id=?", user_id)  # DB에서 id 같은 password 컬럼 선택
+        user_pw = c.fetchone()             # 한 행 추출
+        print(user_pw)
 
-#         if imfor[1] == user_pw:
-#             # 로그인성공 시그널
-#             # clnt_sock.send('OK'.encode())
-#             print("login sucess")
-#             break
-#         else:
-#             # 로그인실패 시그널
-#             # clnt_sock.send('NO'.encode())
-#             print("login failure")
-#             continue
+        if user_pw is None:  # DB에 없는 id 입력시
+            clnt_sock.send('iderror')
+            print('iderror')
+            continue
+
+        if data[1] == user_pw:
+            # 로그인성공 시그널
+            # clnt_sock.send('OK'.encode())
+            print("login sucess")
+            break
+        else:
+            # 로그인실패 시그널
+            # clnt_sock.send('NO'.encode())
+            print("login failure")
+            continue
 
 
 # def find_id(clnt_sock):
@@ -151,7 +155,7 @@ def delete_imfor(clnt_sock):
     global clnt_cnt
     for i in range(0, clnt_cnt):
         if clnt_sock == clnt_imfor[i][0]:
-            print("%s님께서 접속 종료하셨습니다." % clnt_imfor[i][1])
+            print('exit client')
             while i < clnt_cnt - 1:
                 clnt_imfor[i] = clnt_imfor[i + 1]
                 i += 1
