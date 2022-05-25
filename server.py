@@ -107,7 +107,7 @@ def log_in(clnt_sock, data, num):
             if row[i] == None:
                 row[i] = 'X'
         row = '/'.join(row)
-        clnt_sock.send(('!OK' + row).encode())
+        clnt_sock.send(('!OK/' + row).encode())
         print("login sucess")
         clnt_imfor[num].append(data[0])
 
