@@ -169,7 +169,7 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
             self.join_Btn.setEnabled(True)
 
     def end(self):
-        sock.send("plz_pw".endcode())
+        sock.send("plz_pw".encode())
         ck = check_rcv()
         # 비밀번호를 이메일로 보내주고 종료
         self.close()
