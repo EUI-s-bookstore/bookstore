@@ -43,17 +43,20 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
             self.window, 'error', '이메일 형식이 아닙니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
         result_value = "fail"
 
-    ses.quit()  # 이메일 체크 종료
+    ses.quit()
     return result_value
+# 이메일 체크 종료
 
 
-def check_rcv():
+def check_rcv():  # 서버에서 받아오기
     while True:
         ck = sock.recv(BUF_SIZE)
         ck = ck.decode()
         if sys.getsizeof(ck) >= 1:
+            ck = ck.split('/')
             break
     return ck
+# 받아오기 종료
 
 
 class Login(QDialog):  # 로그인창 시작
@@ -121,6 +124,8 @@ class ID_Find(QDialog):  # 아이디찾기 시작
             self.join_Btn.setEnable(True)
 
     def end(self):
+        sock.send("plz_id".endcode())
+        ck = check_rcv()
         # 아이디를 이메일로 보내주고 종료
         self.close()
 # 아이디찾기 종료
@@ -164,6 +169,8 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
             self.join_Btn.setEnabled(True)
 
     def end(self):
+        sock.send("plz_pw".endcode())
+        ck = check_rcv()
         # 비밀번호를 이메일로 보내주고 종료
         self.close()
 # 비밀번호찾기 종료
