@@ -213,39 +213,6 @@ color:#353535;
     <string>전송</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="id_Btn">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>140</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>확인</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="id_Edit">
    <property name="geometry">
     <rect>
@@ -615,6 +582,39 @@ border:2px solid #fff;
     <string notr="true">border:1px solid; background-color:#353535;</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="id_Btn">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>140</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+</string>
+   </property>
+   <property name="text">
+    <string>확인</string>
+   </property>
+  </widget>
   <zorder>textBrowser_4</zorder>
   <zorder>textBrowser</zorder>
   <zorder>email_Edit</zorder>
@@ -626,7 +626,6 @@ border:2px solid #fff;
   <zorder>email_Btn</zorder>
   <zorder>id_Edit</zorder>
   <zorder>label</zorder>
-  <zorder>id_Btn</zorder>
   <zorder>email_Btn_2</zorder>
   <zorder>email_C_Btn_2</zorder>
   <zorder>label_2</zorder>
@@ -636,6 +635,7 @@ border:2px solid #fff;
   <zorder>search_icon_2</zorder>
   <zorder>shopping_icon_2</zorder>
   <zorder>user_icon_2</zorder>
+  <zorder>id_Btn</zorder>
  </widget>
  <resources>
   <include location="re.qrc"/>

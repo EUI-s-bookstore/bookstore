@@ -9,47 +9,179 @@ from PyQt5.QtCore import QThread, pyqtSlot
 from PyQt5 import QtCore
 from PyQt5 import uic
 from PyQt5.QtCore import QCoreApplication
-from email.mime.text import MIMEText # 이메일 전송을 위한 라이브러리 import
+from email.mime.text import MIMEText  # 이메일 전송을 위한 라이브러리 import
 
 BUF_SIZE = 1024
-IP= "127.0.0.1"
+IP = "127.0.0.1"
 Port = 2090
-check_msg=""
-
+check_msg = ""
+user = ""
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
 
-class Login(QDialog):
+
+def send_email_to_clnt(self):  # 이메일 체크 시작
+    global check_msg
+    email = self.email_Edit.text()
+    check = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+
+    if check.match(email) != None:
+        ses = smtplib.SMTP('smtp.gmail.com', 587)  # smtp 세션 설정
+        ses.starttls()
+        # 이메일을 보낼 gmail 계정에 접속
+        ses.login('uihyeon.bookstore@gmail.com', 'ttqe mztd lljo tguh')
+
+        check_msg = str(random.randrange(1000, 10000))
+        msg = MIMEText('인증번호: '+check_msg)  # 보낼 메세지 내용을 적는다
+        msg['subject'] = '의혀닝책방에서 인증코드를 발송했습니다.'  # 보낼 이메일의 제목을 적는다
+        # 앞에는 위에서 설정한 계정, 두번째에는 이메일을 보낼 계정을 입력
+        ses.sendmail('uihyeon.bookstore@gmail.com', email, msg.as_string())
+        result_value = "success"
+    else:
+        QMessageBox().about(self, "error", "이메일 형식이 아닙니다.\n다시 시도해주세요.")
+        result_value = "fail"
+
+    ses.quit()  # 이메일 체크 종료
+    return result_value
+
+
+def check_rcv():  # 서버에서 받아오기
+    while True:
+        ck = sock.recv(BUF_SIZE)
+        ck = ck.decode()
+        if sys.getsizeof(ck) >= 1:
+            break
+    return ck
+# 받아오기 종료
+
+
+class Login(QDialog):  # 로그인창 시작
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi("login.ui",self)
+        self.ui = uic.loadUi("login.ui", self)
 
-        #버튼 누를시 작동되는것들
+        # 버튼 누를시 작동되는것들
         self.login_Btn.clicked.connect(self.try_login)
+        self.id_Find.clicked.connect(self.find_id)
+        self.pw_Find.clicked.connect(self.find_pw)
         self.join_Btn.clicked.connect(self.join)
         self.pw_Edit.returnPressed.connect(self.try_login)
-    
+
     def try_login(self):
+        global user
         id = self.id_Edit.text()
         pw = self.pw_Edit.text()
-        lo = "login" + id +"/"+pw
-        
+        lo = "login" + id + "/"+pw
+
         sock.send(lo.encode())
-        #sock.recv(lo_on.decode())
+        ck = check_rcv()
+        user = ck.split("/")
+        if user[0] == "!OK":
+            # 메인화면 열기
+            m_window = Main_Window()
+            m_window.exec_()
+            # 로그인화면 종료
+            self.close()
 
     def join(self):
         sock.send("signup".encode())
-        #새로운 UI 열기
+        # 새로운 UI 열기
         reg_window = reg()
         reg_window.exec_()
 
-class reg(QDialog):
+    def find_id(self):
+        id_find_window = ID_Find()
+        id_find_window.exec_()
+
+    def find_pw(self):
+        pw_find_window = PW_Find()
+        pw_find_window.exec_()
+# 로그인창 종료
+
+
+class ID_Find(QDialog):  # 아이디찾기 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("find_id.ui", self)
+
+        self.email_Btn_2.clicked.connect(self.check_email)
+        self.join_Btn.clicked.connect(self.end)
+
+    def check_email(self):
+        e_mail = self.email_Edit.text()
+        e_mail = "find_id/"+e_mail
+        sock.send(e_mail.encode())
+        ck = check_rcv()
+        if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
+            func_result = send_email_to_clnt(self)
+            if func_result == "success":
+                self.emailnum_Edit.setEnabled(True)
+                self.email_C_Btn_2.setEnabled(True)
+
+    def check_code(self):
+        ck_code = self.emailnum_Edit.text()
+        if ck_code == check_msg:
+            self.join_Btn.setEnable(True)
+
+    def end(self):
+        sock.send("plz_id".endcode())
+        ck = check_rcv()
+        # 아이디를 이메일로 보내주고 종료
+        self.close()
+# 아이디찾기 종료
+
+
+class PW_Find(QDialog):  # 비밀번호찾기 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("find_pw.ui", self)
+
+        self.id_Btn.clicked.connect(self.check_id)
+        self.email_Btn_2.clicked.connect(self.send_email)
+        self.email_C_Btn_2.clicked.connect(self.check_E_num)
+        self.join_Btn.clicked.connect(self.end)
+
+    def check_id(self):
+        id = self.id_Edit.text()  # 텍스트창에 있는걸 id 변수에 넣는다
+        id = "find_pw/"+id
+        sock.send(id.encode())
+        ck = check_rcv()
+        if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
+            self.email_Edit.setEnabled(True)
+            self.email_Btn.setEnabled(True)
+        else:
+            QMessageBox().about(self, "error", "존재하지 않는 아이디입니다.\n다시 시도해주세요.")
+
+    def send_email(self):
+        email = self.email_Edit.text()
+        sock.send(email.encode())
+        ck = check_rcv()
+        if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
+            func_result = send_email_to_clnt(self)
+            if func_result == "success":
+                self.emailnum_Edit.setEnabled(True)
+                self.email_C_Btn_2.setEnabled(True)
+
+    def check_E_num(self):
+        check_num = self.emailnum_Edit.text()
+        if check_num == check_msg:
+            self.join_Btn.setEnabled(True)
+
+    def end(self):
+        sock.send("plz_pw".encode())
+        ck = check_rcv()
+        # 비밀번호를 이메일로 보내주고 종료
+        self.close()
+# 비밀번호찾기 종료
+
+
+class reg(QDialog):  # 가입창 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("register.ui", self)
 
-        #버튼 이벤트들
+        # 버튼 이벤트들
         self.id_Btn.clicked.connect(self.check_id)
         self.pw_Btn.clicked.connect(self.check_pw)
         self.email_Btn.clicked.connect(self.send_email)
@@ -57,61 +189,71 @@ class reg(QDialog):
         self.join_Btn.clicked.connect(self.join)
 
     def check_id(self):
-        id=self.id_Edit.text()#텍스트창에 있는걸 id라는 변수에 집어넣는다
+        id = self.id_Edit.text()  # 텍스트창에 있는걸 id라는 변수에 집어넣는다
         sock.send(id.encode())
-        
-        while True:
-            ck = sock.recv(BUF_SIZE)
-            ck = ck.decode()
-            if sys.getsizeof(ck) >= 1:
-                break
-        if ck == "!OK" :
-            #아이디 중복확인이 완료했을시 입력칸 잠금해제
+        ck = check_rcv()
+        if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
             self.pw_Edit.setEnabled(True)
             self.repw_Edit.setEnabled(True)
             self.pw_Btn.setEnabled(True)
+        else:
+            QMessageBox().about(self, "error", "중복되는 아이디입니다.\n다시 시도해주세요.")
+
     def check_pw(self):
-        a=self.pw_Edit.text()
-        b=self.repw_Edit.text()
-        if a == b:
-            #비밀번호 확인이 완료했을시 입력칸 잠금해제
+        a = self.pw_Edit.text()
+        b = self.repw_Edit.text()
+        if a == b:  # 비밀번호 확인이 완료했을시 입력칸 잠금해제
             self.name_Edit.setEnabled(True)
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
-    def send_email(self):
-        #이메일 체크
-        global check_msg
-        email = self.email_Edit.text()
-        check = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-        
-        if check.match(email) != None:
-            ses = smtplib.SMTP('smtp.gmail.com', 587) # smtp 세션 설정
-            ses.starttls()
-            ses.login('saverock1235@gmail.com', "ohjo tynp pojs xjcx") # 이메일을 보낼 gmail 계정에 접속
-            
-            check_msg = str(random.randrange(1000, 10000))
-            msg = MIMEText('인증번호: '+check_msg) # 보낼 메세지 내용을 적는다
-            msg['subject'] = '의혀닝책방에서 인증코드를 발송했습니다.' # 보낼 이메일의 제목을 적는다
-            ses.sendmail("saverock1235@gmail.com", email, msg.as_string()) # 앞에는 위에서 설정한 계정, 두번째에는 이메일을 보낼 계정을 입력
+        else:
+            QMessageBox().about(self, "error", "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
 
-            ses.quit() # 세선종료  
-                 
-        self.emailnum_Edit.setEnabled(True)
-        self.email_C_Btn.setEnabled(True)
+    def send_email(self):
+        func_result = send_email_to_clnt(self)
+        if func_result == "success":
+            self.emailnum_Edit.setEnabled(True)
+            self.email_C_Btn.setEnabled(True)
+
     def check_E_num(self):
         check_num = self.emailnum_Edit.text()
         if check_num == check_msg:
             self.join_Btn.setEnabled(True)
-    def join(self):
-        #텍스트창에 있는걸 변수에 집어넣는다
-        pw=self.pw_Edit.text()
-        name=self.name_Edit.text()
-        email=self.email_Edit.text()
-        #msg에 합쳐서 전송한다
-        msg=pw+"/"+name+"/"+email
+
+    def join(self):  # 텍스트창에 있는걸 변수에 집어넣는다
+        pw = self.pw_Edit.text()
+        name = self.name_Edit.text()
+        email = self.email_Edit.text()
+        msg = pw+"/"+name+"/"+email  # msg에 합쳐서 전송한다
         sock.send(msg.encode())
         print(msg)
         self.close()
+# 가입창 종료
+
+
+class Main_Window(QDialog):  # 메인화면 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("main.ui", self)
+
+        self.search_icon.clicked.connect(self.goto_search)
+
+    def goto_search(self):
+        s_book = search_Books()
+        s_book.exec_()
+        self.close()
+# 메인화면 종료
+
+
+class search_Books(QDialog):  # 도서찾기화면 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("search.ui", self)
+
+        self.book_check.toggle()
+        self.writer_check.setChecked(False)
+# 도서찾기화면 종료
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

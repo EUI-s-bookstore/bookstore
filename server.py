@@ -37,6 +37,13 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('login'):
             clnt_msg = clnt_msg.replace('login', '')
             log_in(clnt_sock, clnt_msg, clnt_num)
+        elif clnt_msg.startswith('find_id/'):
+            clnt_msg = clnt_msg.replace('find_id/', '')
+            find_id(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('find_pw/'):
+            clnt_msg = clnt_msg.replace('find_pw/', '')
+            find_pw(clnt_sock, clnt_msg)
+
         else:
             continue
 
@@ -74,7 +81,7 @@ def sign_up(clnt_sock, clnt_num):
         query = "INSERT INTO Users(id, password, name, email) VALUES(?, ?, ?, ?)"
         db.executemany(query, (user_data,))  # DB에 user_data 추가
         con.commit()
-        con.close
+        con.close()
         lock.release()
         break
 
@@ -93,7 +100,7 @@ def log_in(clnt_sock, data, num):
     if user_pw == None:  # DB에 없는 id 입력시
         clnt_sock.send('iderror'.encode())
         print('iderror')
-        con.close
+        con.close()
         return
 
     if (data[1],) == user_pw:
@@ -108,53 +115,62 @@ def log_in(clnt_sock, data, num):
         # clnt_sock.send('NO'.encode())
         print("login failure")
 
-    con.close
+    con.close()
     return   
 
+def find_id(clnt_sock, email):
+    con, c = dbcon()
+       
+    c.execute("SELECT id FROM Users where email=?", (email,))
+    id = c.fetchone()
+    id = ''.join(id)
+    print(id)
 
-# def find_id(clnt_sock):
-#     while True:
-#         imfor = clnt_sock.recv(BUF_SIZE)  # name/email
-#         imfor = imfor.split('/')
-#         user_name = imfor[0]
-#         c.execute("SELECT id, email FROM Users where name=?", user_name)
-#         row = c.fetchone()
+    if id == None:
+        clnt_sock.send('!NO'.encode())
+        print('fail')
+        con.close()
+        return
+    else:
+        print("else실행")
+        clnt_sock.send('!OK/'.encode())
+        print("!ok send")
+        msg = clnt_sock.recv(BUF_SIZE)
+        msg = msg.decode()
+        print(msg)
+        if msg == 'plz_id':
+            clnt_sock.send(id.encode())
+            print('sendid')
+        con.close()
+        return
 
-#         if row == NULL:
-#             continue
+def find_pw(clnt_sock, id):
+  
+    con, c = dbcon()
+    c.execute("SELECT password, email FROM Users where id=?", (id,))
+    row = c.fetchone()
+    if row == None:
+        clnt_sock.send('!NO'.encode())
+        print('iderror')
+        con.close()
+        return
 
-#         user_id = row[0]
-#         user_email = row[1]
-#         if imfor[1] == user_email:
-#             # id 보내기(메일로?)
-#             # clnt_sock.send(user_id.encode())
-#             break
-#         else:
-#             # 정보일치x
-#             continue
+    clnt_sock.send('!OK'.encode())              #DB에 id 있으면 !OK 전송
+    email = clnt_sock.recv(BUF_SIZE)
+    email = email.decode()
 
-'''
-def find_pw(clnt_sock):
-    while True:
-        imfor = clnt_sock.recv(BUF_SIZE)  # id/name/email
-        imfor = imfor.split('/')
-        user_id = imfor[0]
-        c.execute("SELECT password, name, email FROM Users where id=?", user_id)
-        row = c.fetchone()
-        user_name = row[1]
-        user_email = row[2]
-        if imfor[1] == user_name:
-            if imfor[2] == user_email:
-                # password 보내기
-                # clnt_sock.send(user_email.encode())
-                break
-            else:
-                # 정보일치x
-                continue
-        else:
-            # 정보일치x
-            continue
-        '''
+    if row[1] == email:
+        clnt_sock.send('!OK'.encode())
+        
+        msg = clnt_sock.recv(BUF_SIZE)
+        msg = msg.decode()
+        if msg == 'plz_pw':
+            pw = ''.join(row[1])
+            clnt_sock.send(pw.encode())
+            print('sendpw')
+    con.close()
+
+
 
 
 def delete_imfor(clnt_sock):
