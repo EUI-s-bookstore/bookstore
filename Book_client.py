@@ -72,17 +72,19 @@ class Login(QDialog):  # 로그인창 시작
         global user
         id = self.id_Edit.text()
         pw = self.pw_Edit.text()
-        lo = "login" + id + "/"+pw
-
+        lo = "login/" + id + "/"+pw
+        print(lo)
         sock.send(lo.encode())
         ck = check_rcv()
+        print(ck)
         user = ck.split("/")
+        print(user)
         if user[0] == "!OK":
             # 메인화면 열기
             m_window = Main_Window()
+            self.close()
             m_window.exec_()
             # 로그인화면 종료
-            self.close()
 
     def join(self):
         sock.send("signup".encode())
@@ -125,7 +127,7 @@ class ID_Find(QDialog):  # 아이디찾기 시작
             self.join_Btn.setEnable(True)
 
     def end(self):
-        sock.send("plz_id".endcode())
+        sock.send("plz_id".encode())
         ck = check_rcv()
         # 아이디를 이메일로 보내주고 종료
         self.close()
@@ -240,8 +242,8 @@ class Main_Window(QDialog):  # 메인화면 시작
 
     def goto_search(self):
         s_book = search_Books()
-        s_book.exec_()
         self.close()
+        s_book.exec_()
 # 메인화면 종료
 
 
