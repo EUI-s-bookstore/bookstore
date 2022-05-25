@@ -20,6 +20,7 @@ check_msg = ""
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
 
+
 def send_email_to_clnt(self):  # 이메일 체크 시작
     global check_msg
     email = self.email_Edit.text()
@@ -37,12 +38,14 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
         # 앞에는 위에서 설정한 계정, 두번째에는 이메일을 보낼 계정을 입력
         ses.sendmail('uihyeon.bookstore@gmail.com', email, msg.as_string())
         result_value = "success"
-    else: 
-        QMessageBox.question(self.window, 'error', '이메일 형식이 아닙니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+    else:
+        QMessageBox.question(
+            self.window, 'error', '이메일 형식이 아닙니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
         result_value = "fail"
-        
-    ses.quit() # 이메일 체크 종료
+
+    ses.quit()  # 이메일 체크 종료
     return result_value
+
 
 def check_rcv():
     while True:
@@ -71,7 +74,11 @@ class Login(QDialog):  # 로그인창 시작
         lo = "login" + id + "/"+pw
 
         sock.send(lo.encode())
-        # sock.recv(lo_on.decode())
+        ck = check_rcv()
+        if ck == "!OK":
+            m_window = Main_Window()
+            m_window.exec_()
+            self.close()
 
     def join(self):
         sock.send("signup".encode())
@@ -138,7 +145,8 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
-            QMessageBox.question(self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox.question(
+                self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
 
     def send_email(self):
         email = self.email_Edit.text()
@@ -182,7 +190,8 @@ class reg(QDialog):  # 가입창 시작
             self.repw_Edit.setEnabled(True)
             self.pw_Btn.setEnabled(True)
         else:
-            QMessageBox.question(self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+            QMessageBox.question(
+                self.window, 'error', '존재하지 않는 아이디입니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
 
     def check_pw(self):
         a = self.pw_Edit.text()
@@ -191,8 +200,9 @@ class reg(QDialog):  # 가입창 시작
             self.name_Edit.setEnabled(True)
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
-        else: 
-            QMessageBox.question(self.window, 'error', '비밀번호가 일치하지 않습니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
+        else:
+            QMessageBox.question(
+                self.window, 'error', '비밀번호가 일치하지 않습니다.\n다시 시도해주세요.', QMessageBox.Yes, QMessageBox.NoButton)
 
     def send_email(self):
         func_result = send_email_to_clnt(self)
@@ -213,6 +223,27 @@ class reg(QDialog):  # 가입창 시작
         sock.send(msg.encode())
         print(msg)
         self.close()
+
+
+class Main_Window(QDialog):  # 메인화면 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("main.ui", self)
+
+        self.search_icon.clicked.connect(self.goto_search)
+
+    def goto_search(self):
+        s_book = search_Books()
+        s_book.exec_()
+        self.close()
+# 메인화면 종료
+
+
+class search_Books(QDialog):  # 도서찾기화면 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("search.ui", self)
+# 도서찾기화면 종료
 
 
 if __name__ == '__main__':
