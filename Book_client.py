@@ -85,6 +85,8 @@ class Login(QDialog):  # 로그인창 시작
             self.close()
             m_window.exec_()
             # 로그인화면 종료
+        else:
+            QMessageBox().about(self, "error", "아이디 혹은 비밀번호가 틀렸습니다.\n다시 시도해주세요.")
 
     def join(self):
         sock.send("signup".encode())
