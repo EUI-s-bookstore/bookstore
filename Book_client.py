@@ -42,6 +42,15 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
 # 이메일 체크 종료
 
 
+def check_rcv():
+    while True:
+        ck = sock.recv(BUF_SIZE)
+        ck = ck.decode()
+        if sys.getsizeof(ck) >= 1:
+            break
+    return ck
+
+
 class Login(QDialog):  # 로그인창 시작
     def __init__(self):
         super().__init__()
@@ -90,11 +99,7 @@ class id_Find(QDialog):  # 아이디찾기 시작
         e_mail = self.email_Edit.text()
         e_mail = "find_id/"+e_mail
         sock.send(e_mail.encode())
-        while True:
-            ck = sock.recv(BUF_SIZE)
-            ck = ck.decode()
-            if sys.getsizeof(ck) >= 1:
-                break
+        ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
             send_email_to_clnt(self)
             self.emailnum_Edit.setEnabled(True)
@@ -122,23 +127,22 @@ class pw_Find(QDialog):  # 비밀번호찾기 시작
         self.join_Btn.clicked.connect(self.end)
 
     def check_email(self):
-        e_mail = self.id_Edit.text()  # 텍스트창에 있는걸 id 변수에 넣는다
-        e_mail = "find_pw/"+e_mail
+        id = self.id_Edit.text()  # 텍스트창에 있는걸 id 변수에 넣는다
+        id = "find_pw/"+id
         sock.send(id.encode())
-        while True:
-            ck = sock.recv(BUF_SIZE)
-            ck = ck.decode()
-            if sys.getsizeof(ck) >= 1:
-                break
+        ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
 
     def send_email(self):
-        send_email_to_clnt(self)
-
-        self.emailnum_Edit.setEnabled(True)
-        self.email_C_Btn.setEnabled(True)
+        email = self.email_Edit.text()
+        sock.send(email.encode())
+        ck = check_rcv()
+        if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
+            send_email_to_clnt(self)
+            self.emailnum_Edit.setEnabled(True)
+            self.email_C_Btn.setEnabled(True)
 
     def check_E_num(self):
         check_num = self.emailnum_Edit.text()
@@ -166,12 +170,7 @@ class reg(QDialog):  # 가입창 시작
     def check_id(self):
         id = self.id_Edit.text()  # 텍스트창에 있는걸 id라는 변수에 집어넣는다
         sock.send(id.encode())
-
-        while True:
-            ck = sock.recv(BUF_SIZE)
-            ck = ck.decode()
-            if sys.getsizeof(ck) >= 1:
-                break
+        ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
             self.pw_Edit.setEnabled(True)
             self.repw_Edit.setEnabled(True)
