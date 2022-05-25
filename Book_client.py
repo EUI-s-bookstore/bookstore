@@ -82,9 +82,9 @@ class Login(QDialog):  # 로그인창 시작
         if user[0] == "!OK":
             # 메인화면 열기
             m_window = Main_Window()
+            self.close()
             m_window.exec_()
             # 로그인화면 종료
-            self.close()
 
     def join(self):
         sock.send("signup".encode())
@@ -242,8 +242,8 @@ class Main_Window(QDialog):  # 메인화면 시작
 
     def goto_search(self):
         s_book = search_Books()
-        s_book.exec_()
         self.close()
+        s_book.exec_()
 # 메인화면 종료
 
 
