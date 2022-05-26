@@ -17,6 +17,7 @@ Port = 2090
 check_msg = ""
 user = ""
 shopping_Cart = []
+search_mode = 'BN'
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
@@ -290,19 +291,24 @@ class search_Books(QDialog):  # 도서찾기화면 시작
     def search_type_change(self):
         global search_mode
         if self.book_check.isChecked():
-            search_mode = "searchBN"
+            search_mode = "BN"
         else:
-            search_mode = "searchWN"
+            search_mode = "WN"
             
     def search_func(self):      
         global search_mode
         
         search_text = self.search_box.text()
-        search_msg = search_mode + search_text
+        search_msg = "search"+search_mode + search_text
         sock.send(search_msg.encode())
         # 검색결과 받는 부분
     
-    
+    def confirm_item(self):
+        global shopping_Cart
+        for i in shopping_Cart:
+            if i == self.search_list.currntItem():
+                QMessageBox().about(self, "Alert", "이미 선택한 항목입니다!\n다시 시도해주세요.")
+                return
     
     def add_Cart(self):
         global shopping_Cart  
