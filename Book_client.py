@@ -302,12 +302,7 @@ class search_Books(QDialog):  # 도서찾기화면 시작
         sock.send(search_msg.encode())
         # 검색결과 받는 부분
     
-    def confirm_item(self):
-        global shopping_Cart
-        for i in shopping_Cart:
-            if i == self.search_list.currntItem():
-                QMessageBox().about(self, "Alert", "이미 선택한 항목입니다!\n다시 시도해주세요.")
-                return
+    
     
     def add_Cart(self):
         global shopping_Cart  
