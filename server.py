@@ -43,12 +43,15 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('find_pw/'):
             clnt_msg = clnt_msg.replace('find_pw/', '')
             find_pw(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('search'):
+            clnt_msg = clnt_msg.replace('search', '')
+            search(clnt_sock, clnt_msg)
         else:
             continue
 
 
 def sign_up(clnt_sock, clnt_num):
-    con, db = dbcon()
+    con, c = dbcon()
     check = 0
     user_data = []
 
@@ -59,9 +62,9 @@ def sign_up(clnt_sock, clnt_num):
         if imfor == "Q_reg":      # 회원가입 창 닫을 때 함수 종료
             con.close()
             break
-        db.execute("SELECT id FROM Users")  # Users 테이블에서 id 컬럼 추출
+        c.execute("SELECT id FROM Users")  # Users 테이블에서 id 컬럼 추출
 
-        for row in db:  # id 컬럼
+        for row in c:  # id 컬럼
             if imfor in row:       # 클라이언트가 입력한 id가 DB에 있으면
                 clnt_sock.send('!NO'.encode())
                 print("중복확인")
@@ -84,7 +87,7 @@ def sign_up(clnt_sock, clnt_num):
         for i in range(3):
             user_data.append(imfor[i])       # user_data 리스트에 추가
         query = "INSERT INTO Users(id, password, name, email) VALUES(?, ?, ?, ?)"
-        db.executemany(query, (user_data,))  # DB에 user_data 추가
+        c.executemany(query, (user_data,))  # DB에 user_data 추가
         con.commit()            # DB에 커밋
         con.close()
         lock.release()
@@ -181,6 +184,44 @@ def find_pw(clnt_sock, id):
             print('sendpw')
     con.close() 
     return
+
+def search(clnt_sock, msg):
+    con, c = dbcon()
+    if msg.startswith('BN'):
+        msg = msg.replace('BN', '')
+
+        arg = '%' + msg + '%'
+        c.execute("SELECT name, writer FROM Books WHERE rental = 0 AND name LIKE ?", (arg, )) # DB에 있는 책이름 찾아서 저자와 대출정보 가져오기
+        rows = c.fetchall()
+
+        for row in rows:
+            #책 정보 보내기
+            row = '/'.join(row)   
+            print(row)
+            clnt_sock.send(row.encode())   # name, writer
+        clnt_sock.send('search_done'.encode())
+        con.close()
+        return
+
+    elif msg.startswith('WN'):
+        msg = msg.replace('WN', '')
+        #저자명 검색 후 전달
+
+        arg = '%' + msg + '%'
+        c.execute("SELECT name, writer FROM Books WHERE rental = 0 AND writer LIKE ?", (arg, )) # DB에 있는 저자 이름 찾아서 책이름,대출정보 가져오기
+        rows = c.fetchall()
+
+        for row in rows:
+            #책 정보 보내기
+            print(row)
+            row = '/'.join(row)   
+            clnt_sock.send(row.encode())  
+        clnt_sock.send('search_done'.encode())
+        con.close()
+        return
+    else:
+        con.close()
+        return
 
 def delete_imfor(clnt_sock):
     global clnt_cnt
