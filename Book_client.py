@@ -16,6 +16,8 @@ IP = "127.0.0.1"
 Port = 2090
 check_msg = ""
 user = ""
+shopping_Cart = []
+search_mode = 'BN'
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
@@ -201,32 +203,38 @@ class reg(QDialog):  # 가입창 시작
         sock.send(id.encode())
         ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
+            QMessageBox().information(self, "    ", "사용 가능한 아이디입니다.")
             self.pw_Edit.setEnabled(True)
             self.repw_Edit.setEnabled(True)
             self.pw_Btn.setEnabled(True)
         else:
-            QMessageBox().about(self, "error", "중복되는 아이디입니다.\n다시 시도해주세요.")
+            QMessageBox().about(self, "   ", "중복되는 아이디입니다.\n다시 시도해주세요.")
 
     def check_pw(self):
         a = self.pw_Edit.text()
         b = self.repw_Edit.text()
         if a == b:  # 비밀번호 확인이 완료했을시 입력칸 잠금해제
+            QMessageBox().information(self, "    ", "비밀번호가 일치합니다.")
             self.name_Edit.setEnabled(True)
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
-            QMessageBox().about(self, "error", "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
+            QMessageBox().about(self, "    ", "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
 
     def send_email(self):
         func_result = send_email_to_clnt(self)
         if func_result == "success":
+            QMessageBox().information(self, "    ", "인증번호가 전송되었습니다.")
             self.emailnum_Edit.setEnabled(True)
             self.email_C_Btn.setEnabled(True)
 
     def check_E_num(self):
         check_num = self.emailnum_Edit.text()
         if check_num == check_msg:
+            QMessageBox().information(self, "    ", "인증이 완료되었습니다.")
             self.join_Btn.setEnabled(True)
+        else:
+            QMessageBox().information(self, "    ", "인증번호가 일치하지않습니다.")
 
     def join(self):  # 텍스트창에 있는걸 변수에 집어넣는다
         pw = self.pw_Edit.text()
@@ -260,14 +268,72 @@ class search_Books(QDialog):  # 도서찾기화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("search.ui", self)
+        
+        self.book_check.setChecked(True)
+        self.writer_check.setChecked(False) # 라디오 버튼 초기화
+        self.book_check.clicked.connect(self.search_type_change)
+        self.writer_check.clicked.connect(self.search_type_change) # 라디오 버튼 제어
+        
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        
+        self.search_Btn.clicked.connect(self.search_func) # 검색 버튼 제어
 
-        self.book_check.toggle()
-        self.writer_check.setChecked(False)
+        self.search_list.itemClicked.connect(self.confirm_item)
+        
+        self.search_add.clicked.connect(self.add_Cart)
+        self.search_clear.clicked.connect(self.clear_Cart)
+
+    def goto_home(self):
+        s_home = Main_Window()
+        s_home.exec_()
+        self.close()
+        
+    def search_type_change(self):
+        global search_mode
+        if self.book_check.isChecked():
+            search_mode = "BN"
+        else:
+            search_mode = "WN"
+            
+    def search_func(self):      
+        global search_mode
+        
+        search_text = self.search_box.text()
+        search_msg = "search"+search_mode + search_text
+        sock.send(search_msg.encode())
+        # 검색결과 받는 부분
+    
+    def confirm_item(self):
+        global shopping_Cart
+        for i in shopping_Cart:
+            if i == self.search_list.currntItem():
+                QMessageBox().about(self, "Alert", "이미 선택한 항목입니다!\n다시 시도해주세요.")
+                return
+    
+    def add_Cart(self):
+        global shopping_Cart  
+        select_item_list = self.search_list.selectedItems()  
+        for item in select_item_list:
+            check=True
+            for cart_item in shopping_Cart:
+                if item == cart_item:
+                    check = False
+            if check:
+                shopping_Cart.append(item)
+        
+        
+    def addListWidget(self):
+        self.search_list.addItem(self.addItemText)    
+    
+    def clear_Cart(self):
+        self.search_list.clear()
+          
 # 도서찾기화면 종료
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    chat_window = Login()
+    #chat_window = Login()
+    chat_window = search_Books()
     chat_window.show()
     app.exec_()
