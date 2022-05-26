@@ -310,8 +310,16 @@ class search_Books(QDialog):  # 도서찾기화면 시작
                 return
     
     def add_Cart(self):
-        global shopping_Cart           
-        shopping_Cart.extend(self.search_list.selectedItems())
+        global shopping_Cart  
+        select_item_list = self.search_list.selectedItems()  
+        for item in select_item_list:
+            check=True
+            for cart_item in shopping_Cart:
+                if item == cart_item:
+                    check = False
+            if check:
+                shopping_Cart.append(item)
+        
         
     def addListWidget(self):
         self.search_list.addItem(self.addItemText)    

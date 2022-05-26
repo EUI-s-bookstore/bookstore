@@ -43,6 +43,9 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('find_pw/'):
             clnt_msg = clnt_msg.replace('find_pw/', '')
             find_pw(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('serch'):
+            clnt_msg = clnt_msg.replace('serch', '')
+            serch(clnt_sock, clnt_msg)
         else:
             continue
 
@@ -181,6 +184,20 @@ def find_pw(clnt_sock, id):
             print('sendpw')
     con.close() 
     return
+
+
+def serch(clnt_sock, msg):
+    if msg.startswith('BN'):
+        msg.replace('BN', '')
+        #도서명 검색 후 전달
+        return
+    elif msg.startswith('WN'):
+        msg.replace('WN', '')
+        #저자명 검색 후 전달
+        return
+    else:
+        return
+
 
 def delete_imfor(clnt_sock):
     global clnt_cnt
