@@ -51,6 +51,7 @@ def handle_clnt(clnt_sock):
             donation(clnt_sock, clnt_msg)
         elif clnt_msg.startswith('return'):
             clnt_msg = clnt_msg.replace('return', '')
+            return_book(clnt_sock, clnt_msg)
         else:
             continue
 
@@ -241,9 +242,9 @@ def return_book(clnt_sock, msg):
         for i in range(1, 4):
             if name in row[i-1]:
                 book = "book" + str(i)
-                query = "UPDATE Users SET %s = NULL " % book
+                query = "UPDATE Users SET %s = NULL WHERE id=?" % book
                 c.execute("UPDATE Books SET rental = 0 WHERE name=?", (name,))
-                c.execute(query+"WHERE id=?", (id,))
+                c.execute(query, (id,))
                 check = 1
         
     elif msg.startswith('CD'):
@@ -254,9 +255,9 @@ def return_book(clnt_sock, msg):
         for i in range(1, 4):
             if book_code in row[i-1]:
                 book = "book"  + str(i)
-                query = "UPDATE Users SET %s = NULL " % book
+                query = "UPDATE Users SET %s = NULL WHERE id=?" % book
                 c.execute("UPDATE Books SET rental =  0 WHERE code=?", (book_code,))
-                c.execute(query+"WHERE id=?", (id,))
+                c.execute(query, (id,))
                 check = 1
 
     if check == 0:
