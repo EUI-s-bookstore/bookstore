@@ -46,6 +46,11 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('search'):
             clnt_msg = clnt_msg.replace('search', '')
             search(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('donate/'):
+            clnt_msg = clnt_msg.replace('donate/', '')
+            donation(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('return'):
+            clnt_msg = clnt_msg.replace('return', '')
         else:
             continue
 
@@ -185,13 +190,14 @@ def find_pw(clnt_sock, id):
     con.close() 
     return
 
+
 def search(clnt_sock, msg):
     con, c = dbcon()
     if msg.startswith('BN'):
         msg = msg.replace('BN', '')
 
         arg = '%' + msg + '%'
-        c.execute("SELECT name, writer FROM Books WHERE rental = 0 AND name LIKE ?", (arg, )) # DB에 있는 책이름 찾아서 저자와 대출정보 가져오기
+        c.execute("SELECT code, name, writer FROM Books WHERE rental = 0 AND name LIKE ?", (arg, )) # DB에 있는 책이름 찾아서 저자와 대출정보 가져오기
         rows = c.fetchall()
 
         for row in rows:
@@ -208,13 +214,13 @@ def search(clnt_sock, msg):
         #저자명 검색 후 전달
 
         arg = '%' + msg + '%'
-        c.execute("SELECT name, writer FROM Books WHERE rental = 0 AND writer LIKE ?", (arg, )) # DB에 있는 저자 이름 찾아서 책이름,대출정보 가져오기
+        c.execute("SELECT code, name, writer FROM Books WHERE rental = 0 AND writer LIKE ?", (arg, )) # DB에 있는 저자 이름 찾아서 책이름,대출정보 가져오기
         rows = c.fetchall()
 
         for row in rows:
             #책 정보 보내기
-            print(row)
             row = '/'.join(row)   
+            print(row)
             clnt_sock.send(row.encode())  
         clnt_sock.send('search_done'.encode())
         con.close()
@@ -222,6 +228,55 @@ def search(clnt_sock, msg):
     else:
         con.close()
         return
+
+
+def return_book(clnt_sock, msg):
+    con, c = dbcon()
+    check = 0
+    if msg.startswith('BN'):
+        msg = msg.replace('BN', '') # id랑 책 이름 받아와야함
+        # msg에서 id, name 자르기
+        c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
+        row = c.fetchone()
+        for i in range(1, 4):
+            if name in row[i-1]:
+                book = "book" + str(i)
+                query = "UPDATE Users SET %s = NULL " % book
+                c.execute("UPDATE Books SET rental = 0 WHERE name=?", (name,))
+                c.execute(query+"WHERE id=?", (id,))
+                check = 1
+        
+    elif msg.startswith('CD'):
+        msg = msg.replace('CD', '')
+        # msg에서 id, book_code 자르기
+        c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
+        row = c.fetchone()
+        for i in range(1, 4):
+            if book_code in row[i-1]:
+                book = "book"  + str(i)
+                query = "UPDATE Users SET %s = NULL " % book
+                c.execute("UPDATE Books SET rental =  0 WHERE code=?", (book_code,))
+                c.execute(query+"WHERE id=?", (id,))
+                check = 1
+
+    if check == 0:
+        clnt_sock.send('!NO'.encode()) # 대출목록에 없는 도서명/도서코드
+    else:
+        clnt_sock.send('!OK'.encode()) # 반납완료
+    con.commit()  
+    con.close()
+    return
+
+
+
+def donation(clnt_sock, msg):
+    con, c = dbcon()
+    msg = msg.split('/')
+    print(msg) # 확인
+    c.executemany("INSERT INTO Books(name, writer) VALUES(?, ?)", (msg,))  # DB에 기증한 책 추가
+    con.commit()            # DB에 커밋
+    con.close()
+
 
 def delete_imfor(clnt_sock):
     global clnt_cnt
