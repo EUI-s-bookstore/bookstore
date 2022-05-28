@@ -1,6 +1,7 @@
 import socket
 import threading
 import sqlite3
+from datetime import date
 
 PORT = 2090
 BUF_SIZE = 1024
@@ -49,6 +50,9 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('donate/'):
             clnt_msg = clnt_msg.replace('donate/', '')
             donation(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('rental'):
+            clnt_msg = clnt_msg.replace('rental', '')
+            rental(clnt_num, clnt_msg)
         elif clnt_msg.startswith('return'):
             clnt_msg = clnt_msg.replace('return', '')
             return_book(clnt_sock, clnt_msg)
@@ -155,7 +159,7 @@ def find_id(clnt_sock, email):
             pass
         elif msg == 'plz_id':     # plz_id 전송받으면 id 전송
             clnt_sock.send(id.encode())
-            print('sendid')
+            print('send_id')
         con.close()
         return
 
@@ -187,7 +191,7 @@ def find_pw(clnt_sock, id):
         elif msg == 'plz_pw':             # plz_pw 전송받으면 
             pw = ''.join(row[0])          # 비밀번호 문자열로 변환
             clnt_sock.send(pw.encode())   
-            print('sendpw')
+            print('send_pw')
     con.close() 
     return
 
@@ -231,12 +235,38 @@ def search(clnt_sock, msg):
         return
 
 
-def return_book(clnt_sock, msg):
+def rental(clnt_num, msg):
     con, c = dbcon()
+    id = clnt_imfor[clnt_num][1]
+    clnt_sock = clnt_imfor[clnt_num][0]
+    cur = 1
+    rental_date = date.today()
+    rental_date = rental_date.isoformat()
+
+    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id, ))
+    row = c.fetchall()
+    row = list(row)
+    for i in len(row):
+        if i == None:
+            c.execute("UPDATE Books SET rental=? WHERE code=?", ('1', msg))
+            data = 'book' + (str(cur))
+            bookname_date = msg + rental_date
+            c.execute("UPDATE Users SET ?=? WHERE id=?", (data, bookname_date, id))
+            clnt_sock.send('!OK'.encode())
+            con.commit()
+            con.close()
+            return
+        cur = cur + 1
+
+
+def return_book(clnt_num, msg):
+    con, c = dbcon()
+    id = clnt_imfor[clnt_num][1]
+    clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
     if msg.startswith('BN'):
-        msg = msg.replace('BN', '') # id랑 책 이름 받아와야함
-        # msg에서 id, name 자르기
+        msg = msg.replace('BN', '') # 책 이름 받아와야함
+        # msg에서 name 자르기
         c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
         row = c.fetchone()
         for i in range(1, 4):
@@ -249,7 +279,7 @@ def return_book(clnt_sock, msg):
         
     elif msg.startswith('CD'):
         msg = msg.replace('CD', '')
-        # msg에서 id, book_code 자르기
+        # msg에서 book_code 자르기
         c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
         row = c.fetchone()
         for i in range(1, 4):
