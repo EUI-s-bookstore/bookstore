@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>도서조회</string>
+   <string>도서 대여</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -78,7 +78,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon2.png</normaloff>icon/Icon2.png</iconset>
+     <normaloff>../다운로드/icon/Icon2.png</normaloff>../다운로드/icon/Icon2.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -116,7 +116,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
+     <normaloff>../다운로드/icon/Icon5.png</normaloff>../다운로드/icon/Icon5.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -154,7 +154,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
+     <normaloff>../다운로드/icon/Icon3.png</normaloff>../다운로드/icon/Icon3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -192,7 +192,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon4.png</normaloff>icon/Icon4.png</iconset>
+     <normaloff>../다운로드/icon/Icon4.png</normaloff>../다운로드/icon/Icon4.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -230,7 +230,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon1.png</normaloff>icon/Icon1.png</iconset>
+     <normaloff>../다운로드/icon/Icon1.png</normaloff>../다운로드/icon/Icon1.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -314,7 +314,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
+     <normaloff>../다운로드/icon/Icon6.png</normaloff>../다운로드/icon/Icon6.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -323,35 +323,28 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QLineEdit" name="search_box">
+  <widget class="QTextBrowser" name="shopping_list">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>60</y>
+     <y>50</y>
+     <width>381</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="shopping_Btn">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>240</y>
      <width>381</width>
      <height>41</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="search_Btn">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>60</y>
-     <width>81</width>
-     <height>41</height>
-    </rect>
-   </property>
    <property name="font">
     <font>
      <family>Arial</family>
@@ -373,40 +366,7 @@ color:#353535;
 </string>
    </property>
    <property name="text">
-    <string>검색</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="search_add">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>390</y>
-     <width>191</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>장바구니에 추가</string>
+    <string>대여하기</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="textBrowser_2">
@@ -415,100 +375,54 @@ color:#353535;
      <x>140</x>
      <y>-10</y>
      <width>441</width>
-     <height>481</height>
+     <height>541</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color:#dedede;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="search_clear">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>390</y>
-     <width>191</width>
-     <height>41</height>
+     <x>170</x>
+     <y>20</y>
+     <width>381</width>
+     <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-border-left:1px solid #fff;
+    <string notr="true">border:1px solid #353535;
 background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-
-</string>
+color:#fff;</string>
    </property>
    <property name="text">
-    <string>목록 비우기</string>
+    <string>                                         도서 장바구니</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="book_check">
+  <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>20</y>
-     <width>112</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>도서검색</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="writer_check">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>20</y>
-     <width>112</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>저자검색</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="search_list">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>140</y>
+     <y>290</y>
      <width>381</width>
-     <height>251</height>
+     <height>151</height>
     </rect>
    </property>
-   <property name="mouseTracking">
-    <bool>true</bool>
+   <property name="styleSheet">
+    <string notr="true">background-color:#fff;</string>
    </property>
-   <property name="dragEnabled">
-    <bool>false</bool>
-   </property>
-   <property name="alternatingRowColors">
-    <bool>true</bool>
-   </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::MultiSelection</enum>
-   </property>
-   <property name="textElideMode">
-    <enum>Qt::ElideLeft</enum>
+   <property name="html">
+    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;[도서 대출시 주의사항]&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- 도서는 1권당 대여일로부터 7일간 대여가능합니다.&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- 한사람당 최대 3권의 책을 대여할 수 있습니다.&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- 반납이 연체되면 2주간 대여가 불가능합니다.&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- 대여 완료 후 나의 정보창에서 확인하실 수 있습니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <zorder>textBrowser_2</zorder>
@@ -521,13 +435,10 @@ color:#353535;
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>search_box</zorder>
-  <zorder>search_Btn</zorder>
-  <zorder>search_add</zorder>
-  <zorder>search_clear</zorder>
-  <zorder>book_check</zorder>
-  <zorder>writer_check</zorder>
-  <zorder>search_list</zorder>
+  <zorder>shopping_list</zorder>
+  <zorder>shopping_Btn</zorder>
+  <zorder>label_2</zorder>
+  <zorder>textBrowser</zorder>
  </widget>
  <resources/>
  <connections/>

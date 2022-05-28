@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>도서조회</string>
+   <string>도서 반납</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -78,7 +78,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon2.png</normaloff>icon/Icon2.png</iconset>
+     <normaloff>../다운로드/icon/Icon2.png</normaloff>../다운로드/icon/Icon2.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -116,7 +116,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
+     <normaloff>../다운로드/icon/Icon5.png</normaloff>../다운로드/icon/Icon5.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -154,7 +154,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
+     <normaloff>../다운로드/icon/Icon3.png</normaloff>../다운로드/icon/Icon3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -192,7 +192,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon4.png</normaloff>icon/Icon4.png</iconset>
+     <normaloff>../다운로드/icon/Icon4.png</normaloff>../다운로드/icon/Icon4.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -230,7 +230,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon1.png</normaloff>icon/Icon1.png</iconset>
+     <normaloff>../다운로드/icon/Icon1.png</normaloff>../다운로드/icon/Icon1.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -314,7 +314,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
+     <normaloff>../다운로드/icon/Icon6.png</normaloff>../다운로드/icon/Icon6.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -323,11 +323,11 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QLineEdit" name="search_box">
+  <widget class="QLineEdit" name="return_box">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>60</y>
+     <y>100</y>
      <width>381</width>
      <height>41</height>
     </rect>
@@ -343,11 +343,11 @@ border:2px solid #353535;
 }</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="search_Btn">
+  <widget class="QPushButton" name="return_Btn">
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>60</y>
+     <y>100</y>
      <width>81</width>
      <height>41</height>
     </rect>
@@ -376,12 +376,12 @@ color:#353535;
     <string>검색</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="search_add">
+  <widget class="QPushButton" name="return_end">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>390</y>
-     <width>191</width>
+     <y>330</y>
+     <width>381</width>
      <height>41</height>
     </rect>
    </property>
@@ -406,97 +406,62 @@ color:#353535;
 </string>
    </property>
    <property name="text">
-    <string>장바구니에 추가</string>
+    <string>반납 완료</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="textBrowser_2">
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>-10</y>
+     <y>40</y>
      <width>441</width>
-     <height>481</height>
+     <height>371</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color:#dedede;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="search_clear">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>390</y>
-     <width>191</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-border-left:1px solid #fff;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-
-</string>
-   </property>
-   <property name="text">
-    <string>목록 비우기</string>
-   </property>
-  </widget>
   <widget class="QRadioButton" name="book_check">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>20</y>
+     <y>70</y>
      <width>112</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>도서검색</string>
+    <string>도서명</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="writer_check">
+  <widget class="QRadioButton" name="booknum_check">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>20</y>
+     <x>245</x>
+     <y>70</y>
      <width>112</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>저자검색</string>
+    <string>도서고유번호</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="search_list">
+  <widget class="QListWidget" name="return_list">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>140</y>
+     <y>170</y>
      <width>381</width>
-     <height>251</height>
+     <height>161</height>
     </rect>
    </property>
-   <property name="mouseTracking">
-    <bool>true</bool>
+   <property name="styleSheet">
+    <string notr="true">
+border:1px solid #000;
+
+</string>
    </property>
    <property name="dragEnabled">
     <bool>false</bool>
@@ -507,8 +472,26 @@ color:#353535;
    <property name="selectionMode">
     <enum>QAbstractItemView::MultiSelection</enum>
    </property>
-   <property name="textElideMode">
-    <enum>Qt::ElideLeft</enum>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>110</y>
+     <width>211</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#777;</string>
+   </property>
+   <property name="text">
+    <string>반납할 도서를 입력해주세요</string>
    </property>
   </widget>
   <zorder>textBrowser_2</zorder>
@@ -521,13 +504,13 @@ color:#353535;
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>search_box</zorder>
-  <zorder>search_Btn</zorder>
-  <zorder>search_add</zorder>
-  <zorder>search_clear</zorder>
+  <zorder>return_box</zorder>
+  <zorder>return_Btn</zorder>
+  <zorder>return_end</zorder>
   <zorder>book_check</zorder>
-  <zorder>writer_check</zorder>
-  <zorder>search_list</zorder>
+  <zorder>booknum_check</zorder>
+  <zorder>return_list</zorder>
+  <zorder>label</zorder>
  </widget>
  <resources/>
  <connections/>

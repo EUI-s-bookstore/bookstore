@@ -16,6 +16,8 @@ IP = "127.0.0.1"
 Port = 2090
 check_msg = ""
 user = ""
+shopping_Cart = []
+search_mode = 'BN'
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, Port))
@@ -254,26 +256,115 @@ class Main_Window(QDialog):  # 메인화면 시작
         self.ui = uic.loadUi("main.ui", self)
 
         self.search_icon.clicked.connect(self.goto_search)
-
+        # self.shopping_icon.clicked.connect(self.goto_shopping)
+        # self.return_icon.clicked.connect(self.goto_return)
+        self.donation_icon.clicked.connect(self.goto_donate)
+        # self.user_icon.clicked.connect(self.goto_user)
+        
     def goto_search(self):
-        s_book = search_Books()
+        window = search_Window()
         self.close()
-        s_book.exec_()
+        window.exec_()
+        
+    def goto_donate(self):
+        window = donate_Window()
+        self.close()
+        window.exec_()
 # 메인화면 종료
 
 
-class search_Books(QDialog):  # 도서찾기화면 시작
+class search_Window(QDialog):  # 도서찾기화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("search.ui", self)
+        
+        self.book_check.setChecked(True)
+        self.writer_check.setChecked(False) # 라디오 버튼 초기화
+        self.book_check.clicked.connect(self.search_type_change)
+        self.writer_check.clicked.connect(self.search_type_change) # 라디오 버튼 제어
+        
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        # self.shopping_icon.clicked.connect(self.goto_shopping)
+        # self.return_icon.clicked.connect(self.goto_return)
+        self.donatation_icon.clicked.connect(self.goto_donatation)
+        # self.user_icon.clicked.connect(self.goto_user)
+        
+        self.search_Btn.clicked.connect(self.search_func) # 검색 버튼 제어
+        
+        self.search_add.clicked.connect(self.add_Cart)
+        self.search_clear.clicked.connect(self.clear_Cart)
 
-        self.book_check.toggle()
-        self.writer_check.setChecked(False)
+    def goto_home(self):
+        window = Main_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_donate(self):
+        window = donate_Window()
+        self.close()
+        window.exec_()
+        
+    def search_type_change(self):
+        global search_mode
+        if self.book_check.isChecked():
+            search_mode = "BN"
+        else:
+            search_mode = "WN"
+            
+    def search_func(self):      
+        global search_mode
+        
+        search_text = self.search_box.text()
+        search_msg = "search"+search_mode + search_text
+        sock.send(search_msg.encode())
+        self.search_list.clear()
+        while True:
+            rcv = sock.recv(BUF_SIZE)
+            rcv = rcv.decode()
+            if "search_done" in rcv:
+                break
+            else:
+                self.search_list.addItem(rcv) 
+    
+    def add_Cart(self):
+        global shopping_Cart  
+        select_item_list = self.search_list.selectedItems()  
+        for item in select_item_list:
+            if item not in shopping_Cart:
+                shopping_Cart.append(item)
+           
+                
+    def clear_Cart(self):
+        self.search_list.clear()
+        
+          
 # 도서찾기화면 종료
 
+class donate_Window(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("donation.ui", self)
+        
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(self.goto_search)
+        # self.shopping_icon.clicked.connect(self.goto_shopping)
+        # self.return_icon.clicked.connect(self.goto_return)
+        self.donatation_icon.clicked.connect(self.goto_donatation)
+        # self.user_icon.clicked.connect(self.goto_user)
+        
+        self.donation_Btn.clicked.connect(self.donate_books)
+        
+    def donate_books(self):
+        books_name = self.book_name.text()
+        writer_name = self.book_writer.text()
+        donate_msg = "donate/"+books_name+"/"+writer_name
+        sock.send(donate_msg.encode())
+        self.book_name.clear()
+        self.book_writer.clear()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    chat_window = Login()
+    #chat_window = Login()
+    chat_window = Main_Window()
     chat_window.show()
     app.exec_()
