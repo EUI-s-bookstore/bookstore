@@ -265,7 +265,7 @@ def return_book(clnt_num, msg):
     clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
     if msg.startswith('BN'):
-        msg = msg.replace('BN', '') # 책 이름 받아와야함
+        name = msg.replace('BN', '') # 책 이름 받아와야함
         # msg에서 name 자르기
         c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
         row = c.fetchone()
@@ -278,7 +278,7 @@ def return_book(clnt_num, msg):
                 check = 1
         
     elif msg.startswith('CD'):
-        msg = msg.replace('CD', '')
+        book_code = msg.replace('CD', '')
         # msg에서 book_code 자르기
         c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
         row = c.fetchone()
