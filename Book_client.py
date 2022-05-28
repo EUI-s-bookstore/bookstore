@@ -256,15 +256,24 @@ class Main_Window(QDialog):  # 메인화면 시작
         self.ui = uic.loadUi("main.ui", self)
 
         self.search_icon.clicked.connect(self.goto_search)
-
+        # self.shopping_icon.clicked.connect(self.goto_shopping)
+        # self.return_icon.clicked.connect(self.goto_return)
+        self.donatation_icon.clicked.connect(self.goto_donatation)
+        # self.user_icon.clicked.connect(self.goto_user)
+        
     def goto_search(self):
-        s_book = search_Books()
+        window = search_Window()
         self.close()
-        s_book.exec_()
+        window.exec_()
+        
+    def goto_donate(self):
+        window = donate_Window()
+        self.close()
+        window.exec_()
 # 메인화면 종료
 
 
-class search_Books(QDialog):  # 도서찾기화면 시작
+class search_Window(QDialog):  # 도서찾기화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("search.ui", self)
@@ -275,18 +284,25 @@ class search_Books(QDialog):  # 도서찾기화면 시작
         self.writer_check.clicked.connect(self.search_type_change) # 라디오 버튼 제어
         
         self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        # self.shopping_icon.clicked.connect(self.goto_shopping)
+        # self.return_icon.clicked.connect(self.goto_return)
+        self.donatation_icon.clicked.connect(self.goto_donatation)
+        # self.user_icon.clicked.connect(self.goto_user)
         
         self.search_Btn.clicked.connect(self.search_func) # 검색 버튼 제어
-
-        self.search_list.itemClicked.connect(self.confirm_item)
         
         self.search_add.clicked.connect(self.add_Cart)
         self.search_clear.clicked.connect(self.clear_Cart)
 
     def goto_home(self):
-        s_home = Main_Window()
-        s_home.exec_()
+        window = Main_Window()
         self.close()
+        window.exec_()
+    
+    def goto_donate(self):
+        window = donate_Window()
+        self.close()
+        window.exec_()
         
     def search_type_change(self):
         global search_mode
@@ -301,39 +317,54 @@ class search_Books(QDialog):  # 도서찾기화면 시작
         search_text = self.search_box.text()
         search_msg = "search"+search_mode + search_text
         sock.send(search_msg.encode())
-        # 검색결과 받는 부분
-    
-    def confirm_item(self):
-        global shopping_Cart
-        for i in shopping_Cart:
-            if i == self.search_list.currntItem():
-                QMessageBox().about(self, "Alert", "이미 선택한 항목입니다!\n다시 시도해주세요.")
-                return
+        self.search_list.clear()
+        while True:
+            rcv = sock.recv(BUF_SIZE)
+            rcv = rcv.decode()
+            if "search_done" in rcv:
+                break
+            else:
+                self.search_list.addItem(rcv) 
     
     def add_Cart(self):
         global shopping_Cart  
         select_item_list = self.search_list.selectedItems()  
         for item in select_item_list:
-            check=True
-            for cart_item in shopping_Cart:
-                if item == cart_item:
-                    check = False
-            if check:
+            if item not in shopping_Cart:
                 shopping_Cart.append(item)
-        
-        
-    def addListWidget(self):
-        self.search_list.addItem(self.addItemText)    
-    
+           
+                
     def clear_Cart(self):
         self.search_list.clear()
+        
           
 # 도서찾기화면 종료
 
+class donate_Window(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("donation.ui", self)
+        
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(self.goto_search)
+        # self.shopping_icon.clicked.connect(self.goto_shopping)
+        # self.return_icon.clicked.connect(self.goto_return)
+        self.donatation_icon.clicked.connect(self.goto_donatation)
+        # self.user_icon.clicked.connect(self.goto_user)
+        
+        self.donation_Btn.clicked.connect(self.donate_books)
+        
+    def donate_books(self):
+        books_name = self.book_name.text()
+        writer_name = self.book_writer.text()
+        donate_msg = "donate/"+books_name+"/"+writer_name
+        sock.send(donate_msg.encode())
+        self.book_name.clear()
+        self.book_writer.clear()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     #chat_window = Login()
-    chat_window = search_Books()
+    chat_window = Main_Window()
     chat_window.show()
     app.exec_()
