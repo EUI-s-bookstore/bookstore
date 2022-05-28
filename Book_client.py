@@ -258,7 +258,7 @@ class Main_Window(QDialog):  # 메인화면 시작
         self.search_icon.clicked.connect(self.goto_search)
         # self.shopping_icon.clicked.connect(self.goto_shopping)
         # self.return_icon.clicked.connect(self.goto_return)
-        self.donatation_icon.clicked.connect(self.goto_donatation)
+        self.donation_icon.clicked.connect(self.goto_donate)
         # self.user_icon.clicked.connect(self.goto_user)
         
     def goto_search(self):
