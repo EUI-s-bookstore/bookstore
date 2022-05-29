@@ -287,40 +287,23 @@ def return_book(clnt_num, msg):
     id = clnt_imfor[clnt_num][1]
     clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
-    if msg.startswith('BN'):
-        name = msg.replace('BN', '') # 책 이름 받아와야함
-        # msg에서 name 자르기
-        c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
-        row = c.fetchone()
-        for i in range(1, 4):
-            if name in row[i-1]:
-                book = "book" + str(i)
-                query = "UPDATE Users SET %s = NULL WHERE id=?" % book
-                c.execute("UPDATE Books SET rental = 0 WHERE name=?", (name,))
-                c.execute(query, (id,))
-                user_data = id
-                user_data.append(name)
-                c.executemany("INSERT INTO Rental(id, book_name) VALUES (?, ?)", (user_data,))
-                check = 1
-        
-    elif msg.startswith('BC'):
-        book_code = msg.replace('BC', '')
+    book_code = msg
         # msg에서 book_code 자르기
-        c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
-        row = c.fetchone()
-        for i in range(1, 4):
-            if book_code in row[i-1]:
-                book = "book"  + str(i)
-                query = "UPDATE Users SET %s = NULL WHERE id=?" % book
-                c.execute("UPDATE Books SET rental =  0 WHERE code=?", (book_code,))
-                c.execute(query, (id,))
-                data = id
-                c.execute("SELECT name FROM Books WHERE code=?", (book_code,))
-                name = c.fetchone()
-                name = ''.join(name)
-                data.append(name)
-                c.executemany("INSERT INTO Rental(id, book_name) VALUES (?, ?)", (data,))
-                check = 1
+    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
+    row = c.fetchone()
+    for i in range(1, 4):
+        if book_code in row[i-1]:
+            book = "book"  + str(i)
+            query = "UPDATE Users SET %s = NULL WHERE id=?" % book
+            c.execute("UPDATE Books SET rental =  0 WHERE code=?", (book_code,))
+            c.execute(query, (id,))
+            data = id
+            c.execute("SELECT name FROM Books WHERE code=?", (book_code,))
+            name = c.fetchone()
+            name = ''.join(name)
+            data.append(name)
+            c.executemany("INSERT INTO Rental(id, book_name) VALUES (?, ?)", (data,))
+            check = 1
 
     if check == 0:
         clnt_sock.send('!NO'.encode()) # 대출목록에 없는 도서명/도서코드
