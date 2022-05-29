@@ -78,7 +78,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon2.png</normaloff>../다운로드/icon/Icon2.png</iconset>
+     <normaloff>icon/Icon2.png</normaloff>icon/Icon2.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -116,7 +116,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon5.png</normaloff>../다운로드/icon/Icon5.png</iconset>
+     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -154,7 +154,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon3.png</normaloff>../다운로드/icon/Icon3.png</iconset>
+     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -192,7 +192,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon4.png</normaloff>../다운로드/icon/Icon4.png</iconset>
+     <normaloff>icon/Icon4.png</normaloff>icon/Icon4.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -230,7 +230,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon1.png</normaloff>../다운로드/icon/Icon1.png</iconset>
+     <normaloff>icon/Icon1.png</normaloff>icon/Icon1.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -314,7 +314,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon6.png</normaloff>../다운로드/icon/Icon6.png</iconset>
+     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -335,7 +335,7 @@ border:2px solid #fff;
    <property name="styleSheet">
     <string notr="true">QLineEdit{
 border:1px solid #000;
-background:#fff;
+background:rgba(255,255,255,0.2);
 }
 
 QLineEdit:focus{
@@ -461,7 +461,7 @@ color:#fff;</string>
    <property name="styleSheet">
     <string notr="true">QLineEdit{
 border:1px solid #000;
-background:#fff;
+background:rgba(255,255,255,0.2);
 }
 
 QLineEdit:focus{
@@ -470,7 +470,6 @@ border:2px solid #353535;
    </property>
   </widget>
   <zorder>textBrowser_2</zorder>
-  <zorder>book_writer</zorder>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
   <zorder>search_icon</zorder>
@@ -480,12 +479,15 @@ border:2px solid #353535;
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>book_name</zorder>
   <zorder>donation_Btn</zorder>
   <zorder>label</zorder>
   <zorder>label_2</zorder>
   <zorder>label_3</zorder>
+  <zorder>book_name</zorder>
+  <zorder>book_writer</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="icon/resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

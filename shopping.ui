@@ -78,7 +78,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon2.png</normaloff>../다운로드/icon/Icon2.png</iconset>
+     <normaloff>icon/Icon2.png</normaloff>icon/Icon2.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -116,7 +116,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon5.png</normaloff>../다운로드/icon/Icon5.png</iconset>
+     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -154,7 +154,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon3.png</normaloff>../다운로드/icon/Icon3.png</iconset>
+     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -192,7 +192,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon4.png</normaloff>../다운로드/icon/Icon4.png</iconset>
+     <normaloff>icon/Icon4.png</normaloff>icon/Icon4.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -230,7 +230,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon1.png</normaloff>../다운로드/icon/Icon1.png</iconset>
+     <normaloff>icon/Icon1.png</normaloff>icon/Icon1.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -314,26 +314,13 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon6.png</normaloff>../다운로드/icon/Icon6.png</iconset>
+     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
    </property>
    <property name="iconSize">
     <size>
      <width>40</width>
      <height>40</height>
     </size>
-   </property>
-  </widget>
-  <widget class="QTextBrowser" name="shopping_list">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>50</y>
-     <width>381</width>
-     <height>192</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border:1px solid #353535;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="shopping_Btn">
@@ -425,6 +412,19 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- 대여 완료 후 나의 정보창에서 확인하실 수 있습니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QListWidget" name="shopping_list">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>50</y>
+     <width>381</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;</string>
+   </property>
+  </widget>
   <zorder>textBrowser_2</zorder>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
@@ -435,10 +435,10 @@ p, li { white-space: pre-wrap; }
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>shopping_list</zorder>
   <zorder>shopping_Btn</zorder>
   <zorder>label_2</zorder>
   <zorder>textBrowser</zorder>
+  <zorder>shopping_list</zorder>
  </widget>
  <resources/>
  <connections/>
