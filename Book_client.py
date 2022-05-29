@@ -362,6 +362,16 @@ class donate_Window(QDialog):
         self.book_name.clear()
         self.book_writer.clear()
 
+    def goto_home(self):
+        window = Main_Window()
+        self.close()
+        window.exec_()
+
+    def goto_search(self):
+        window = search_Window()
+        self.close()
+        window.exec_()
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     #chat_window = Login()
