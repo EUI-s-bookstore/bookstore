@@ -3,7 +3,7 @@ import threading
 import sqlite3
 from datetime import date
 
-PORT = 2090
+PORT = 2091
 BUF_SIZE = 1024
 lock = threading.Lock()
 clnt_imfor = []  # [[소켓, id]]
@@ -221,12 +221,15 @@ def search(clnt_sock, msg):
         arg = '%' + msg + '%'
         c.execute("SELECT code, name, writer FROM Books WHERE rental = 0 AND name LIKE ?", (arg, )) # DB에 있는 책이름 찾아서 저자와 대출정보 가져오기
         rows = c.fetchall()
-
+        
         for row in rows:
             #책 정보 보내기
+            row = list(row)
+            row[0] = str(row[0])
             row = '/'.join(row)   
+            
+            clnt_sock.send(row.encode())   # name, writer\
             print(row)
-            clnt_sock.send(row.encode())   # name, writer
         clnt_sock.send('search_done'.encode())
         con.close()
         return
@@ -238,9 +241,11 @@ def search(clnt_sock, msg):
         arg = '%' + msg + '%'
         c.execute("SELECT code, name, writer FROM Books WHERE rental = 0 AND writer LIKE ?", (arg, )) # DB에 있는 저자 이름 찾아서 책이름,대출정보 가져오기
         rows = c.fetchall()
-
+        
         for row in rows:
             #책 정보 보내기
+            row = list(row)
+            row[0] = str(row[0])
             row = '/'.join(row)   
             print(row)
             clnt_sock.send(row.encode())  
@@ -253,6 +258,7 @@ def search(clnt_sock, msg):
 
 
 def rental(clnt_num, msg):
+    print(msg)
     con, c = dbcon()
     id = clnt_imfor[clnt_num][1]
     clnt_sock = clnt_imfor[clnt_num][0]
