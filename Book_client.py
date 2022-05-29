@@ -13,7 +13,7 @@ from email.mime.text import MIMEText  # 이메일 전송을 위한 라이브러�
 
 BUF_SIZE = 1024
 IP = "127.0.0.1"
-Port = 2090
+Port = 2091
 check_msg = ""
 user = ""
 shopping_Cart = []
@@ -109,7 +109,7 @@ class ID_Find(QDialog):  # 아이디찾기 시작
         super().__init__()
         self.ui = uic.loadUi("find_id.ui", self)
 
-        self.email_Btn_2.clicked.connect(self.check_email)
+        self.email_Btn.clicked.connect(self.check_email)
         self.join_Btn.clicked.connect(self.end)
 
     def check_email(self):
@@ -121,7 +121,7 @@ class ID_Find(QDialog):  # 아이디찾기 시작
             func_result = send_email_to_clnt(self)
             if func_result == "success":
                 self.emailnum_Edit.setEnabled(True)
-                self.email_C_Btn_2.setEnabled(True)
+                self.email_C_Btn.setEnabled(True)
 
     def check_code(self):
         ck_code = self.emailnum_Edit.text()
@@ -145,8 +145,8 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
         self.ui = uic.loadUi("find_pw.ui", self)
 
         self.id_Btn.clicked.connect(self.check_id)
-        self.email_Btn_2.clicked.connect(self.send_email)
-        self.email_C_Btn_2.clicked.connect(self.check_E_num)
+        self.email_Btn.clicked.connect(self.send_email)
+        self.email_C_Btn.clicked.connect(self.check_E_num)
         self.join_Btn.clicked.connect(self.end)
 
     def check_id(self):
@@ -168,7 +168,7 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
             func_result = send_email_to_clnt(self)
             if func_result == "success":
                 self.emailnum_Edit.setEnabled(True)
-                self.email_C_Btn_2.setEnabled(True)
+                self.email_C_Btn.setEnabled(True)
 
     def check_E_num(self):
         check_num = self.emailnum_Edit.text()
@@ -255,17 +255,33 @@ class Main_Window(QDialog):  # 메인화면 시작
         super().__init__()
         self.ui = uic.loadUi("main.ui", self)
 
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(self.goto_search)
-        # self.shopping_icon.clicked.connect(self.goto_shopping)
-        # self.return_icon.clicked.connect(self.goto_return)
+        self.shopping_icon.clicked.connect(self.goto_shopping)
+        self.return_icon.clicked.connect(self.goto_return)
         self.donation_icon.clicked.connect(self.goto_donate)
-        # self.user_icon.clicked.connect(self.goto_user)
+        # self.user_icon.clicked.connect(self.goto_user)  
         
+    def goto_home(self):
+        window = Main_Window()
+        self.close()
+        window.exec_()
+
     def goto_search(self):
         window = search_Window()
         self.close()
         window.exec_()
-        
+    
+    def goto_shopping(self):
+        window = shopping_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_return(self):
+        window = return_Window()
+        self.close()
+        window.exec_()
+
     def goto_donate(self):
         window = donate_Window()
         self.close()
@@ -281,24 +297,40 @@ class search_Window(QDialog):  # 도서찾기화면 시작
         self.book_check.setChecked(True)
         self.writer_check.setChecked(False) # 라디오 버튼 초기화
         self.book_check.clicked.connect(self.search_type_change)
-        self.writer_check.clicked.connect(self.search_type_change) # 라디오 버튼 제어
-        
-        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
-        # self.shopping_icon.clicked.connect(self.goto_shopping)
-        # self.return_icon.clicked.connect(self.goto_return)
-        self.donatation_icon.clicked.connect(self.goto_donatation)
-        # self.user_icon.clicked.connect(self.goto_user)
-        
+        self.writer_check.clicked.connect(self.search_type_change) # 라디오 버튼 제어      
+
         self.search_Btn.clicked.connect(self.search_func) # 검색 버튼 제어
         
         self.search_add.clicked.connect(self.add_Cart)
         self.search_clear.clicked.connect(self.clear_Cart)
 
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(self.goto_search)
+        self.shopping_icon.clicked.connect(self.goto_shopping)
+        self.return_icon.clicked.connect(self.goto_return)
+        self.donation_icon.clicked.connect(self.goto_donate)
+        # self.user_icon.clicked.connect(self.goto_user)  
+
     def goto_home(self):
         window = Main_Window()
         self.close()
         window.exec_()
+
+    def goto_search(self):
+        window = search_Window()
+        self.close()
+        window.exec_()
     
+    def goto_shopping(self):
+        window = shopping_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_return(self):
+        window = return_Window()
+        self.close()
+        window.exec_()
+
     def goto_donate(self):
         window = donate_Window()
         self.close()
@@ -322,36 +354,128 @@ class search_Window(QDialog):  # 도서찾기화면 시작
             rcv = sock.recv(BUF_SIZE)
             rcv = rcv.decode()
             if "search_done" in rcv:
+                rcv = rcv.replace('search_done', '')
+                print(rcv)
+                self.search_list.addItem(rcv)
                 break
             else:
                 self.search_list.addItem(rcv) 
     
     def add_Cart(self):
         global shopping_Cart  
-        select_item_list = self.search_list.selectedItems()  
-        for item in select_item_list:
-            if item not in shopping_Cart:
-                shopping_Cart.append(item)
+        select_item = self.search_list.currentItem().text()        
+        if select_item not in shopping_Cart:              
+            shopping_Cart.append(select_item)
            
                 
     def clear_Cart(self):
-        self.search_list.clear()
+        self.search_list.clear()        
         
-          
 # 도서찾기화면 종료
 
-class donate_Window(QDialog):
+class shopping_Window(QDialog): # 도서대여화면 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("shopping.ui", self)
+        self.initUI()        
+        self.shopping_Btn.clicked.connect(self.send_rent) 
+
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(self.goto_search)
+        self.shopping_icon.clicked.connect(self.goto_shopping)
+        self.return_icon.clicked.connect(self.goto_return)
+        self.donation_icon.clicked.connect(self.goto_donate)
+        # self.user_icon.clicked.connect(self.goto_user)  
+
+    def initUI(self):
+        for list in shopping_Cart:
+            self.shopping_list.addItem(list)
+
+    def send_rent(self):    
+        data = self.shopping_list.currentItem().text()
+        data = data.split('/')
+        sock.send(('rental' + data[0]).encode())
+
+    def goto_home(self):
+        window = Main_Window()
+        self.close()
+        window.exec_()
+
+    def goto_search(self):
+        window = search_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_shopping(self):
+        window = shopping_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_return(self):
+        window = return_Window()
+        self.close()
+        window.exec_()
+
+    def goto_donate(self):
+        window = donate_Window()
+        self.close()
+        window.exec_()
+
+# 도서대여화면 종료
+
+# 도서반납화면 종료
+
+class return_Window(QDialog): # 도서대여화면 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("return.ui", self)
+
+        self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(self.goto_search)
+        self.shopping_icon.clicked.connect(self.goto_shopping)
+        self.return_icon.clicked.connect(self.goto_return)
+        self.donation_icon.clicked.connect(self.goto_donate)
+        # self.user_icon.clicked.connect(self.goto_user)  
+
+    def goto_home(self):
+        window = Main_Window()
+        self.close()
+        window.exec_()
+
+    def goto_search(self):
+        window = search_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_shopping(self):
+        window = shopping_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_return(self):
+        window = return_Window()
+        self.close()
+        window.exec_()
+
+    def goto_donate(self):
+        window = donate_Window()
+        self.close()
+        window.exec_()
+
+# 도서반납화면 종료
+
+class donate_Window(QDialog): #도서기증화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("donation.ui", self)
         
         self.home_icon.clicked.connect(self.goto_home) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(self.goto_search)
-        # self.shopping_icon.clicked.connect(self.goto_shopping)
-        # self.return_icon.clicked.connect(self.goto_return)
-        self.donatation_icon.clicked.connect(self.goto_donatation)
-        # self.user_icon.clicked.connect(self.goto_user)
-        
+        self.shopping_icon.clicked.connect(self.goto_shopping)
+        self.return_icon.clicked.connect(self.goto_return)
+        self.donation_icon.clicked.connect(self.goto_donate)
+        # self.user_icon.clicked.connect(self.goto_user)  
+               
         self.donation_Btn.clicked.connect(self.donate_books)
         
     def donate_books(self):
@@ -371,6 +495,23 @@ class donate_Window(QDialog):
         window = search_Window()
         self.close()
         window.exec_()
+    
+    def goto_shopping(self):
+        window = shopping_Window()
+        self.close()
+        window.exec_()
+    
+    def goto_return(self):
+        window = return_Window()
+        self.close()
+        window.exec_()
+
+    def goto_donate(self):
+        window = donate_Window()
+        self.close()
+        window.exec_()
+
+# 도서기증화면 종료
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
