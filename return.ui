@@ -335,7 +335,7 @@ border:2px solid #fff;
    <property name="styleSheet">
     <string notr="true">QLineEdit{
 border:1px solid #000;
-background:#fff;
+background:rgba(255,255,255,0.2);
 }
 
 QLineEdit:focus{
@@ -434,6 +434,9 @@ color:#353535;
    <property name="text">
     <string>도서명</string>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QRadioButton" name="booknum_check">
    <property name="geometry">
@@ -504,13 +507,13 @@ border:1px solid #000;
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>return_box</zorder>
-  <zorder>return_Btn</zorder>
   <zorder>return_end</zorder>
   <zorder>book_check</zorder>
   <zorder>booknum_check</zorder>
   <zorder>return_list</zorder>
   <zorder>label</zorder>
+  <zorder>return_box</zorder>
+  <zorder>return_Btn</zorder>
  </widget>
  <resources>
   <include location="icon/resource.qrc"/>
