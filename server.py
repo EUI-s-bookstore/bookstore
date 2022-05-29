@@ -112,21 +112,14 @@ def log_in(clnt_sock, data, num):
     c.execute("SELECT password FROM Users where id=?", (user_id,))  # DB에서 id 같은 password 컬럼 선택
     user_pw = c.fetchone()             # 한 행 추출
 
-    if user_pw == None:  # DB에 없는 id 입력시
+    if not user_pw:  # DB에 없는 id 입력시
         clnt_sock.send('iderror'.encode())
         con.close()
         return
 
     if (data[1],) == user_pw:
         # 로그인성공 시그널
-        c.execute("SELECT * FROM Users where id=?", (user_id,))
-        row = c.fetchone()
-        row = list(row)
-        for i in range(0, len(row)):     # None인 항목 찾기
-            if row[i] == None:
-                row[i] = 'X'             # None을 X로 바꾸기
-        row = '/'.join(row)              # row 리스트 원소 /넣어서 문자열로 합치기
-        clnt_sock.send(('!OK/' + row).encode()) # 회원정보 전송
+        clnt_sock.send(('!OK/').encode()) # 회원정보 전송
         print("login sucess") 
         clnt_imfor[num].append(data[0])
 
@@ -137,6 +130,30 @@ def log_in(clnt_sock, data, num):
 
     con.close()
     return   
+
+
+def send_user_information(clnt_num):
+    con, c = dbcon()
+    id = clnt_imfor[clnt_num][1]
+    clnt_sock = clnt_imfor[clnt_num][0]
+    c.execute("SELECT * FROM Users where id=?", (id,))  # 회원정보 
+    row = c.fetchone()
+    row = list(row)
+    for i in range(0, len(row)):     # None인 항목 찾기
+        if row[i] == None:
+            row[i] = 'X' 
+    row = '/'.join(row)
+    clnt_sock.send(('!OK/'+row).encode())
+    c.execute("SELECT book_name FROM Return where id=?", (id,)) # 반납한 책
+    books = c.fetchall()
+    books = list(books)
+    if not books:
+        clnt_sock.send('EMPTY'.encode())
+    else:
+        clnt_sock.send(books.encode())
+    con.close()
+
+
 
 
 def find_id(clnt_sock, email):
@@ -275,10 +292,13 @@ def return_book(clnt_num, msg):
                 query = "UPDATE Users SET %s = NULL WHERE id=?" % book
                 c.execute("UPDATE Books SET rental = 0 WHERE name=?", (name,))
                 c.execute(query, (id,))
+                user_data = id
+                user_data.append(name)
+                c.executemany("INSERT INTO Rental(id, book_name) VALUES (?, ?)", (user_data,))
                 check = 1
         
-    elif msg.startswith('CD'):
-        book_code = msg.replace('CD', '')
+    elif msg.startswith('BC'):
+        book_code = msg.replace('BC', '')
         # msg에서 book_code 자르기
         c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
         row = c.fetchone()
@@ -288,12 +308,19 @@ def return_book(clnt_num, msg):
                 query = "UPDATE Users SET %s = NULL WHERE id=?" % book
                 c.execute("UPDATE Books SET rental =  0 WHERE code=?", (book_code,))
                 c.execute(query, (id,))
+                data = id
+                c.execute("SELECT name FROM Books WHERE code=?", (book_code,))
+                name = c.fetchone()
+                name = ''.join(name)
+                data.append(name)
+                c.executemany("INSERT INTO Rental(id, book_name) VALUES (?, ?)", (data,))
                 check = 1
 
     if check == 0:
         clnt_sock.send('!NO'.encode()) # 대출목록에 없는 도서명/도서코드
     else:
         clnt_sock.send('!OK'.encode()) # 반납완료
+        
     con.commit()  
     con.close()
     return
