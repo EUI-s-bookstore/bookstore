@@ -148,14 +148,14 @@ def overdue(book1, book2, book3, id):
             return
         else:
             data = list[i].split('/') # / 기준으로 잘라서 리스트 생성
-            data[1] = data[1].replace('-', '') #
-            data[1] = datetime.datetime.strptime(data[1], '%Y%m%d').date()
-            result = today - data[1]
-            if result > cur:
-                list[i] = list[i]+'/연체'
-                book = "book" + str((i+1))
+            data[1] = data[1].replace('-', '') # - 없애기
+            data[1] = datetime.datetime.strptime(data[1], '%Y%m%d').date() # 문자열  datetime 타입으로 바꾸기
+            result = today - data[1] # 오늘 날짜에서 빌린 날짜 빼기
+            if result > cur: 
+                list[i] = list[i]+'/연체' # 도서코드/도서명 뒤에 '/연체' 붙이기
+                book = "book" + str((i+1)) 
                 query = "UPDATE Users SET %s = %s WHERE id=?" % (book, list[i])
-                c.execute(query, (id,))
+                c.execute(query, (id,)) # '/연체' 추가한 내용으로 DB 수정
                 con.commit()
     con.close()
     return
@@ -257,7 +257,7 @@ def search(clnt_sock, msg):
             row[0] = str(row[0])
             row = '/'.join(row)   
             
-            clnt_sock.send(row.encode())   # name, writer\
+            clnt_sock.send(row.encode())   # name, writer
             print(row)
         clnt_sock.send('search_done'.encode())
         con.close()
@@ -291,21 +291,21 @@ def rental(clnt_num, msg):
     id = clnt_imfor[clnt_num][1]
     clnt_sock = clnt_imfor[clnt_num][0]
     cur = 1
-    rental_date = date.today()
-    rental_date = rental_date.isoformat()
+    rental_date = date.today() # 오늘 날짜
+    rental_date = rental_date.isoformat() # 날짜 문자열로 바꾸기
 
-    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id, ))
+    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id, )) 
     row = c.fetchone() 
     row = list(row)
     print(row)
     msg = int(msg)
     for i in range(0,3):
-        if row[i] == None:
-            c.execute("UPDATE Books SET rental=? WHERE code=?", ('1', msg,))
-            data = 'book' + (str(cur))
+        if row[i] == None: # 대여한 책 없으면
+            c.execute("UPDATE Books SET rental=? WHERE code=?", ('1', msg,)) # Books 테이블에서 rental 값 1로 만들기
+            data = 'book' + (str(cur)) 
             query = "UPDATE Users SET %s=? WHERE id=?" % data
-            bookname_date = str(msg) + '/' + rental_date
-            c.execute(query, (bookname_date, id))
+            bookname_date = str(msg) + '/' + rental_date # 책이름/빌린 날짜
+            c.execute(query, (bookname_date, id)) # Users 테이블에 대여한 책이름/빌린날짜 추가
             clnt_sock.send('!OK'.encode())
             con.commit()
             con.close()
