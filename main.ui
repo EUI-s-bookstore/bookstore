@@ -345,7 +345,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>150</y>
+     <y>140</y>
      <width>121</width>
      <height>171</height>
     </rect>
@@ -364,7 +364,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>150</y>
+     <y>140</y>
      <width>121</width>
      <height>171</height>
     </rect>
@@ -383,9 +383,9 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>-40</x>
-     <y>70</y>
+     <y>60</y>
      <width>791</width>
-     <height>311</height>
+     <height>321</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -396,7 +396,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>150</y>
+     <y>140</y>
      <width>121</width>
      <height>171</height>
     </rect>
@@ -418,7 +418,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>150</y>
+     <y>140</y>
      <width>121</width>
      <height>171</height>
     </rect>
@@ -437,7 +437,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>130</y>
+     <y>120</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -453,7 +453,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>130</y>
+     <y>120</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -469,7 +469,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>130</y>
+     <y>120</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -485,7 +485,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>130</y>
+     <y>120</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -501,7 +501,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>47</x>
-     <y>320</y>
+     <y>310</y>
      <width>121</width>
      <height>51</height>
     </rect>
@@ -522,7 +522,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>217</x>
-     <y>320</y>
+     <y>310</y>
      <width>121</width>
      <height>51</height>
     </rect>
@@ -543,7 +543,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>386</x>
-     <y>320</y>
+     <y>310</y>
      <width>141</width>
      <height>51</height>
     </rect>
@@ -564,7 +564,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>556</x>
-     <y>320</y>
+     <y>310</y>
      <width>121</width>
      <height>51</height>
     </rect>
@@ -585,7 +585,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>70</y>
+     <y>60</y>
      <width>401</width>
      <height>31</height>
     </rect>
