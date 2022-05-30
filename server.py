@@ -3,7 +3,7 @@ import threading
 import sqlite3
 from datetime import date
 
-PORT = 2091
+PORT = 2090
 BUF_SIZE = 1024
 lock = threading.Lock()
 clnt_imfor = []  # [[소켓, id]]
@@ -267,14 +267,18 @@ def rental(clnt_num, msg):
     rental_date = rental_date.isoformat()
 
     c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id, ))
-    row = c.fetchall()
+    row = c.fetchone()
     row = list(row)
-    for i in len(row):
-        if i == None:
-            c.execute("UPDATE Books SET rental=? WHERE code=?", ('1', msg))
+    print(row)
+    msg = int(msg)
+    for i in range(0,3):
+        if row[i] == None:
+            print("if안")
+            c.execute("UPDATE Books SET rental=? WHERE code=?", ('1', msg,))
             data = 'book' + (str(cur))
-            bookname_date = msg + rental_date
-            c.execute("UPDATE Users SET ?=? WHERE id=?", (data, bookname_date, id))
+            query = "UPDATE Users SET %s=? WHERE id=?" % data
+            bookname_date = str(msg) + '/' + rental_date
+            c.execute(query, (bookname_date, id))
             clnt_sock.send('!OK'.encode())
             con.commit()
             con.close()
@@ -287,7 +291,7 @@ def return_book(clnt_num, msg):
     id = clnt_imfor[clnt_num][1]
     clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
-    book_code = msg
+    book_code = int(msg)
         # msg에서 book_code 자르기
     c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
     row = c.fetchone()
@@ -295,7 +299,7 @@ def return_book(clnt_num, msg):
         if book_code in row[i-1]:
             book = "book"  + str(i)
             query = "UPDATE Users SET %s = NULL WHERE id=?" % book
-            c.execute("UPDATE Books SET rental =  0 WHERE code=?", (book_code,))
+            c.execute("UPDATE Books SET rental = '0' WHERE code=?", (book_code,))
             c.execute(query, (id,))
             data = id
             c.execute("SELECT name FROM Books WHERE code=?", (book_code,))
