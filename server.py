@@ -139,16 +139,16 @@ def log_in(clnt_sock, data, num):
 
 def overdue(book1, book2, book3, id):
     con, c = dbcon()
-    today = date.today()
-    list = [book1, book2, book3]
-    cur = datetime.timedelta(days = 7)
-    for i in range (0, len(list)):
+    today = date.today() #오늘 날짜 
+    list = [book1, book2, book3] # 대여한 책 리스트 
+    cur = datetime.timedelta(days = 7) # 7일 datetime 타입
+    for i in range (0, len(list)): 
         if list[i] == None:
             con.close()
             return
         else:
-            data = list[i].split('/')
-            data[1] = data[1].replace('-', '')
+            data = list[i].split('/') # / 기준으로 잘라서 리스트 생성
+            data[1] = data[1].replace('-', '') #
             data[1] = datetime.datetime.strptime(data[1], '%Y%m%d').date()
             result = today - data[1]
             if result > cur:
@@ -321,39 +321,30 @@ def return_book(clnt_num, msg):
     clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
     book_code = int(msg)
-    print(book_code)
-        # msg에서 book_code 자르기
-    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
+    
+    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,)) # 대여한 책 고유번호 찾기
     row = c.fetchone()
     row = list(row)
-    print(row)
-    for i in range(1, 4):
-        if row[i-1] == None:
-            continue
-        if row[i-1].startswith(str(book_code)):
-            print(i)
-            book = "book"  + str(i)
-            query = "UPDATE Users SET %s = NULL WHERE id=?" % book
-            c.execute("UPDATE Books SET rental = '0' WHERE code=?", (book_code,))
-            con.commit()
-            c.execute(query, (id,))
-            con.commit()
-            data = []
-            data.append(id)
-            c.execute("SELECT name FROM Books WHERE code=?", (book_code,))
-            name = c.fetchone()
-            name = ''.join(name)
-            data.append(name)
-            print(data)
-            c.executemany("INSERT INTO Return(id, book_name) VALUES (?, ?)", (data,))
-            con.commit() 
-            check = 1
 
-    if check == 0:
-        clnt_sock.send('!NO'.encode()) # 대출목록에 없는 도서명/도서코드
-    else:
-        clnt_sock.send('!OK'.encode()) # 반납완료
-    
+    for i in range(1, 4): # 3번 반복
+        if row[i-1] == None: # 대여한 책 없을 때 
+            continue
+        if row[i-1].startswith(str(book_code)): # 고유번호로 시작할 때
+            book = "book"  + str(i)
+            query = "UPDATE Users SET %s = NULL WHERE id=?" % book    
+            c.execute("UPDATE Books SET rental = '0' WHERE code=?", (book_code,))  # Books에서 rental컬럼 0으로 바꾸기
+            con.commit()
+            c.execute(query, (id,))   # DB에서 대여한 책 있던 컬럼(book1,book2,book3) NULL로 비우기
+            con.commit()
+            data = [] # 반납 DB에 넣을 data 리스트 생성
+            data.append(id) # data리스트에 id 추가
+            c.execute("SELECT name FROM Books WHERE code=?", (book_code,)) # book_code로 도서명 찾기
+            name = c.fetchone()
+            name = ''.join(name) # 찾은 도서명 문자열로 바꾸기
+            data.append(name) # data리스트에 name 추가
+            c.executemany("INSERT INTO Return(id, book_name) VALUES (?, ?)", (data,))  # 반납 DB에 data리스트 추가
+            con.commit() 
+
     con.close()
     return
 
