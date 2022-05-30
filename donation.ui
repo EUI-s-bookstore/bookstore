@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>도서조회</string>
+   <string>도서 기증</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -323,11 +323,11 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QLineEdit" name="search_box">
+  <widget class="QLineEdit" name="book_name">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>70</y>
+     <x>180</x>
+     <y>160</y>
      <width>381</width>
      <height>41</height>
     </rect>
@@ -335,7 +335,7 @@ border:2px solid #fff;
    <property name="styleSheet">
     <string notr="true">QLineEdit{
 border:1px solid #000;
-background:#fff;
+background:rgba(255,255,255,0.2);
 }
 
 QLineEdit:focus{
@@ -343,12 +343,12 @@ border:2px solid #353535;
 }</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="search_Btn">
+  <widget class="QPushButton" name="donation_Btn">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>70</y>
-     <width>81</width>
+     <x>180</x>
+     <y>281</y>
+     <width>381</width>
      <height>41</height>
     </rect>
    </property>
@@ -373,146 +373,104 @@ color:#353535;
 </string>
    </property>
    <property name="text">
-    <string>검색</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="search_add">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>370</y>
-     <width>191</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>장바구니에 추가</string>
+    <string>도서 기증하기</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="textBrowser_2">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>-10</y>
+     <x>150</x>
+     <y>130</y>
      <width>441</width>
-     <height>481</height>
+     <height>221</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color:#dedede;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="search_clear">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>370</y>
-     <width>191</width>
-     <height>41</height>
+     <x>280</x>
+     <y>171</y>
+     <width>211</width>
+     <height>17</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-border-left:1px solid #fff;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-
-</string>
+    <string notr="true">color:#777;</string>
    </property>
    <property name="text">
-    <string>목록 비우기</string>
+    <string>기증할 도서명을 입력해주세요</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="book_check">
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>40</y>
-     <width>112</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>도서검색</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="writer_check">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>40</y>
-     <width>112</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>저자검색</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="search_list">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>130</y>
-     <width>381</width>
-     <height>241</height>
+     <x>150</x>
+     <y>100</y>
+     <width>441</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">
-border:1px solid #000;
-background:#fff;
-</string>
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
    </property>
-   <property name="dragEnabled">
-    <bool>false</bool>
-   </property>
-   <property name="alternatingRowColors">
-    <bool>true</bool>
-   </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::MultiSelection</enum>
+   <property name="text">
+    <string>                                                  도서 기증 절차</string>
    </property>
   </widget>
-  <zorder>textBrowser_3</zorder>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>231</y>
+     <width>211</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#777;</string>
+   </property>
+   <property name="text">
+    <string>기증할 도서저자를 입력해주세요</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="book_writer">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>220</y>
+     <width>381</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{
+border:1px solid #000;
+background:rgba(255,255,255,0.2);
+}
+
+QLineEdit:focus{
+border:2px solid #353535;
+}</string>
+   </property>
+  </widget>
   <zorder>textBrowser_2</zorder>
+  <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
   <zorder>search_icon</zorder>
   <zorder>donation_icon</zorder>
@@ -521,13 +479,12 @@ background:#fff;
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>search_box</zorder>
-  <zorder>search_Btn</zorder>
-  <zorder>search_add</zorder>
-  <zorder>search_clear</zorder>
-  <zorder>book_check</zorder>
-  <zorder>writer_check</zorder>
-  <zorder>search_list</zorder>
+  <zorder>donation_Btn</zorder>
+  <zorder>label</zorder>
+  <zorder>label_2</zorder>
+  <zorder>label_3</zorder>
+  <zorder>book_name</zorder>
+  <zorder>book_writer</zorder>
  </widget>
  <resources>
   <include location="icon/resource.qrc"/>
