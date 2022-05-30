@@ -460,7 +460,7 @@ color:#353535;
 </string>
    </property>
    <property name="text">
-    <string>목록 비우기</string>
+    <string>삭제하기</string>
    </property>
   </widget>
   <zorder>textBrowser_2</zorder>
