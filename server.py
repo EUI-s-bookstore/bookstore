@@ -1,6 +1,8 @@
+
 import socket
 import threading
 import sqlite3
+import datetime
 from datetime import date
 
 PORT = 2090
@@ -55,7 +57,7 @@ def handle_clnt(clnt_sock):
             rental(clnt_num, clnt_msg)
         elif clnt_msg.startswith('return'):
             clnt_msg = clnt_msg.replace('return', '')
-            return_book(clnt_sock, clnt_msg)
+            return_book(clnt_num, clnt_msg)
         else:
             continue
 
@@ -122,6 +124,10 @@ def log_in(clnt_sock, data, num):
         clnt_sock.send(('!OK/').encode()) # 회원정보 전송
         print("login sucess") 
         clnt_imfor[num].append(data[0])
+        c.execute("SELECT book1, book2, book3 FROM Users where id=?", (user_id,))
+        books = c.fetchone()
+        books = list(books)
+        overdue(books[0], books[1], books[2], user_id)
 
     else:
         # 로그인실패 시그널
@@ -130,6 +136,29 @@ def log_in(clnt_sock, data, num):
 
     con.close()
     return   
+
+def overdue(book1, book2, book3, id):
+    con, c = dbcon()
+    today = date.today()
+    list = [book1, book2, book3]
+    cur = datetime.timedelta(days = 7)
+    for i in range (0, len(list)):
+        if list[i] == None:
+            con.close()
+            return
+        else:
+            data = list[i].split('/')
+            data[1] = data[1].replace('-', '')
+            data[1] = datetime.datetime.strptime(data[1], '%Y%m%d').date()
+            result = today - data[1]
+            if result > cur:
+                list[i] = list[i]+'/연체'
+                book = "book" + str((i+1))
+                query = "UPDATE Users SET %s = %s WHERE id=?" % (book, list[i])
+                c.execute(query, (id,))
+                con.commit()
+    con.close()
+    return
 
 
 def send_user_information(clnt_num):
@@ -258,7 +287,6 @@ def search(clnt_sock, msg):
 
 
 def rental(clnt_num, msg):
-    print(msg)
     con, c = dbcon()
     id = clnt_imfor[clnt_num][1]
     clnt_sock = clnt_imfor[clnt_num][0]
@@ -267,13 +295,12 @@ def rental(clnt_num, msg):
     rental_date = rental_date.isoformat()
 
     c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id, ))
-    row = c.fetchone()
+    row = c.fetchone() 
     row = list(row)
     print(row)
     msg = int(msg)
     for i in range(0,3):
         if row[i] == None:
-            print("if안")
             c.execute("UPDATE Books SET rental=? WHERE code=?", ('1', msg,))
             data = 'book' + (str(cur))
             query = "UPDATE Users SET %s=? WHERE id=?" % data
@@ -285,6 +312,8 @@ def rental(clnt_num, msg):
             return
         cur = cur + 1
 
+    con.close()
+
 
 def return_book(clnt_num, msg):
     con, c = dbcon()
@@ -292,29 +321,39 @@ def return_book(clnt_num, msg):
     clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
     book_code = int(msg)
+    print(book_code)
         # msg에서 book_code 자르기
     c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,))
     row = c.fetchone()
+    row = list(row)
+    print(row)
     for i in range(1, 4):
-        if book_code in row[i-1]:
+        if row[i-1] == None:
+            continue
+        if row[i-1].startswith(str(book_code)):
+            print(i)
             book = "book"  + str(i)
             query = "UPDATE Users SET %s = NULL WHERE id=?" % book
             c.execute("UPDATE Books SET rental = '0' WHERE code=?", (book_code,))
+            con.commit()
             c.execute(query, (id,))
-            data = id
+            con.commit()
+            data = []
+            data.append(id)
             c.execute("SELECT name FROM Books WHERE code=?", (book_code,))
             name = c.fetchone()
             name = ''.join(name)
             data.append(name)
-            c.executemany("INSERT INTO Rental(id, book_name) VALUES (?, ?)", (data,))
+            print(data)
+            c.executemany("INSERT INTO Return(id, book_name) VALUES (?, ?)", (data,))
+            con.commit() 
             check = 1
 
     if check == 0:
         clnt_sock.send('!NO'.encode()) # 대출목록에 없는 도서명/도서코드
     else:
         clnt_sock.send('!OK'.encode()) # 반납완료
-        
-    con.commit()  
+    
     con.close()
     return
 

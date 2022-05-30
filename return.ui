@@ -323,63 +323,10 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QLineEdit" name="return_box">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>100</y>
-     <width>381</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:rgba(255,255,255,0.2);
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="return_Btn">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>100</y>
-     <width>81</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>검색</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="return_end">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>180</x>
      <y>330</y>
      <width>381</width>
      <height>41</height>
@@ -406,13 +353,13 @@ color:#353535;
 </string>
    </property>
    <property name="text">
-    <string>반납 완료</string>
+    <string>반납 하기</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="textBrowser_2">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>150</x>
      <y>40</y>
      <width>441</width>
      <height>371</height>
@@ -422,42 +369,13 @@ color:#353535;
     <string notr="true">background-color:#dedede;</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="book_check">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>70</y>
-     <width>112</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>도서명</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="booknum_check">
-   <property name="geometry">
-    <rect>
-     <x>245</x>
-     <y>70</y>
-     <width>112</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>도서고유번호</string>
-   </property>
-  </widget>
   <widget class="QListWidget" name="return_list">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>170</y>
+     <x>180</x>
+     <y>110</y>
      <width>381</width>
-     <height>161</height>
+     <height>221</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -476,25 +394,25 @@ border:1px solid #000;
     <enum>QAbstractItemView::MultiSelection</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>110</y>
-     <width>211</width>
-     <height>17</height>
+     <x>180</x>
+     <y>80</y>
+     <width>381</width>
+     <height>31</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>13</pointsize>
-    </font>
-   </property>
    <property name="styleSheet">
-    <string notr="true">color:#777;</string>
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
    </property>
    <property name="text">
-    <string>반납할 도서를 입력해주세요</string>
+    <string>대여중인 도서</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <zorder>textBrowser_2</zorder>
@@ -508,12 +426,8 @@ border:1px solid #000;
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
   <zorder>return_end</zorder>
-  <zorder>book_check</zorder>
-  <zorder>booknum_check</zorder>
   <zorder>return_list</zorder>
-  <zorder>label</zorder>
-  <zorder>return_box</zorder>
-  <zorder>return_Btn</zorder>
+  <zorder>label_2</zorder>
  </widget>
  <resources>
   <include location="icon/resource.qrc"/>
