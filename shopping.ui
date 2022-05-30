@@ -328,7 +328,7 @@ border:2px solid #fff;
     <rect>
      <x>170</x>
      <y>240</y>
-     <width>381</width>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -425,6 +425,44 @@ p, li { white-space: pre-wrap; }
     <string notr="true">border:1px solid #353535;</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="shopping_clear">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>240</y>
+     <width>191</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+border-left:1px solid #fff;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>목록 비우기</string>
+   </property>
+  </widget>
   <zorder>textBrowser_2</zorder>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
@@ -435,10 +473,11 @@ p, li { white-space: pre-wrap; }
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>shopping_Btn</zorder>
   <zorder>label_2</zorder>
   <zorder>textBrowser</zorder>
   <zorder>shopping_list</zorder>
+  <zorder>shopping_Btn</zorder>
+  <zorder>shopping_clear</zorder>
  </widget>
  <resources/>
  <connections/>
