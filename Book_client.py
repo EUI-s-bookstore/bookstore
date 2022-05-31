@@ -108,7 +108,6 @@ class Login(QDialog):  # 로그인창 시작
                     rent.append(user[i])
                 i = i+1
             # 메인화면 열기
-            print(rent)
             m_window = Main_Window()
             self.close()
             m_window.exec_()
@@ -355,6 +354,8 @@ class search_Window(QDialog):  # 도서찾기화면 시작
         while True:
             rcv = sock.recv(BUF_SIZE)
             rcv = rcv.decode()
+            rcv = rcv.replace("/", " | ")
+            rcv = rcv.replace(";", " | ")
             if "search_done" in rcv:
                 rcv = rcv.replace('search_done', '')
                 print(rcv)
@@ -368,7 +369,7 @@ class search_Window(QDialog):  # 도서찾기화면 시작
         select_item = self.search_list.currentItem().text()
         if select_item not in shopping_Cart:
             shopping_Cart.append(select_item)
-            select_item = select_item.split('/')
+            select_item = select_item.split('|')
             QMessageBox().information(
                 self, "    ", "%s(을)를\n장바구니에 추가하였습니다." % select_item[1])
 
@@ -456,8 +457,6 @@ class return_Window(QDialog):  # 도서반납화면 시작
 
     def initUI(self):
         for list in rent:
-            list = list.replace("|", " | ")
-            list = list.replace(";", " | ")
             self.return_list.addItem(list)
 
     def return_book(self):
@@ -470,14 +469,13 @@ class return_Window(QDialog):  # 도서반납화면 시작
                     del rent[j]
                 j = j+1
             self.return_list.clear()
-            for list in rent:
-                list = list.replace("|", " | ")
-                list = list.replace(";", " | ")
-                self.return_list.addItem(list)
             print(data)
+            print(rent)
             data = data.split('|')
             return_book.append(data[1])
             sock.send(('return' + data[0]).encode())
+            for list in rent:
+                self.return_list.addItem(list)
             QMessageBox().information(
                 self, "    ", "%s(을)를\n반납했습니다." % data[1])
         else:
@@ -537,7 +535,6 @@ class user_Window(QDialog):  # 나의정보화면 시작
         for book in rent:
             book = book.split('|')
             book = book[1]+" | "+book[2]+" | "+book[3]
-            book = book.replace(';', " | ")
             if book[4] != '공':
                 book = book+book[4]
                 self.overdue_list.append(book)
