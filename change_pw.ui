@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>비밀번호 변경</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>110</y>
+     <width>401</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#dedede;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>200</y>
+     <width>91</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>비밀번호 확인</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="re_pw">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>220</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{
+border:1px solid #000;
+background:#fff;
+}
+
+QLineEdit:focus{
+border:2px solid #353535;
+}</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="change_pw_Btn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>310</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+</string>
+   </property>
+   <property name="text">
+    <string>완료</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="new_pw">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>160</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{
+border:1px solid #000;
+background:#fff;
+}
+
+QLineEdit:focus{
+border:2px solid #353535;
+}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>140</y>
+     <width>91</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>새로운 비밀번호</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pw_Btn">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>270</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+</string>
+   </property>
+   <property name="text">
+    <string>비밀번호 확인</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>80</y>
+     <width>401</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>                                            비밀번호 변경</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="donation_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>295</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="home_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>15</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon1.png</normaloff>icon/Icon1.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="return_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>225</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon4.png</normaloff>icon/Icon4.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="search_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>85</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon2.png</normaloff>icon/Icon2.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="shopping_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>155</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="user_icon">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>365</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background:#353535;
+border:none;
+}
+QPushButton:hover{
+border:2px solid #fff; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser_4">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>-20</y>
+     <width>71</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid; background-color:#353535;</string>
+   </property>
+  </widget>
+  <zorder>textBrowser_4</zorder>
+  <zorder>textBrowser</zorder>
+  <zorder>label_6</zorder>
+  <zorder>re_pw</zorder>
+  <zorder>change_pw_Btn</zorder>
+  <zorder>new_pw</zorder>
+  <zorder>label</zorder>
+  <zorder>pw_Btn</zorder>
+  <zorder>label_2</zorder>
+  <zorder>donation_icon</zorder>
+  <zorder>home_icon</zorder>
+  <zorder>return_icon</zorder>
+  <zorder>search_icon</zorder>
+  <zorder>shopping_icon</zorder>
+  <zorder>user_icon</zorder>
+ </widget>
+ <resources>
+  <include location="re.qrc"/>
+ </resources>
+ <connections/>
+</ui>

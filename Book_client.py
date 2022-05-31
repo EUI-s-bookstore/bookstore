@@ -18,6 +18,7 @@ check_msg = ""
 user = ""
 shopping_Cart = []
 rent = []
+return_book = []
 search_mode = 'BN'
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -91,7 +92,7 @@ class Login(QDialog):  # 로그인창 시작
         self.pw_Edit.returnPressed.connect(self.try_login)
 
     def try_login(self):
-        global user, rent
+        global user, rent, return_book
         id = self.id_Edit.text()
         pw = self.pw_Edit.text()
         lo = "login/" + id + "/"+pw
@@ -99,12 +100,15 @@ class Login(QDialog):  # 로그인창 시작
         ck = check_rcv()
         user = ck.split("/")
         if user[0] == "!OK":
-            i = 5
-            while i == 7:
-                if user[i] != 'X':
-                    rent = rent.append(user[i])
+            i = 0
+            for book in user:
+                if i >= 5:
+                    return_book.append(user[i])
+                elif book != 'X' and i >= 2 and i <= 4:
+                    rent.append(user[i])
                 i = i+1
             # 메인화면 열기
+            print(rent)
             m_window = Main_Window()
             self.close()
             m_window.exec_()
@@ -152,6 +156,10 @@ class ID_Find(QDialog):  # 아이디찾기 시작
         ck_code = self.emailnum_Edit.text()
         if ck_code == check_msg:
             self.join_Btn.setEnable(True)
+            self.email_Btn.setEnabled(False)
+            self.email_Edit.setEnabled(False)
+            self.emailnum_Edit.setEnabled(False)
+            self.email_C_Btn.setEnabled(False)
 
     def end(self):
         sock.send("plz_id".encode())
@@ -180,6 +188,8 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
         sock.send(id.encode())
         ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
+            self.id_Edit.setEnabled(False)
+            self.id_Btn.setEnabled(False)
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
         else:
@@ -199,6 +209,10 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
         check_num = self.emailnum_Edit.text()
         if check_num == check_msg:
             self.join_Btn.setEnabled(True)
+            self.email_Btn.setEnabled(False)
+            self.email_Edit.setEnabled(False)
+            self.emailnum_Edit.setEnabled(False)
+            self.email_C_Btn.setEnabled(False)
 
     def end(self):
         sock.send("plz_pw".encode())
@@ -229,6 +243,8 @@ class reg(QDialog):  # 가입창 시작
         ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
             QMessageBox().information(self, "    ", "사용 가능한 아이디입니다.")
+            self.id_Edit.setEnabled(False)
+            self.id_Btn.setEnabled(False)
             self.pw_Edit.setEnabled(True)
             self.repw_Edit.setEnabled(True)
             self.pw_Btn.setEnabled(True)
@@ -243,6 +259,9 @@ class reg(QDialog):  # 가입창 시작
             self.name_Edit.setEnabled(True)
             self.email_Edit.setEnabled(True)
             self.email_Btn.setEnabled(True)
+            self.pw_Edit.setEnabled(False)
+            self.repw_Edit.setEnabled(False)
+            self.pw_Btn.setEnabled(False)
         else:
             QMessageBox().about(self, "    ", "비밀번호가 일치하지 않습니다.\n다시 시도해주세요.")
 
@@ -258,6 +277,10 @@ class reg(QDialog):  # 가입창 시작
         if check_num == check_msg:
             QMessageBox().information(self, "    ", "인증이 완료되었습니다.")
             self.join_Btn.setEnabled(True)
+            self.emailnum_Edit.setEnabled(False)
+            self.email_Edit.setEnabled(False)
+            self.email_Btn.setEnabled(False)
+            self.email_C_Btn.setEnabled(False)
         else:
             QMessageBox().information(self, "    ", "인증번호가 일치하지않습니다.")
 
@@ -278,8 +301,6 @@ class Main_Window(QDialog):  # 메인화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("main.ui", self)
-
-        print(user)
 
         self.home_icon.clicked.connect(
             lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
@@ -391,7 +412,7 @@ class shopping_Window(QDialog):  # 도서대여화면 시작
                 self.shopping_list.clear()
                 for list in shopping_Cart:
                     self.shopping_list.addItem(list)
-                data = data.split('/')
+                data = data.split('|')
                 # 서버로 책 고유번호 전송
                 sock.send(
                     ('rental' + data[0] + '|' + data[1] + '|' + data[2]).encode())
@@ -435,10 +456,12 @@ class return_Window(QDialog):  # 도서반납화면 시작
 
     def initUI(self):
         for list in rent:
+            list = list.replace("|", " | ")
+            list = list.replace(";", " | ")
             self.return_list.addItem(list)
 
     def return_book(self):
-        global rent
+        global rent, return_book
         if sys.getsizeof(rent) >= 1:
             data = self.return_list.currentItem().text()
             j = 0
@@ -448,8 +471,12 @@ class return_Window(QDialog):  # 도서반납화면 시작
                 j = j+1
             self.return_list.clear()
             for list in rent:
+                list = list.replace("|", " | ")
+                list = list.replace(";", " | ")
                 self.return_list.addItem(list)
-            data = data.split('/')
+            print(data)
+            data = data.split('|')
+            return_book.append(data[1])
             sock.send(('return' + data[0]).encode())
             QMessageBox().information(
                 self, "    ", "%s(을)를\n반납했습니다." % data[1])
@@ -488,11 +515,12 @@ class user_Window(QDialog):  # 나의정보화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("user.ui", self)
+        sock.send('myinfo'.encode())
 
         self.init_User()
 
-        self.name_change.clicked.connect(self.change_name)
-        self.pw_change.clicked.connect(self.change_pw)
+        self.name_change.clicked.connect(self.c_name)
+        self.pw_change.clicked.connect(self.c_pw)
 
         self.home_icon.clicked.connect(
             lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
@@ -507,15 +535,65 @@ class user_Window(QDialog):  # 나의정보화면 시작
         self.user_name.setPlainText(user[1])
         self.user_name.setAlignment(QtCore.Qt.AlignCenter)  # 가운데 정렬
         for book in rent:
+            book = book.split('|')
+            book = book[1]+" | "+book[2]+" | "+book[3]
+            book = book.replace(';', " | ")
+            if book[4] != '공':
+                book = book+book[4]
+                self.overdue_list.append(book)
             self.rent_list.append(book)
+        for book in return_book:
+            self.return_list.append(book)
 
-    def change_name(self):
-        print("아이디 변경")
+    def c_name(self):
+        c_pw_window = Change_Name()
+        c_pw_window.exec_()
 
-    def change_pw(self):
-        print('비번변경')
+    def c_pw(self):
+        c_pw_window = Change_Password()
+        c_pw_window.exec_()
 
 # 나의정보메뉴 종료
+
+
+class Change_Name(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("user.ui", self)
+
+        self.change_name_Btn.clicked.connect(self.change_name)
+
+    def change_name(self):
+        user[1] = self.new_name.text()
+        sock.send(('change_name/'+user[1]).encode())
+        self.close()
+
+
+class Change_Password(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("user.ui", self)
+
+        self.pw_Btn.clicked.connect(self.ck_pw)
+        self.change_pw_Btn.clicked.connect(self.change_pw)
+
+    def ck_pw(self):
+        n_pw = self.new_pw.text()
+        c_n_pw = self.re_pw.text()
+
+        if n_pw == c_n_pw:
+            self.change_pw_Btn.setEnable(True)
+            self.pw_Btm.setEnable(False)
+            self.new_pw.setEnable(False)
+            self.re_pw.setEnable(False)
+            QMessageBox().information(self, "    ", "일치합니다.")
+        else:
+            QMessageBox().information(self, "    ", "불일치 합니다.")
+
+    def change_pw(self):
+        ch_pw = self.re_pw.text()
+        sock.send(('change_pw/'+ch_pw).encode())
+        self.close()
 
 
 if __name__ == '__main__':
