@@ -1,6 +1,8 @@
 import socket
 import threading
 import sqlite3
+import datetime
+from datetime import date
 
 PORT = 2090
 BUF_SIZE = 1024
@@ -43,12 +45,24 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('find_pw/'):
             clnt_msg = clnt_msg.replace('find_pw/', '')
             find_pw(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('search'):
+            clnt_msg = clnt_msg.replace('search', '')
+            search(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('donate/'):
+            clnt_msg = clnt_msg.replace('donate/', '')
+            donation(clnt_sock, clnt_msg)
+        elif clnt_msg.startswith('rental'):
+            clnt_msg = clnt_msg.replace('rental', '')
+            rental(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('return'):
+            clnt_msg = clnt_msg.replace('return', '')
+            return_book(clnt_num, clnt_msg)
         else:
             continue
 
 
 def sign_up(clnt_sock, clnt_num):
-    con, db = dbcon()
+    con, c = dbcon()
     check = 0
     user_data = []
 
@@ -59,9 +73,9 @@ def sign_up(clnt_sock, clnt_num):
         if imfor == "Q_reg":      # 회원가입 창 닫을 때 함수 종료
             con.close()
             break
-        db.execute("SELECT id FROM Users")  # Users 테이블에서 id 컬럼 추출
+        c.execute("SELECT id FROM Users")  # Users 테이블에서 id 컬럼 추출
 
-        for row in db:  # id 컬럼
+        for row in c:  # id 컬럼
             if imfor in row:       # 클라이언트가 입력한 id가 DB에 있으면
                 clnt_sock.send('!NO'.encode())
                 print("중복확인")
@@ -84,7 +98,7 @@ def sign_up(clnt_sock, clnt_num):
         for i in range(3):
             user_data.append(imfor[i])       # user_data 리스트에 추가
         query = "INSERT INTO Users(id, password, name, email) VALUES(?, ?, ?, ?)"
-        db.executemany(query, (user_data,))  # DB에 user_data 추가
+        c.executemany(query, (user_data,))  # DB에 user_data 추가
         con.commit()            # DB에 커밋
         con.close()
         lock.release()
@@ -99,23 +113,20 @@ def log_in(clnt_sock, data, num):
     c.execute("SELECT password FROM Users where id=?", (user_id,))  # DB에서 id 같은 password 컬럼 선택
     user_pw = c.fetchone()             # 한 행 추출
 
-    if user_pw == None:  # DB에 없는 id 입력시
+    if not user_pw:  # DB에 없는 id 입력시
         clnt_sock.send('iderror'.encode())
         con.close()
         return
 
     if (data[1],) == user_pw:
         # 로그인성공 시그널
-        c.execute("SELECT * FROM Users where id=?", (user_id,))
-        row = c.fetchone()
-        row = list(row)
-        for i in range(0, len(row)):     # None인 항목 찾기
-            if row[i] == None:
-                row[i] = 'X'             # None을 X로 바꾸기
-        row = '/'.join(row)              # row 리스트 원소 /넣어서 문자열로 합치기
-        clnt_sock.send(('!OK/' + row).encode()) # 회원정보 전송
+        clnt_sock.send(('!OK/').encode()) # 회원정보 전송
         print("login sucess") 
         clnt_imfor[num].append(data[0])
+        c.execute("SELECT book1, book2, book3 FROM Users where id=?", (user_id,))
+        books = c.fetchone()
+        books = list(books)
+        overdue(books[0], books[1], books[2], user_id)
 
     else:
         # 로그인실패 시그널
@@ -124,6 +135,53 @@ def log_in(clnt_sock, data, num):
 
     con.close()
     return   
+
+def overdue(book1, book2, book3, id):
+    con, c = dbcon()
+    today = date.today() #오늘 날짜 
+    list = [book1, book2, book3] # 대여한 책 리스트 
+    cur = datetime.timedelta(days = 7) # 7일 datetime 타입
+    for i in range (0, len(list)): 
+        if list[i] == None:
+            con.close()
+            return
+        else:
+            data = list[i].split('/') # / 기준으로 잘라서 리스트 생성
+            data[1] = data[1].replace('-', '') # - 없애기
+            data[1] = datetime.datetime.strptime(data[1], '%Y%m%d').date() # 문자열 
+            result = today - data[1]
+            if result > cur:
+                list[i] = list[i]+'/연체'
+                book = "book" + str((i+1))
+                query = "UPDATE Users SET %s = %s WHERE id=?" % (book, list[i])
+                c.execute(query, (id,))
+                con.commit()
+    con.close()
+    return
+
+
+def send_user_information(clnt_num):
+    con, c = dbcon()
+    id = clnt_imfor[clnt_num][1]
+    clnt_sock = clnt_imfor[clnt_num][0]
+    c.execute("SELECT * FROM Users where id=?", (id,))  # 회원정보 
+    row = c.fetchone()
+    row = list(row)
+    for i in range(0, len(row)):     # None인 항목 찾기
+        if row[i] == None:
+            row[i] = 'X' 
+    row = '/'.join(row)
+    clnt_sock.send(('!OK/'+row).encode())
+    c.execute("SELECT book_name FROM Return where id=?", (id,)) # 반납한 책
+    books = c.fetchall()
+    books = list(books)
+    if not books:
+        clnt_sock.send('EMPTY'.encode())
+    else:
+        clnt_sock.send(books.encode())
+    con.close()
+
+
 
 
 def find_id(clnt_sock, email):
@@ -146,7 +204,7 @@ def find_id(clnt_sock, email):
             pass
         elif msg == 'plz_id':     # plz_id 전송받으면 id 전송
             clnt_sock.send(id.encode())
-            print('sendid')
+            print('send_id')
         con.close()
         return
 
@@ -178,9 +236,127 @@ def find_pw(clnt_sock, id):
         elif msg == 'plz_pw':             # plz_pw 전송받으면 
             pw = ''.join(row[0])          # 비밀번호 문자열로 변환
             clnt_sock.send(pw.encode())   
-            print('sendpw')
+            print('send_pw')
     con.close() 
     return
+
+
+def search(clnt_sock, msg):
+    con, c = dbcon()
+    if msg.startswith('BN'):
+        msg = msg.replace('BN', '')
+
+        arg = '%' + msg + '%'
+        c.execute("SELECT code, name, writer FROM Books WHERE rental = 0 AND name LIKE ?", (arg, )) # DB에 있는 책이름 찾아서 저자와 대출정보 가져오기
+        rows = c.fetchall()
+        
+        for row in rows:
+            #책 정보 보내기
+            row = list(row)
+            row[0] = str(row[0])
+            row = '/'.join(row)   
+            
+            clnt_sock.send(row.encode())   # name, writer\
+            print(row)
+        clnt_sock.send('search_done'.encode())
+        con.close()
+        return
+
+    elif msg.startswith('WN'):
+        msg = msg.replace('WN', '')
+        #저자명 검색 후 전달
+
+        arg = '%' + msg + '%'
+        c.execute("SELECT code, name, writer FROM Books WHERE rental = 0 AND writer LIKE ?", (arg, )) # DB에 있는 저자 이름 찾아서 책이름,대출정보 가져오기
+        rows = c.fetchall()
+        
+        for row in rows:
+            #책 정보 보내기
+            row = list(row)
+            row[0] = str(row[0])
+            row = '/'.join(row)   
+            print(row)
+            clnt_sock.send(row.encode())  
+        clnt_sock.send('search_done'.encode())
+        con.close()
+        return
+    else:
+        con.close()
+        return
+
+
+def rental(clnt_num, msg):
+    con, c = dbcon()
+    id = clnt_imfor[clnt_num][1]
+    clnt_sock = clnt_imfor[clnt_num][0]
+    cur = 1
+    rental_date = date.today()
+    rental_date = rental_date.isoformat()
+
+    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id, ))
+    row = c.fetchone() 
+    row = list(row)
+    print(row)
+    msg = int(msg)
+    for i in range(0,3):
+        if row[i] == None:
+            c.execute("UPDATE Books SET rental=? WHERE code=?", ('1', msg,))
+            data = 'book' + (str(cur))
+            query = "UPDATE Users SET %s=? WHERE id=?" % data
+            bookname_date = str(msg) + '/' + rental_date
+            c.execute(query, (bookname_date, id))
+            clnt_sock.send('!OK'.encode())
+            con.commit()
+            con.close()
+            return
+        cur = cur + 1
+
+    con.close()
+
+
+def return_book(clnt_num, msg):
+    con, c = dbcon()
+    id = clnt_imfor[clnt_num][1]
+    clnt_sock = clnt_imfor[clnt_num][0]
+    check = 0
+    book_code = int(msg)
+    
+    c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?", (id,)) # 대여한 책 고유번호 찾기
+    row = c.fetchone()
+    row = list(row)
+
+    for i in range(1, 4): # 3번 반복
+        if row[i-1] == None: # 대여한 책 없을 때 
+            continue
+        if row[i-1].startswith(str(book_code)): # 고유번호로 시작할 때
+            book = "book"  + str(i)
+            query = "UPDATE Users SET %s = NULL WHERE id=?" % book    
+            c.execute("UPDATE Books SET rental = '0' WHERE code=?", (book_code,))  # Books에서 rental컬럼 0으로 바꾸기
+            con.commit()
+            c.execute(query, (id,))   # DB에서 대여한 책 있던 컬럼(book1,book2,book3) NULL로 비우기
+            con.commit()
+            data = [] # 반납 DB에 넣을 data 리스트 생성
+            data.append(id) # data리스트에 id 추가
+            c.execute("SELECT name FROM Books WHERE code=?", (book_code,)) # book_code로 도서명 찾기
+            name = c.fetchone()
+            name = ''.join(name) # 찾은 도서명 문자열로 바꾸기
+            data.append(name) # data리스트에 name 추가
+            c.executemany("INSERT INTO Return(id, book_name) VALUES (?, ?)", (data,))  # 반납 DB에 data리스트 추가
+            con.commit() 
+
+    con.close()
+    return
+
+
+
+def donation(clnt_sock, msg):
+    con, c = dbcon()
+    msg = msg.split('/')
+    print(msg) # 확인
+    c.executemany("INSERT INTO Books(name, writer) VALUES(?, ?)", (msg,))  # DB에 기증한 책 추가
+    con.commit()            # DB에 커밋
+    con.close()
+
 
 def delete_imfor(clnt_sock):
     global clnt_cnt

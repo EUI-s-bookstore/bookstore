@@ -150,7 +150,7 @@ color:#353535;
     <string>이메일 주소</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="email_Btn_2">
+  <widget class="QPushButton" name="email_Btn">
    <property name="geometry">
     <rect>
      <x>450</x>
@@ -183,7 +183,7 @@ color:#353535;
     <string>전송</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="email_C_Btn_2">
+  <widget class="QPushButton" name="email_C_Btn">
    <property name="geometry">
     <rect>
      <x>450</x>
@@ -234,7 +234,7 @@ color:#fff;</string>
     <string>                                              아이디 찾기</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="home_icon_2">
+  <widget class="QPushButton" name="home_icon">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -275,7 +275,7 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="user_icon_2">
+  <widget class="QPushButton" name="user_icon">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -316,7 +316,7 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="shopping_icon_2">
+  <widget class="QPushButton" name="shopping_icon">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -357,7 +357,7 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="return_icon_2">
+  <widget class="QPushButton" name="return_icon">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -398,7 +398,7 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="search_icon_2">
+  <widget class="QPushButton" name="search_icon">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -439,7 +439,7 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="donation_icon_2">
+  <widget class="QPushButton" name="donation_icon">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -500,15 +500,15 @@ border:2px solid #fff;
   <zorder>emailnum_Edit</zorder>
   <zorder>join_Btn</zorder>
   <zorder>label_5</zorder>
-  <zorder>email_Btn_2</zorder>
-  <zorder>email_C_Btn_2</zorder>
+  <zorder>email_Btn</zorder>
+  <zorder>email_C_Btn</zorder>
   <zorder>label_2</zorder>
-  <zorder>home_icon_2</zorder>
-  <zorder>user_icon_2</zorder>
-  <zorder>shopping_icon_2</zorder>
-  <zorder>return_icon_2</zorder>
-  <zorder>search_icon_2</zorder>
-  <zorder>donation_icon_2</zorder>
+  <zorder>home_icon</zorder>
+  <zorder>user_icon</zorder>
+  <zorder>shopping_icon</zorder>
+  <zorder>return_icon</zorder>
+  <zorder>search_icon</zorder>
+  <zorder>donation_icon</zorder>
  </widget>
  <resources>
   <include location="re.qrc"/>

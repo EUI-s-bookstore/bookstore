@@ -327,7 +327,7 @@ border:2px solid #fff;
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>60</y>
+     <y>70</y>
      <width>381</width>
      <height>41</height>
     </rect>
@@ -347,7 +347,7 @@ border:2px solid #353535;
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>60</y>
+     <y>70</y>
      <width>81</width>
      <height>41</height>
     </rect>
@@ -380,7 +380,7 @@ color:#353535;
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>390</y>
+     <y>370</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -429,7 +429,7 @@ color:#353535;
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>390</y>
+     <y>370</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -464,7 +464,7 @@ color:#353535;
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>20</y>
+     <y>40</y>
      <width>112</width>
      <height>23</height>
     </rect>
@@ -476,8 +476,8 @@ color:#353535;
   <widget class="QRadioButton" name="writer_check">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>20</y>
+     <x>260</x>
+     <y>40</y>
      <width>112</width>
      <height>23</height>
     </rect>
@@ -490,13 +490,16 @@ color:#353535;
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>140</y>
+     <y>130</y>
      <width>381</width>
-     <height>251</height>
+     <height>241</height>
     </rect>
    </property>
-   <property name="mouseTracking">
-    <bool>true</bool>
+   <property name="styleSheet">
+    <string notr="true">
+border:1px solid #000;
+background:#fff;
+</string>
    </property>
    <property name="dragEnabled">
     <bool>false</bool>
@@ -507,12 +510,9 @@ color:#353535;
    <property name="selectionMode">
     <enum>QAbstractItemView::MultiSelection</enum>
    </property>
-   <property name="textElideMode">
-    <enum>Qt::ElideLeft</enum>
-   </property>
   </widget>
-  <zorder>textBrowser_2</zorder>
   <zorder>textBrowser_3</zorder>
+  <zorder>textBrowser_2</zorder>
   <zorder>email_C_Btn</zorder>
   <zorder>search_icon</zorder>
   <zorder>donation_icon</zorder>
@@ -529,6 +529,8 @@ color:#353535;
   <zorder>writer_check</zorder>
   <zorder>search_list</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="icon/resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
