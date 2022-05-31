@@ -13,7 +13,7 @@ from email.mime.text import MIMEText  # 이메일 전송을 위한 라이브러�
 
 BUF_SIZE = 1024
 IP = "127.0.0.1"
-Port = 2090
+Port = 2091
 check_msg = ""
 user = ""
 shopping_Cart = []
@@ -276,6 +276,7 @@ class reg(QDialog):  # 가입창 시작
         if check_num == check_msg:
             QMessageBox().information(self, "    ", "인증이 완료되었습니다.")
             self.join_Btn.setEnabled(True)
+            self.name_Edit.setEnabled(False)
             self.emailnum_Edit.setEnabled(False)
             self.email_Edit.setEnabled(False)
             self.email_Btn.setEnabled(False)
@@ -352,6 +353,7 @@ class search_Window(QDialog):  # 도서찾기화면 시작
         sock.send(search_msg.encode())
         self.search_list.clear()
         while True:
+            sys.stdout.flush()
             rcv = sock.recv(BUF_SIZE)
             rcv = rcv.decode()
             rcv = rcv.replace("/", " | ")
@@ -502,7 +504,7 @@ class donate_Window(QDialog):  # 도서기증화면 시작
     def donate_books(self):
         books_name = self.book_name.text()
         writer_name = self.book_writer.text()
-        donate_msg = "donate/"+books_name+"/"+writer_name
+        donate_msg = "donate/"+books_name+"/"+writer_name + '|'
         sock.send(donate_msg.encode())
         self.book_name.clear()
         self.book_writer.clear()
@@ -565,7 +567,7 @@ class Change_Name(QDialog):
     def change_name(self):
         global user
         user[1] = self.new_name.text()
-        sock.send(('change_name/'+user[1]).encode())
+        sock.send(('reset_name/'+user[1]).encode())
         window = user_Window()
         self.close()
         window.exec_()
@@ -584,17 +586,17 @@ class Change_Password(QDialog):
         c_n_pw = self.re_pw.text()
 
         if n_pw == c_n_pw:
-            self.change_pw_Btn.setEnable(True)
-            self.pw_Btm.setEnable(False)
-            self.new_pw.setEnable(False)
-            self.re_pw.setEnable(False)
+            self.change_pw_Btn.setEnabled(True)
+            self.pw_Btn.setEnabled(False)
+            self.new_pw.setEnabled(False)
+            self.re_pw.setEnabled(False)
             QMessageBox().information(self, "    ", "일치합니다.")
         else:
             QMessageBox().information(self, "    ", "불일치 합니다.")
 
     def change_pw(self):
         ch_pw = self.re_pw.text()
-        sock.send(('change_pw/'+ch_pw).encode())
+        sock.send(('reset_pw/'+ch_pw).encode())
         window = user_Window()
         self.close()
         window.exec_()
