@@ -392,7 +392,9 @@ class shopping_Window(QDialog):  # 도서대여화면 시작
                 for list in shopping_Cart:
                     self.shopping_list.addItem(list)
                 data = data.split('/')
-                sock.send(('rental' + data[0]).encode())  # 서버로 책 고유번호 전송
+                # 서버로 책 고유번호 전송
+                sock.send(
+                    ('rental' + data[0] + '|' + data[1] + '|' + data[2]).encode())
                 QMessageBox().information(
                     self, "    ", "%s(을)를 빌렸습니다." % data[1])
             else:
