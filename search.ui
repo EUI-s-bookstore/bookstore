@@ -508,7 +508,7 @@ background:#fff;
     <bool>true</bool>
    </property>
    <property name="selectionMode">
-    <enum>QAbstractItemView::MultiSelection</enum>
+    <enum>QAbstractItemView::SingleSelection</enum>
    </property>
   </widget>
   <zorder>textBrowser_3</zorder>
