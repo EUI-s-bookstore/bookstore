@@ -78,7 +78,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon2.png</normaloff>../다운로드/icon/Icon2.png</iconset>
+     <normaloff>icon/Icon2.png</normaloff>icon/Icon2.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -116,7 +116,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon5.png</normaloff>../다운로드/icon/Icon5.png</iconset>
+     <normaloff>icon/Icon5.png</normaloff>icon/Icon5.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -154,7 +154,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon3.png</normaloff>../다운로드/icon/Icon3.png</iconset>
+     <normaloff>icon/Icon3.png</normaloff>icon/Icon3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -192,7 +192,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon4.png</normaloff>../다운로드/icon/Icon4.png</iconset>
+     <normaloff>icon/Icon4.png</normaloff>icon/Icon4.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -230,7 +230,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon1.png</normaloff>../다운로드/icon/Icon1.png</iconset>
+     <normaloff>icon/Icon1.png</normaloff>icon/Icon1.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -314,7 +314,7 @@ border:2px solid #fff;
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../다운로드/icon/Icon6.png</normaloff>../다운로드/icon/Icon6.png</iconset>
+     <normaloff>icon/Icon6.png</normaloff>icon/Icon6.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -323,37 +323,216 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QListWidget" name="return_list">
+  <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>40</y>
+     <x>300</x>
+     <y>30</y>
      <width>381</width>
-     <height>161</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">
-border:1px solid #000;
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>대여중인 도서</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>170</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>반납한 도서</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>310</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>연체된 도서</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="rent_list">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>60</y>
+     <width>381</width>
+     <height>91</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="return_list">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>200</y>
+     <width>381</width>
+     <height>91</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="overdue_list">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>340</y>
+     <width>381</width>
+     <height>91</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="user_name">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>170</y>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="tabChangesFocus">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pw_change">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>290</y>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
 
 </string>
    </property>
-   <property name="dragEnabled">
-    <bool>false</bool>
-   </property>
-   <property name="alternatingRowColors">
-    <bool>true</bool>
-   </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::MultiSelection</enum>
+   <property name="text">
+    <string>비밀번호 변경</string>
    </property>
   </widget>
-  <widget class="QTextBrowser" name="textBrowser_2">
+  <widget class="QPushButton" name="name_change">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>-20</y>
-     <width>441</width>
+     <x>50</x>
+     <y>230</y>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>이름 변경</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>140</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>사용자 이름</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser_6">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>0</y>
+     <width>671</width>
      <height>541</height>
     </rect>
    </property>
@@ -361,6 +540,7 @@ border:1px solid #000;
     <string notr="true">background-color:#dedede;</string>
    </property>
   </widget>
+  <zorder>textBrowser_6</zorder>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
   <zorder>search_icon</zorder>
@@ -370,8 +550,16 @@ border:1px solid #000;
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
+  <zorder>label_7</zorder>
+  <zorder>label_8</zorder>
+  <zorder>label_9</zorder>
+  <zorder>rent_list</zorder>
   <zorder>return_list</zorder>
-  <zorder>textBrowser_2</zorder>
+  <zorder>overdue_list</zorder>
+  <zorder>user_name</zorder>
+  <zorder>pw_change</zorder>
+  <zorder>name_change</zorder>
+  <zorder>label_10</zorder>
  </widget>
  <resources/>
  <connections/>

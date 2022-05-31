@@ -13,7 +13,7 @@ from email.mime.text import MIMEText  # 이메일 전송을 위한 라이브러�
 
 BUF_SIZE = 1024
 IP = "127.0.0.1"
-Port = 2091
+Port = 2090
 check_msg = ""
 user = ""
 shopping_Cart = []
@@ -47,6 +47,7 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
 
     ses.quit()  # 이메일 체크 종료
     return result_value
+# 이메일 체크 종료
 
 
 def check_rcv():  # 서버에서 받아오기
@@ -57,6 +58,24 @@ def check_rcv():  # 서버에서 받아오기
             break
     return ck
 # 받아오기 종료
+
+
+def Window_move(self, window_name):
+    if window_name == "home":
+        window = Main_Window()
+    elif window_name == "search":
+        window = search_Window()
+    elif window_name == "shopping":
+        window = shopping_Window()
+    elif window_name == "return":
+        window = return_Window()
+    elif window_name == "donate":
+        window = donate_Window()
+    elif window_name == "user":
+        window = user_Window()
+
+    self.close()
+    window.exec_()
 
 
 class Login(QDialog):  # 로그인창 시작
@@ -76,7 +95,6 @@ class Login(QDialog):  # 로그인창 시작
         id = self.id_Edit.text()
         pw = self.pw_Edit.text()
         lo = "login/" + id + "/"+pw
-        print(lo)
         sock.send(lo.encode())
         ck = check_rcv()
         user = ck.split("/")
@@ -116,6 +134,7 @@ class ID_Find(QDialog):  # 아이디찾기 시작
         self.ui = uic.loadUi("find_id.ui", self)
 
         self.email_Btn.clicked.connect(self.check_email)
+        self.email_C_Btn.clicked.connect(self.check_code)
         self.join_Btn.clicked.connect(self.end)
 
     def check_email(self):
@@ -248,42 +267,11 @@ class reg(QDialog):  # 가입창 시작
         email = self.email_Edit.text()
         msg = pw+"/"+name+"/"+email  # msg에 합쳐서 전송한다
         sock.send(msg.encode())
-        print(msg)
         self.close()
 
     def closeEvent(self, event):
         sock.send("Q_reg".encode())
 # 가입창 종료
-
-
-def go_home(self):
-    window = Main_Window()
-    self.close()
-    window.exec_()
-
-
-def go_search(self):
-    window = search_Window()
-    self.close()
-    window.exec_()
-
-
-def go_shopping(self):
-    window = shopping_Window()
-    self.close()
-    window.exec_()
-
-
-def go_return(self):
-    window = return_Window()
-    self.close()
-    window.exec_()
-
-
-def go_donate(self):
-    window = donate_Window()
-    self.close()
-    window.exec_()
 
 
 class Main_Window(QDialog):  # 메인화면 시작
@@ -293,27 +281,14 @@ class Main_Window(QDialog):  # 메인화면 시작
 
         print(user)
 
-        self.home_icon.clicked.connect(self.goto_home)  # 메뉴 버튼들 제어
-        self.search_icon.clicked.connect(self.goto_search)
-        self.shopping_icon.clicked.connect(self.goto_shopping)
-        self.return_icon.clicked.connect(self.goto_return)
-        self.donation_icon.clicked.connect(self.goto_donate)
-        # self.user_icon.clicked.connect(self.goto_user)
-
-    def goto_home(self):
-        go_home(self)
-
-    def goto_search(self):
-        go_search(self)
-
-    def goto_shopping(self):
-        go_shopping(self)
-
-    def goto_return(self):
-        go_return(self)
-
-    def goto_donate(self):
-        go_donate(self)
+        self.home_icon.clicked.connect(
+            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
+        self.shopping_icon.clicked.connect(
+            lambda: Window_move(self, "shopping"))
+        self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
+        self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
 # 메인화면 종료
 
 
@@ -333,27 +308,14 @@ class search_Window(QDialog):  # 도서찾기화면 시작
         self.search_add.clicked.connect(self.add_Cart)
         self.search_clear.clicked.connect(self.clear_Cart)
 
-        self.home_icon.clicked.connect(self.goto_home)  # 메뉴 버튼들 제어
-        self.search_icon.clicked.connect(self.goto_search)
-        self.shopping_icon.clicked.connect(self.goto_shopping)
-        self.return_icon.clicked.connect(self.goto_return)
-        self.donation_icon.clicked.connect(self.goto_donate)
-        # self.user_icon.clicked.connect(self.goto_user)
-
-    def goto_home(self):
-        go_home(self)
-
-    def goto_search(self):
-        go_search(self)
-
-    def goto_shopping(self):
-        go_shopping(self)
-
-    def goto_return(self):
-        go_return(self)
-
-    def goto_donate(self):
-        go_donate(self)
+        self.home_icon.clicked.connect(
+            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
+        self.shopping_icon.clicked.connect(
+            lambda: Window_move(self, "shopping"))
+        self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
+        self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
 
     def search_type_change(self):
         global search_mode
@@ -391,7 +353,6 @@ class search_Window(QDialog):  # 도서찾기화면 시작
 
     def clear_Cart(self):
         self.search_list.clear()
-
 # 도서찾기화면 종료
 
 
@@ -403,12 +364,14 @@ class shopping_Window(QDialog):  # 도서대여화면 시작
         self.shopping_Btn.clicked.connect(self.send_rent)
         self.shopping_clear.clicked.connect(self.clear_rent)
 
-        self.home_icon.clicked.connect(self.goto_home)  # 메뉴 버튼들 제어
-        self.search_icon.clicked.connect(self.goto_search)
-        self.shopping_icon.clicked.connect(self.goto_shopping)
-        self.return_icon.clicked.connect(self.goto_return)
-        self.donation_icon.clicked.connect(self.goto_donate)
-        # self.user_icon.clicked.connect(self.goto_user)
+        self.home_icon.clicked.connect(
+            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
+        self.shopping_icon.clicked.connect(
+            lambda: Window_move(self, "shopping"))
+        self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
+        self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
 
     def initUI(self):
         for list in shopping_Cart:
@@ -448,22 +411,6 @@ class shopping_Window(QDialog):  # 도서대여화면 시작
         self.shopping_list.clear()
         for list in shopping_Cart:
             self.shopping_list.addItem(list)
-
-    def goto_home(self):
-        go_home(self)
-
-    def goto_search(self):
-        go_search(self)
-
-    def goto_shopping(self):
-        go_shopping(self)
-
-    def goto_return(self):
-        go_return(self)
-
-    def goto_donate(self):
-        go_donate(self)
-
 # 도서대여화면 종료
 
 
@@ -475,12 +422,14 @@ class return_Window(QDialog):  # 도서반납화면 시작
 
         self.return_end.clicked.connect(self.return_book)
 
-        self.home_icon.clicked.connect(self.goto_home)  # 메뉴 버튼들 제어
-        self.search_icon.clicked.connect(self.goto_search)
-        self.shopping_icon.clicked.connect(self.goto_shopping)
-        self.return_icon.clicked.connect(self.goto_return)
-        self.donation_icon.clicked.connect(self.goto_donate)
-        # self.user_icon.clicked.connect(self.goto_user)
+        self.home_icon.clicked.connect(
+            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
+        self.shopping_icon.clicked.connect(
+            lambda: Window_move(self, "shopping"))
+        self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
+        self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
 
     def initUI(self):
         for list in rent:
@@ -504,22 +453,6 @@ class return_Window(QDialog):  # 도서반납화면 시작
                 self, "    ", "%s(을)를\n반납했습니다." % data[1])
         else:
             QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
-
-    def goto_home(self):
-        go_home(self)
-
-    def goto_search(self):
-        go_search(self)
-
-    def goto_shopping(self):
-        go_shopping(self)
-
-    def goto_return(self):
-        go_return(self)
-
-    def goto_donate(self):
-        go_donate(self)
-
 # 도서반납화면 종료
 
 
@@ -528,12 +461,14 @@ class donate_Window(QDialog):  # 도서기증화면 시작
         super().__init__()
         self.ui = uic.loadUi("donation.ui", self)
 
-        self.home_icon.clicked.connect(self.goto_home)  # 메뉴 버튼들 제어
-        self.search_icon.clicked.connect(self.goto_search)
-        self.shopping_icon.clicked.connect(self.goto_shopping)
-        self.return_icon.clicked.connect(self.goto_return)
-        self.donation_icon.clicked.connect(self.goto_donate)
-        # self.user_icon.clicked.connect(self.goto_user)
+        self.home_icon.clicked.connect(
+            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
+        self.shopping_icon.clicked.connect(
+            lambda: Window_move(self, "shopping"))
+        self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
+        self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
 
         self.donation_Btn.clicked.connect(self.donate_books)
 
@@ -544,27 +479,46 @@ class donate_Window(QDialog):  # 도서기증화면 시작
         sock.send(donate_msg.encode())
         self.book_name.clear()
         self.book_writer.clear()
-
-    def goto_home(self):
-        go_home(self)
-
-    def goto_search(self):
-        go_search(self)
-
-    def goto_shopping(self):
-        go_shopping(self)
-
-    def goto_return(self):
-        go_return(self)
-
-    def goto_donate(self):
-        go_donate(self)
 # 도서기증화면 종료
+
+
+class user_Window(QDialog):  # 나의정보화면 시작
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("user.ui", self)
+
+        self.init_User()
+
+        self.name_change.clicked.connect(self.change_name)
+        self.pw_change.clicked.connect(self.change_pw)
+
+        self.home_icon.clicked.connect(
+            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
+        self.shopping_icon.clicked.connect(
+            lambda: Window_move(self, "shopping"))
+        self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
+        self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
+
+    def init_User(self):
+        self.user_name.setPlainText(user[1])
+        self.user_name.setAlignment(QtCore.Qt.AlignCenter)  # 가운데 정렬
+        for book in rent:
+            self.rent_list.append(book)
+
+    def change_name(self):
+        print("아이디 변경")
+
+    def change_pw(self):
+        print('비번변경')
+
+# 나의정보메뉴 종료
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    #chat_window = Login()
-    chat_window = Main_Window()
+    chat_window = Login()
+    #chat_window = Main_Window()
     chat_window.show()
     app.exec_()
