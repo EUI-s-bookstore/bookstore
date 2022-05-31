@@ -17,7 +17,7 @@ Port = 2090
 check_msg = ""
 user = ""
 shopping_Cart = []
-rent = []
+rent=[]
 search_mode = 'BN'
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -49,7 +49,6 @@ def send_email_to_clnt(self):  # 이메일 체크 시작
     return result_value
 # 이메일 체크 종료
 
-
 def check_rcv():  # 서버에서 받아오기
     while True:
         ck = sock.recv(BUF_SIZE)
@@ -62,7 +61,7 @@ def check_rcv():  # 서버에서 받아오기
 
 def Window_move(self, window_name):
     if window_name == "home":
-        window = Main_Window()
+        window=Main_Window()
     elif window_name == "search":
         window = search_Window()
     elif window_name == "shopping":
@@ -76,7 +75,7 @@ def Window_move(self, window_name):
 
     self.close()
     window.exec_()
-
+ 
 
 class Login(QDialog):  # 로그인창 시작
     def __init__(self):
@@ -91,19 +90,20 @@ class Login(QDialog):  # 로그인창 시작
         self.pw_Edit.returnPressed.connect(self.try_login)
 
     def try_login(self):
-        global user, rent
+        global user,rent
         id = self.id_Edit.text()
         pw = self.pw_Edit.text()
         lo = "login/" + id + "/"+pw
+        print(lo)
         sock.send(lo.encode())
         ck = check_rcv()
         user = ck.split("/")
         if user[0] == "!OK":
-            i = 5
-            while i == 7:
+            i=5
+            while i==7:
                 if user[i] != 'X':
-                    rent = rent.append(user[i])
-                i = i+1
+                    rent=rent.append(user[i])
+                i=i+1
             # 메인화면 열기
             m_window = Main_Window()
             self.close()
@@ -134,7 +134,6 @@ class ID_Find(QDialog):  # 아이디찾기 시작
         self.ui = uic.loadUi("find_id.ui", self)
 
         self.email_Btn.clicked.connect(self.check_email)
-        self.email_C_Btn.clicked.connect(self.check_code)
         self.join_Btn.clicked.connect(self.end)
 
     def check_email(self):
@@ -267,6 +266,7 @@ class reg(QDialog):  # 가입창 시작
         email = self.email_Edit.text()
         msg = pw+"/"+name+"/"+email  # msg에 합쳐서 전송한다
         sock.send(msg.encode())
+        print(msg)
         self.close()
 
     def closeEvent(self, event):
@@ -278,17 +278,15 @@ class Main_Window(QDialog):  # 메인화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("main.ui", self)
-
+        
         print(user)
 
-        self.home_icon.clicked.connect(
-            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.home_icon.clicked.connect(lambda: Window_move(self, "home")) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
-        self.shopping_icon.clicked.connect(
-            lambda: Window_move(self, "shopping"))
+        self.shopping_icon.clicked.connect(lambda: Window_move(self, "shopping"))
         self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
         self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
-        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))  
 # 메인화면 종료
 
 
@@ -296,37 +294,37 @@ class search_Window(QDialog):  # 도서찾기화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("search.ui", self)
-
+        
         self.book_check.setChecked(True)
-        self.writer_check.setChecked(False)  # 라디오 버튼 초기화
+        self.writer_check.setChecked(False) # 라디오 버튼 초기화
         self.book_check.clicked.connect(self.search_type_change)
-        self.writer_check.clicked.connect(self.search_type_change)  # 라디오 버튼 제어
+        self.writer_check.clicked.connect(self.search_type_change) # 라디오 버튼 제어      
 
-        self.search_Btn.clicked.connect(self.search_func)  # 검색 버튼 제어
+        self.search_Btn.clicked.connect(self.search_func) # 검색 버튼 제어
         self.search_box.returnPressed.connect(self.search_func)
-
+        
         self.search_add.clicked.connect(self.add_Cart)
         self.search_clear.clicked.connect(self.clear_Cart)
 
-        self.home_icon.clicked.connect(
-            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.home_icon.clicked.connect(lambda: Window_move(self, "home")) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
-        self.shopping_icon.clicked.connect(
-            lambda: Window_move(self, "shopping"))
+        self.shopping_icon.clicked.connect(lambda: Window_move(self, "shopping"))
         self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
         self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
-        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))  
 
+   
+        
     def search_type_change(self):
         global search_mode
         if self.book_check.isChecked():
             search_mode = "BN"
         else:
             search_mode = "WN"
-
-    def search_func(self):
+            
+    def search_func(self):      
         global search_mode
-
+        
         search_text = self.search_box.text()
         search_msg = "search"+search_mode + search_text
         sock.send(search_msg.encode())
@@ -340,83 +338,78 @@ class search_Window(QDialog):  # 도서찾기화면 시작
                 self.search_list.addItem(rcv)
                 break
             else:
-                self.search_list.addItem(rcv)
-
+                self.search_list.addItem(rcv) 
+    
     def add_Cart(self):
-        global shopping_Cart
-        select_item = self.search_list.currentItem().text()
-        if select_item not in shopping_Cart:
+        global shopping_Cart  
+        select_item = self.search_list.currentItem().text()        
+        if select_item not in shopping_Cart:              
             shopping_Cart.append(select_item)
-            select_item = select_item.split('/')
-            QMessageBox().information(
-                self, "    ", "%s(을)를\n장바구니에 추가하였습니다." % select_item[1])
-
+            select_item= select_item.split('/')
+            QMessageBox().information(self, "    ", "%s(을)를\n장바구니에 추가하였습니다."%select_item[1])
+           
+                
     def clear_Cart(self):
-        self.search_list.clear()
+        self.search_list.clear()        
 # 도서찾기화면 종료
 
 
-class shopping_Window(QDialog):  # 도서대여화면 시작
+class shopping_Window(QDialog): # 도서대여화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("shopping.ui", self)
-        self.initUI()
-        self.shopping_Btn.clicked.connect(self.send_rent)
+        self.initUI()        
+        self.shopping_Btn.clicked.connect(self.send_rent) 
         self.shopping_clear.clicked.connect(self.clear_rent)
 
-        self.home_icon.clicked.connect(
-            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.home_icon.clicked.connect(lambda: Window_move(self, "home")) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
-        self.shopping_icon.clicked.connect(
-            lambda: Window_move(self, "shopping"))
+        self.shopping_icon.clicked.connect(lambda: Window_move(self, "shopping"))
         self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
         self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
-        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))  
 
     def initUI(self):
         for list in shopping_Cart:
             self.shopping_list.addItem(list)
 
     def send_rent(self):
-        global rent, rent_cnt, shopping_Cart
-        if len(rent) <= 2:
+        global rent,rent_cnt,shopping_Cart
+        if len(rent) <=2:
             if sys.getsizeof(shopping_Cart) >= 90:
                 data = self.shopping_list.currentItem().text()
                 rent.append(data)
-                j = 0
+                j=0
                 for i in shopping_Cart:
                     if data in i:
-                        del shopping_Cart[j]  # 대여한 책 리스트에서 삭제
-                    j = j+1
+                        del shopping_Cart[j]#대여한 책 리스트에서 삭제
+                    j=j+1
                 self.shopping_list.clear()
                 for list in shopping_Cart:
                     self.shopping_list.addItem(list)
                 data = data.split('/')
-                # 서버로 책 고유번호 전송
-                sock.send(
-                    ('rental' + data[0] + '|' + data[1] + '|' + data[2]).encode())
-                QMessageBox().information(
-                    self, "    ", "%s(을)를 빌렸습니다." % data[1])
+                sock.send(('rental' + data[0]+ '|' + data[1] + '|' + data[2]).encode())#서버로 책 고유번호 전송
+                QMessageBox().information(self, "    ", "%s(을)를 빌렸습니다."%data[1])
             else:
                 QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
         else:
             QMessageBox().information(self, "    ", "최대 대여개수를 초과하였습니다.")
-
+    
     def clear_rent(self):
         global shopping_Cart
         data = self.shopping_list.currentItem().text()
-        j = 0
+        j=0
         for i in shopping_Cart:
             if data in i:
                 del shopping_Cart[j]
-            j = j+1
+            j=j+1
         self.shopping_list.clear()
         for list in shopping_Cart:
             self.shopping_list.addItem(list)
 # 도서대여화면 종료
 
 
-class return_Window(QDialog):  # 도서반납화면 시작
+class return_Window(QDialog): # 도서반납화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("return.ui", self)
@@ -424,15 +417,12 @@ class return_Window(QDialog):  # 도서반납화면 시작
 
         self.return_end.clicked.connect(self.return_book)
 
-        self.home_icon.clicked.connect(
-            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        self.home_icon.clicked.connect(lambda: Window_move(self, "home")) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
-        self.shopping_icon.clicked.connect(
-            lambda: Window_move(self, "shopping"))
+        self.shopping_icon.clicked.connect(lambda: Window_move(self, "shopping"))
         self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
         self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
-        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
-
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))  
     def initUI(self):
         for list in rent:
             self.return_list.addItem(list)
@@ -440,40 +430,37 @@ class return_Window(QDialog):  # 도서반납화면 시작
     def return_book(self):
         global rent
         if sys.getsizeof(rent) >= 1:
-            data = self.return_list.currentItem().text()
-            j = 0
+            data= self.return_list.currentItem().text()
+            j=0
             for i in rent:
                 if data in i:
                     del rent[j]
-                j = j+1
+                j=j+1
             self.return_list.clear()
             for list in rent:
                 self.return_list.addItem(list)
-            data = data.split('/')
+            data=data.split('/')
             sock.send(('return' + data[0]).encode())
-            QMessageBox().information(
-                self, "    ", "%s(을)를\n반납했습니다." % data[1])
+            QMessageBox().information(self, "    ", "%s(을)를\n반납했습니다."%data[1])
         else:
             QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
 # 도서반납화면 종료
 
 
-class donate_Window(QDialog):  # 도서기증화면 시작
+class donate_Window(QDialog): #도서기증화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("donation.ui", self)
-
-        self.home_icon.clicked.connect(
-            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        
+        self.home_icon.clicked.connect(lambda: Window_move(self, "home")) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
-        self.shopping_icon.clicked.connect(
-            lambda: Window_move(self, "shopping"))
+        self.shopping_icon.clicked.connect(lambda: Window_move(self, "shopping"))
         self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
         self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
-        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
-
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))  
+               
         self.donation_Btn.clicked.connect(self.donate_books)
-
+        
     def donate_books(self):
         books_name = self.book_name.text()
         writer_name = self.book_writer.text()
@@ -484,37 +471,17 @@ class donate_Window(QDialog):  # 도서기증화면 시작
 # 도서기증화면 종료
 
 
-class user_Window(QDialog):  # 나의정보화면 시작
+class user_Window(QDialog): #나의정보화면 시작
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("user.ui", self)
-
-        self.init_User()
-
-        self.name_change.clicked.connect(self.change_name)
-        self.pw_change.clicked.connect(self.change_pw)
-
-        self.home_icon.clicked.connect(
-            lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
+        
+        self.home_icon.clicked.connect(lambda: Window_move(self, "home")) # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
-        self.shopping_icon.clicked.connect(
-            lambda: Window_move(self, "shopping"))
+        self.shopping_icon.clicked.connect(lambda: Window_move(self, "shopping"))
         self.return_icon.clicked.connect(lambda:  Window_move(self, "return"))
         self.donation_icon.clicked.connect(lambda: Window_move(self, "donate"))
-        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))
-
-    def init_User(self):
-        self.user_name.setPlainText(user[1])
-        self.user_name.setAlignment(QtCore.Qt.AlignCenter)  # 가운데 정렬
-        for book in rent:
-            self.rent_list.append(book)
-
-    def change_name(self):
-        print("아이디 변경")
-
-    def change_pw(self):
-        print('비번변경')
-
+        self.user_icon.clicked.connect(lambda: Window_move(self, "user"))  
 # 나의정보메뉴 종료
 
 
