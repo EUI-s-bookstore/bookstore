@@ -388,7 +388,7 @@ class shopping_Window(QDialog): # 도서대여화면 시작
                 for list in shopping_Cart:
                     self.shopping_list.addItem(list)
                 data = data.split('/')
-                sock.send(('rental' + data[0]).encode())#서버로 책 고유번호 전송
+                sock.send(('rental' + data[0]+ '|' + data[1] + '|' + data[2]).encode())#서버로 책 고유번호 전송
                 QMessageBox().information(self, "    ", "%s(을)를 빌렸습니다."%data[1])
             else:
                 QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
@@ -487,7 +487,7 @@ class user_Window(QDialog): #나의정보화면 시작
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    #chat_window = Login()
-    chat_window = Main_Window()
+    chat_window = Login()
+    #chat_window = Main_Window()
     chat_window.show()
     app.exec_()
