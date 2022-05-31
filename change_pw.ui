@@ -74,6 +74,9 @@ border:2px solid #353535;
    </property>
   </widget>
   <widget class="QPushButton" name="change_pw_Btn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
