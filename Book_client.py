@@ -547,10 +547,12 @@ class user_Window(QDialog):  # 나의정보화면 시작
 
     def c_name(self):
         c_pw_window = Change_Name()
+        self.close()
         c_pw_window.exec_()
 
     def c_pw(self):
         c_pw_window = Change_Password()
+        self.close()
         c_pw_window.exec_()
 
 # 나의정보메뉴 종료
@@ -559,20 +561,23 @@ class user_Window(QDialog):  # 나의정보화면 시작
 class Change_Name(QDialog):
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi("user.ui", self)
+        self.ui = uic.loadUi("change_name.ui", self)
 
         self.change_name_Btn.clicked.connect(self.change_name)
 
     def change_name(self):
+        global user
         user[1] = self.new_name.text()
         sock.send(('change_name/'+user[1]).encode())
+        window = user_Window()
         self.close()
+        window.exec_()
 
 
 class Change_Password(QDialog):
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi("user.ui", self)
+        self.ui = uic.loadUi("change_pw.ui", self)
 
         self.pw_Btn.clicked.connect(self.ck_pw)
         self.change_pw_Btn.clicked.connect(self.change_pw)
@@ -593,7 +598,9 @@ class Change_Password(QDialog):
     def change_pw(self):
         ch_pw = self.re_pw.text()
         sock.send(('change_pw/'+ch_pw).encode())
+        window = user_Window()
         self.close()
+        window.exec_()
 
 
 if __name__ == '__main__':
