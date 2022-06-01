@@ -1,4 +1,4 @@
-import imp
+
 import socket
 import threading
 import sqlite3
@@ -63,6 +63,8 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('reset'):
             clnt_msg = clnt_msg.replace('reset', '')
             reset(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('remove'):
+            remove(clnt_num)
         else:
             continue
 
@@ -168,6 +170,17 @@ def log_in(clnt_sock, data, num):
     return
 
 
+def remove(clnt_num):
+    con, c = dbcon()
+    id = clnt_imfor[clnt_num][1]
+    lock.acquire()
+    c.execute("DELETE FROM Users WHERE id = ?", (id,))
+    c.execute("DELETE FROM Retrun WHERE id = ?", (id,))
+    clnt_imfor[clnt_num].remove(id)
+    con.commit()
+    lock.release()
+    con.close()
+
 def overdue(book1, book2, book3, id):
     con, c = dbcon()
     today = date.today()  # 오늘 날짜
@@ -178,23 +191,31 @@ def overdue(book1, book2, book3, id):
         if list[i] == None:
             con.close()
             return
+        elif list[i].endswith('연체'):
+            continue
         else:
             data = list[i].split('|')  # / 기준으로 잘라서 리스트 생성
             data[3] = data[3].replace('-', '')  # 날짜에서 - 없애기
+            
             data[3] = datetime.datetime.strptime(
                 data[3], '%Y%m%d').date()  # 문자열  datetime 타입으로 바꾸기
             result = today - data[3]  # 오늘 날짜에서 빌린 날짜 빼기
-            if result > cur:
-                list[i] = list[i]+'|연체'  # 도서코드/도서명 뒤에 '/연체' 붙이기
+            if result > cur:          # 연체이면
+                book_info = data[1] + '|연체'  # 도서코드/도서명 뒤에 '|연체' 붙이기
                 book = "book" + str((i+1))
                 lock.acquire()
-                query = "UPDATE Users SET %s = %s WHERE id=?" % (book, list[i])
-                c.execute(query, (id,))  # '/연체' 추가한 내용으로 DB 수정
+                query = "UPDATE Users SET %s = ? WHERE id=?" % book
+                c.execute(query, (book_info, id))  # '|연체' 추가한 내용으로 DB 수정
                 con.commit()
                 lock.release()
-            else:
-                list[i] = list[i] + '|공'
-
+            else:                        # 연체 아니면
+                '''book_info = data[1] + '|공'
+                book = "book" + str((i+1))
+                lock.acquire()
+                query = "UPDATE Users SET %s = ? WHERE id=?" % book
+                c.execute(query, (book_info, id))  # /공 추가한 내용으로 DB 수정
+                con.commit()
+                lock.release()'''
     con.close()
     return
 
@@ -206,7 +227,7 @@ def send_user_information(clnt_num):
     books = []
 
     c.execute(
-        "SELECT name, book1, book2, book3 FROM Users where id=?", (id,))  # 회원정보
+        "SELECT name, book1, book2, book3 FROM Users where id=?", (id,))  # 이름, 대여한 책 찾기
     row = c.fetchone()
     row = list(row)
     for i in range(0, len(row)):     # None인 항목 찾기
@@ -215,16 +236,16 @@ def send_user_information(clnt_num):
 
     c.execute("SELECT book_name FROM Return where id=?", (id,))  # 반납한 책
     while 1:
-        book = c.fetchone()
+        book = c.fetchone()        # 반납한 책 한 권씩 찾기
         if book is None:
             break
-        book = list(book)
-        books = books + book
+        book = list(book)         # 리스트로 변환
+        books = books + book      # books 리스트에 추가
 
-    user_data = row + books
+    user_data = row + books  # 이름,대여한 책 + 반납한 책
     user_data = '/'.join(user_data)
-    sys.stdout.flush()
-    
+    sys.stdout.flush()  # 버퍼 비우기
+
     clnt_sock.send(('!OK/'+user_data).encode())
     con.close()
 
@@ -424,7 +445,7 @@ def return_book(clnt_num, msg):
 
 def donation(clnt_sock, msg):
     con, c = dbcon()
-    msg = msg.replace('|', '')
+    msg = msg.replace('|', '')  # 클라이언트에서 | 보낸 것 없애기
     msg = msg.split('/')
     print(msg)  # 확인
     lock.acquire()
