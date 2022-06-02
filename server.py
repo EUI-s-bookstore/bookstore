@@ -229,7 +229,7 @@ def send_user_information(clnt_num):
     books = []
 
     c.execute(
-        "SELECT name, pp, book1, book2, book3 FROM Users where id=?", (id,))  # 이름, 대여한 책 찾기
+        "SELECT name, pp, book1, book2, book3, can_rental FROM Users where id=?", (id,))  # 이름, 대여한 책 찾기
     row = c.fetchone()
     row = list(row)
     for i in range(0, len(row)):     # None인 항목 찾기
@@ -399,6 +399,8 @@ def return_book(clnt_num, msg):
     clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
     book_code = int(msg)
+    today = date.today()+datetime.timedelta(days=14) 
+    today = today.isoformat()
 
     c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?",
               (id,))  # 대여한 책 고유번호 찾기
@@ -409,6 +411,10 @@ def return_book(clnt_num, msg):
         if row[i-1] == None:  # 대여한 책 없을 때
             continue
         if row[i-1].startswith(str(book_code)):  # 고유번호로 시작할 때
+            book_data = row[i-1].split('|')
+            if book_data[4] == '연체':
+                c.execute("UPDATE Users SET can_rental = ? WHERE id=?", (today, id))
+                con.commit()
             book = "book" + str(i)
             lock.acquire()
             query = "UPDATE Users SET %s = NULL WHERE id=?" % book
