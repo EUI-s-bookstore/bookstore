@@ -1,4 +1,3 @@
-
 import socket
 import threading
 import sqlite3
@@ -26,13 +25,17 @@ def handle_clnt(clnt_sock):
             break
 
     while True:
+        sys.stdout.flush()
         clnt_msg = clnt_sock.recv(BUF_SIZE)
+
         if not clnt_msg:
             lock.acquire()
             delete_imfor(clnt_sock)
             lock.release()
             break
         clnt_msg = clnt_msg.decode()
+
+        sys.stdin.flush()
 
         if 'signup' == clnt_msg:
             sign_up(clnt_sock, clnt_num)
@@ -87,6 +90,13 @@ def reset(clnt_num, clnt_msg):
         con.commit()
         lock.release()
         con.close()
+    elif clnt_msg.starswith('_pp/'):
+        clnt_msg = clnt_msg.replace('_pp/', '')
+        lock.acquire()
+        c.excute("UPDATE Users SET num = ? WHERE id = ?", (clnt_msg, id))
+        con.commit()
+        lock.release()
+        con.close()
     else:
         con.close()
         return
@@ -107,13 +117,12 @@ def sign_up(clnt_sock, clnt_num):
         c.execute("SELECT id FROM Users")  # Users 테이블에서 id 컬럼 추출
         for row in c:  # id 컬럼
             if imfor in row:       # 클라이언트가 입력한 id가 DB에 있으면
-                sys.stdout.flush()
                 clnt_sock.send('!NO'.encode())
                 check = 1
                 break
         if check == 1:
             continue
-        sys.stdout.flush()
+
         clnt_sock.send('!OK'.encode())  # 중복된 id 없으면 !OK 전송
 
         lock.acquire()
@@ -147,7 +156,6 @@ def log_in(clnt_sock, data, num):
     user_pw = c.fetchone()             # 한 행 추출
 
     if not user_pw:  # DB에 없는 id 입력시
-        sys.stdout.flush()
         clnt_sock.send('iderror'.encode())
         con.close()
         return
@@ -181,6 +189,7 @@ def remove(clnt_num):
     lock.release()
     con.close()
 
+
 def overdue(book1, book2, book3, id):
     con, c = dbcon()
     today = date.today()  # 오늘 날짜
@@ -196,7 +205,6 @@ def overdue(book1, book2, book3, id):
         else:
             data = list[i].split('|')  # / 기준으로 잘라서 리스트 생성
             data[3] = data[3].replace('-', '')  # 날짜에서 - 없애기
-            
             data[3] = datetime.datetime.strptime(
                 data[3], '%Y%m%d').date()  # 문자열  datetime 타입으로 바꾸기
             result = today - data[3]  # 오늘 날짜에서 빌린 날짜 빼기
@@ -209,7 +217,7 @@ def overdue(book1, book2, book3, id):
                 con.commit()
                 lock.release()
             else:         # 연체 아니면
-                pass                        
+                pass
     con.close()
     return
 
@@ -221,7 +229,7 @@ def send_user_information(clnt_num):
     books = []
 
     c.execute(
-        "SELECT name, book1, book2, book3 FROM Users where id=?", (id,))  # 이름, 대여한 책 찾기
+        "SELECT name, num, book1, book2, book3 FROM Users where id=?", (id,))  # 이름, 대여한 책 찾기
     row = c.fetchone()
     row = list(row)
     for i in range(0, len(row)):     # None인 항목 찾기
@@ -238,7 +246,7 @@ def send_user_information(clnt_num):
 
     user_data = row + books  # 이름,대여한 책 + 반납한 책
     user_data = '/'.join(user_data)
-    sys.stdout.flush()  # 버퍼 비우기
+    # 버퍼 비우기
 
     clnt_sock.send(('!OK/'+user_data).encode())
     con.close()
@@ -253,20 +261,18 @@ def find_id(clnt_sock, email):
     id = ''.join(id)  # 문자열로 바꾸기
 
     if id == None:      # DB에 없는 email이면 None이므로 !NO 전송
-        sys.stdout.flush()
         clnt_sock.send('!NO'.encode())
         print('fail')
         con.close()
         return
     else:
-        sys.stdout.flush()
         clnt_sock.send('!OK'.encode())
         msg = clnt_sock.recv(BUF_SIZE)
         msg = msg.decode()
         if msg == "Q_id_Find":    # Q_id_Find 전송받으면 find_id 함수 종료
             pass
         elif msg == 'plz_id':     # plz_id 전송받으면 id 전송
-            sys.stdout.flush()
+
             clnt_sock.send(id.encode())
             print('send_id')
         con.close()
@@ -280,13 +286,11 @@ def find_pw(clnt_sock, id):
     row = c.fetchone()
     print(row)
     if row == None:                      # DB에 없는 id면 None
-        sys.stdout.flush()
         clnt_sock.send('!NO'.encode())
         print('iderror')
         con.close()
         return
 
-    sys.stdout.flush()
     clnt_sock.send('!OK'.encode())       # DB에 id 있으면 !OK 전송
     email = clnt_sock.recv(BUF_SIZE)
     email = email.decode()
@@ -295,7 +299,6 @@ def find_pw(clnt_sock, id):
         return
 
     if row[1] == email:                   # 전송받은 email변수 값이 DB에 있는 email과 같으면
-        sys.stdout.flush()
         clnt_sock.send('!OK'.encode())
         msg = clnt_sock.recv(BUF_SIZE)
         msg = msg.decode()
@@ -303,7 +306,6 @@ def find_pw(clnt_sock, id):
             pass
         elif msg == 'plz_pw':             # plz_pw 전송받으면
             pw = ''.join(row[0])          # 비밀번호 문자열로 변환
-            sys.stdout.flush()
             clnt_sock.send(pw.encode())
             print('send_pw')
         else:
@@ -328,11 +330,8 @@ def search(clnt_sock, msg):
             row = list(row)
             row[0] = str(row[0])
             row = '/'.join(row)
-
-            sys.stdout.flush()
             clnt_sock.send(row.encode())   # name, writer
-            print(row)
-        sys.stdout.flush()
+
         clnt_sock.send('search_done'.encode())
         con.close()
         return
@@ -351,9 +350,8 @@ def search(clnt_sock, msg):
             row = list(row)
             row[0] = str(row[0])
             row = '/'.join(row)
-            print(row)
-            sys.stdout.flush()
             clnt_sock.send(row.encode())
+
         clnt_sock.send('search_done'.encode())
         con.close()
         return
