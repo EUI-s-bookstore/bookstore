@@ -93,7 +93,7 @@ def reset(clnt_num, clnt_msg):
     elif clnt_msg.starswith('_pp/'):
         clnt_msg = clnt_msg.replace('_pp/', '')
         lock.acquire()
-        c.excute("UPDATE Users SET num = ? WHERE id = ?", (clnt_msg, id))
+        c.excute("UPDATE Users SET pp = ? WHERE id = ?", (clnt_msg, id))
         con.commit()
         lock.release()
         con.close()
