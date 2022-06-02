@@ -420,13 +420,10 @@ color:#fff;</string>
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>170</y>
+     <y>140</y>
      <width>231</width>
      <height>41</height>
     </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="tabChangesFocus">
     <bool>false</bool>
@@ -439,7 +436,7 @@ color:#fff;</string>
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>290</y>
+     <y>260</y>
      <width>231</width>
      <height>41</height>
     </rect>
@@ -476,7 +473,7 @@ color:#353535;
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>230</y>
+     <y>200</y>
      <width>231</width>
      <height>41</height>
     </rect>
@@ -510,7 +507,7 @@ color:#353535;
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>140</y>
+     <y>110</y>
      <width>231</width>
      <height>31</height>
     </rect>
@@ -540,6 +537,43 @@ color:#fff;</string>
     <string notr="true">background-color:#dedede;</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="user_out">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>320</y>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>회원 탈퇴</string>
+   </property>
+  </widget>
   <zorder>textBrowser_6</zorder>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
@@ -560,6 +594,7 @@ color:#fff;</string>
   <zorder>pw_change</zorder>
   <zorder>name_change</zorder>
   <zorder>label_10</zorder>
+  <zorder>user_out</zorder>
  </widget>
  <resources/>
  <connections/>
