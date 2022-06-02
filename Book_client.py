@@ -537,7 +537,7 @@ class user_Window(QDialog):  # 나의정보화면 시작
         for book in rent:
             book = book.split('|')
             book = book[1]+" | "+book[2]+" | "+book[3]
-            if book[4] != '공':
+            if book[4] == '연체':
                 book = book+book[4]
                 self.overdue_list.append(book)
             self.rent_list.append(book)

@@ -208,14 +208,8 @@ def overdue(book1, book2, book3, id):
                 c.execute(query, (book_info, id))  # '|연체' 추가한 내용으로 DB 수정
                 con.commit()
                 lock.release()
-            else:                        # 연체 아니면
-                '''book_info = data[1] + '|공'
-                book = "book" + str((i+1))
-                lock.acquire()
-                query = "UPDATE Users SET %s = ? WHERE id=?" % book
-                c.execute(query, (book_info, id))  # /공 추가한 내용으로 DB 수정
-                con.commit()
-                lock.release()'''
+            else:         # 연체 아니면
+                pass                        
     con.close()
     return
 
