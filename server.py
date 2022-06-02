@@ -175,7 +175,7 @@ def remove(clnt_num):
     id = clnt_imfor[clnt_num][1]
     lock.acquire()
     c.execute("DELETE FROM Users WHERE id = ?", (id,))
-    c.execute("DELETE FROM Retrun WHERE id = ?", (id,))
+    c.execute("DELETE FROM Return WHERE id = ?", (id,))
     clnt_imfor[clnt_num].remove(id)
     con.commit()
     lock.release()
