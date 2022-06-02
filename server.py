@@ -90,10 +90,10 @@ def reset(clnt_num, clnt_msg):
         con.commit()
         lock.release()
         con.close()
-    elif clnt_msg.starswith('_pp/'):
+    elif clnt_msg.startswith('_pp/'):
         clnt_msg = clnt_msg.replace('_pp/', '')
         lock.acquire()
-        c.excute("UPDATE Users SET pp = ? WHERE id = ?", (clnt_msg, id))
+        c.execute("UPDATE Users SET pp = ? WHERE id = ?", (clnt_msg, id))
         con.commit()
         lock.release()
         con.close()
@@ -328,7 +328,7 @@ def search(clnt_sock, msg):
             # 책 정보 보내기
             row = list(row)
             row[0] = str(row[0])
-            row = ''.join(row)
+            row = '/'.join(row)
             row = row + '$'
             clnt_sock.send(row.encode())   # name, writer
 
@@ -412,6 +412,7 @@ def return_book(clnt_num, msg):
             continue
         if row[i-1].startswith(str(book_code)):  # 고유번호로 시작할 때
             book_data = row[i-1].split('|')
+            book_data.append('X')
             if book_data[4] == '연체':
                 c.execute("UPDATE Users SET can_rental = ? WHERE id=?", (today, id))
                 con.commit()
