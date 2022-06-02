@@ -522,6 +522,7 @@ class user_Window(QDialog):  # 나의정보화면 시작
         self.name_change.clicked.connect(self.c_name)
         self.pw_change.clicked.connect(self.c_pw)
 
+        self.user_out.clicked.connect(self.remove_user)
         self.home_icon.clicked.connect(
             lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
@@ -543,6 +544,9 @@ class user_Window(QDialog):  # 나의정보화면 시작
             self.rent_list.append(book)
         for book in return_book:
             self.return_list.append(book)
+
+    def remove_user(self):
+        sock.send('remove'.encode())
 
     def c_name(self):
         c_pw_window = Change_Name()
