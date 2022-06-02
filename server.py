@@ -324,12 +324,12 @@ def search(clnt_sock, msg):
         c.execute(
             "SELECT code, name, writer FROM Books WHERE rental = 0 AND name LIKE ?", (arg, ))
         rows = c.fetchall()
-
         for row in rows:
             # 책 정보 보내기
             row = list(row)
             row[0] = str(row[0])
-            row = '/'.join(row)
+            row = ''.join(row)
+            row = row + '$'
             clnt_sock.send(row.encode())   # name, writer
 
         clnt_sock.send('search_done'.encode())
@@ -399,7 +399,7 @@ def return_book(clnt_num, msg):
     clnt_sock = clnt_imfor[clnt_num][0]
     check = 0
     book_code = int(msg)
-    today = date.today()+datetime.timedelta(days=14) 
+    today = date.today() + datetime.timedelta(days=14) 
     today = today.isoformat()
 
     c.execute("SELECT book1, book2, book3 FROM Users WHERE id=?",
