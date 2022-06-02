@@ -780,6 +780,27 @@ border:2px solid #fff;
   <zorder>donation_icon</zorder>
   <zorder>pw_Btn</zorder>
  </widget>
+ <tabstops>
+  <tabstop>id_Edit</tabstop>
+  <tabstop>pw_Edit</tabstop>
+  <tabstop>repw_Edit</tabstop>
+  <tabstop>name_Edit</tabstop>
+  <tabstop>email_Edit</tabstop>
+  <tabstop>emailnum_Edit</tabstop>
+  <tabstop>join_Btn</tabstop>
+  <tabstop>home_icon</tabstop>
+  <tabstop>search_icon</tabstop>
+  <tabstop>shopping_icon</tabstop>
+  <tabstop>return_icon</tabstop>
+  <tabstop>donation_icon</tabstop>
+  <tabstop>user_icon</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>pw_Btn</tabstop>
+  <tabstop>email_Btn</tabstop>
+  <tabstop>id_Btn</tabstop>
+  <tabstop>email_C_Btn</tabstop>
+  <tabstop>textBrowser_4</tabstop>
+ </tabstops>
  <resources>
   <include location="re.qrc"/>
  </resources>

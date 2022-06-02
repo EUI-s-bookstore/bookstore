@@ -420,9 +420,9 @@ color:#fff;</string>
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>170</y>
+     <y>260</y>
      <width>231</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="tabChangesFocus">
@@ -436,9 +436,9 @@ color:#fff;</string>
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>290</y>
+     <y>310</y>
      <width>231</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -472,10 +472,10 @@ color:#353535;
    </property>
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>230</y>
-     <width>231</width>
-     <height>41</height>
+     <x>240</x>
+     <y>260</y>
+     <width>41</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -500,14 +500,14 @@ color:#353535;
 </string>
    </property>
    <property name="text">
-    <string>이름 변경</string>
+    <string>변경</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>140</y>
+     <y>230</y>
      <width>231</width>
      <height>31</height>
     </rect>
@@ -537,6 +537,136 @@ color:#fff;</string>
     <string notr="true">background-color:#dedede;</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="user_out">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>355</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>회원 탈퇴</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="profile_change">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>180</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>변경</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="profile">
+   <property name="geometry">
+    <rect>
+     <x>75</x>
+     <y>30</y>
+     <width>180</width>
+     <height>180</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>profile/prof1.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="credit_Btn">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>400</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+border:1px solid #353535;
+background-color:#353535;
+color:#fff;
+}
+
+QPushButton:hover{
+background-color:#fff;
+color:#353535;
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>Credit</string>
+   </property>
+  </widget>
   <zorder>textBrowser_6</zorder>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
@@ -557,6 +687,10 @@ color:#fff;</string>
   <zorder>pw_change</zorder>
   <zorder>name_change</zorder>
   <zorder>label_10</zorder>
+  <zorder>user_out</zorder>
+  <zorder>profile</zorder>
+  <zorder>credit_Btn</zorder>
+  <zorder>profile_change</zorder>
  </widget>
  <resources/>
  <connections/>

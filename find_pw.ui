@@ -590,6 +590,23 @@ border:2px solid #fff;
   <zorder>shopping_icon</zorder>
   <zorder>user_icon</zorder>
  </widget>
+ <tabstops>
+  <tabstop>id_Edit</tabstop>
+  <tabstop>email_Edit</tabstop>
+  <tabstop>emailnum_Edit</tabstop>
+  <tabstop>join_Btn</tabstop>
+  <tabstop>home_icon</tabstop>
+  <tabstop>search_icon</tabstop>
+  <tabstop>shopping_icon</tabstop>
+  <tabstop>return_icon</tabstop>
+  <tabstop>donation_icon</tabstop>
+  <tabstop>user_icon</tabstop>
+  <tabstop>email_C_Btn</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>email_Btn</tabstop>
+  <tabstop>id_Btn</tabstop>
+  <tabstop>textBrowser_4</tabstop>
+ </tabstops>
  <resources>
   <include location="re.qrc"/>
  </resources>
