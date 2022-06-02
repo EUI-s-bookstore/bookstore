@@ -8,10 +8,12 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QThread, pyqtSlot
 from PyQt5 import QtCore
 from PyQt5 import uic
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QCoreApplication
 from email.mime.text import MIMEText  # 이메일 전송을 위한 라이브러리 import
+from datetime import date, datetime
 
-BUF_SIZE = 1024
+BUF_SIZE = 2048
 IP = "127.0.0.1"
 Port = 2091
 check_msg = ""
@@ -100,13 +102,10 @@ class Login(QDialog):  # 로그인창 시작
         ck = check_rcv()
         user = ck.split("/")
         if user[0] == "!OK":
-            i = 0
-            for book in user:
-                if i >= 5:
-                    return_book.append(user[i])
-                elif book != 'X' and i >= 2 and i <= 4:
-                    rent.append(user[i])
-                i = i+1
+            rent = user[3:6]
+            return_book = user[7:]
+            while 'X' in rent:
+                rent.remove('X')
             # 메인화면 열기
             m_window = Main_Window()
             self.close()
@@ -352,19 +351,18 @@ class search_Window(QDialog):  # 도서찾기화면 시작
         search_msg = "search"+search_mode + search_text
         sock.send(search_msg.encode())
         self.search_list.clear()
+        j = 0
         while True:
-            sys.stdout.flush()
             rcv = sock.recv(BUF_SIZE)
             rcv = rcv.decode()
             rcv = rcv.replace("/", " | ")
-            rcv = rcv.replace(";", " | ")
-            if "search_done" in rcv:
-                rcv = rcv.replace('search_done', '')
-                print(rcv)
-                self.search_list.addItem(rcv)
+            rcv = rcv.replace(";", " :: ")
+            rcv = rcv.split('$')
+            for i in rcv:
+                if len(i) > 0 and 'search_done' not in i:
+                    self.search_list.addItem(i)
+            if 'search_done' in rcv:
                 break
-            else:
-                self.search_list.addItem(rcv)
 
     def add_Cart(self):
         global shopping_Cart
@@ -403,26 +401,35 @@ class shopping_Window(QDialog):  # 도서대여화면 시작
 
     def send_rent(self):
         global rent, rent_cnt, shopping_Cart
+        today = date.today()
+        limit_time = datetime.strptime(user[6], '%Y-%m-%d').date()
+        date_time = limit_time-today
+        date_time = str(date_time).split('days')
+        print(date_time)
         if len(rent) <= 2:
-            if sys.getsizeof(shopping_Cart) >= 90:
-                data = self.shopping_list.currentItem().text()
-                rent.append(data)
-                j = 0
-                for i in shopping_Cart:
-                    if data in i:
-                        del shopping_Cart[j]  # 대여한 책 리스트에서 삭제
-                    j = j+1
-                self.shopping_list.clear()
-                for list in shopping_Cart:
-                    self.shopping_list.addItem(list)
-                data = data.split('|')
-                # 서버로 책 고유번호 전송
-                sock.send(
-                    ('rental' + data[0] + '|' + data[1] + '|' + data[2]).encode())
-                QMessageBox().information(
-                    self, "    ", "%s(을)를 빌렸습니다." % data[1])
+            if '연체' not in user[3:6]:
+                if today >= limit_time:
+                    if sys.getsizeof(shopping_Cart) >= 90:
+                        data = self.shopping_list.currentItem().text()
+                        rent.append(data)
+                        if data in shopping_Cart:
+                            shopping_Cart.remove(data)
+                        self.shopping_list.clear()
+                        for list in shopping_Cart:
+                            self.shopping_list.addItem(list)
+                        data = data.split('|')
+                        # 서버로 책 고유번호 전송
+                        sock.send(
+                            ('rental' + data[0] + '|' + data[1] + '|' + data[2]).encode())
+                        QMessageBox().information(
+                            self, "    ", "%s(을)를 빌렸습니다." % data[1])
+                    else:
+                        QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
+                else:
+                    QMessageBox().information(
+                        self, "    ", date_time[0][0:]+"일 뒤 대여할수 있습니다.")
             else:
-                QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
+                QMessageBox().information(self, "    ", "연체된 도서가 있습니다.")
         else:
             QMessageBox().information(self, "    ", "최대 대여개수를 초과하였습니다.")
 
@@ -465,14 +472,9 @@ class return_Window(QDialog):  # 도서반납화면 시작
         global rent, return_book
         if sys.getsizeof(rent) >= 1:
             data = self.return_list.currentItem().text()
-            j = 0
-            for i in rent:
-                if data in i:
-                    del rent[j]
-                j = j+1
+            if data in rent:
+                rent.remove(data)
             self.return_list.clear()
-            print(data)
-            print(rent)
             data = data.split('|')
             return_book.append(data[1])
             sock.send(('return' + data[0]).encode())
@@ -523,6 +525,7 @@ class user_Window(QDialog):  # 나의정보화면 시작
         self.pw_change.clicked.connect(self.c_pw)
 
         self.user_out.clicked.connect(self.remove_user)
+        self.profile_change.clicked.connect(self.change_pp)
         self.home_icon.clicked.connect(
             lambda: Window_move(self, "home"))  # 메뉴 버튼들 제어
         self.search_icon.clicked.connect(lambda: Window_move(self, "search"))
@@ -535,9 +538,11 @@ class user_Window(QDialog):  # 나의정보화면 시작
     def init_User(self):
         self.user_name.setPlainText(user[1])
         self.user_name.setAlignment(QtCore.Qt.AlignCenter)  # 가운데 정렬
+
+        self.profile.setPixmap(QPixmap('profile/prof'+user[2]+'.png'))
         for book in rent:
             book = book.split('|')
-            book = book[1]+" | "+book[2]+" | "+book[3]
+            book = book[1]+" | "+book[2]
             if book[4] == '연체':
                 book = book+book[4]
                 self.overdue_list.append(book)
@@ -545,8 +550,15 @@ class user_Window(QDialog):  # 나의정보화면 시작
         for book in return_book:
             self.return_list.append(book)
 
+    def change_pp(self):
+        c_pp = Change_profile()
+        self.close()
+        c_pp.exec_()
+
     def remove_user(self):
-        sock.send('remove'.encode())
+        sock.send('remove/'.encode())
+        QMessageBox().information(self, "    ", "회원탈퇴가 완료되었습니다.")
+        self.close()
 
     def c_name(self):
         c_pw_window = Change_Name()
@@ -572,9 +584,11 @@ class Change_Name(QDialog):
         global user
         user[1] = self.new_name.text()
         sock.send(('reset_name/'+user[1]).encode())
-        window = user_Window()
         self.close()
-        window.exec_()
+
+    def closeEvent(self, event):
+        window = user_Window()
+        window.show()
 
 
 class Change_Password(QDialog):
@@ -601,9 +615,35 @@ class Change_Password(QDialog):
     def change_pw(self):
         ch_pw = self.re_pw.text()
         sock.send(('reset_pw/'+ch_pw).encode())
-        window = user_Window()
         self.close()
-        window.exec_()
+
+    def closeEvent(self, event):
+        window = user_Window()
+        window.show()
+
+
+class Change_profile (QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("profile.ui", self)
+
+        self.prof1_change.clicked.connect(
+            lambda: self.change("1"))  # 메뉴 버튼들 제어
+        self.prof2_change.clicked.connect(lambda: self.change("2"))
+        self.prof3_change.clicked.connect(
+            lambda: self.change("3"))
+        self.prof4_change.clicked.connect(lambda:  self.change("4"))
+        self.prof5_change.clicked.connect(lambda: self.change("5"))
+        self.prof6_change.clicked.connect(lambda: self.change("6"))
+
+    def change(self, prof_num):
+        user[2] = prof_num
+        sock.send(('reset_pp/'+user[2]).encode())
+        self.close()
+
+    def closeEvent(self, event):
+        window = user_Window()
+        window.show()
 
 
 if __name__ == '__main__':
