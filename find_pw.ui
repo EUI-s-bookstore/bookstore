@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>비밀번호찾기</string>
+   <string>비밀번호 변경</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -20,9 +20,9 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>80</y>
+     <y>110</y>
      <width>401</width>
-     <height>301</height>
+     <height>261</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>240</y>
+     <y>200</y>
      <width>91</width>
      <height>17</height>
     </rect>
@@ -50,14 +50,14 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>인증번호 확인</string>
+    <string>비밀번호 확인</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="emailnum_Edit">
+  <widget class="QLineEdit" name="re_pw">
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>260</y>
+     <y>220</y>
      <width>261</width>
      <height>31</height>
     </rect>
@@ -72,28 +72,11 @@ QLineEdit:focus{
 border:2px solid #353535;
 }</string>
    </property>
-  </widget>
-  <widget class="QLineEdit" name="email_Edit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>200</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit{
-border:1px solid #000;
-background:#fff;
-}
-
-QLineEdit:focus{
-border:2px solid #353535;
-}</string>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="join_Btn">
+  <widget class="QPushButton" name="change_pw_Btn">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -126,68 +109,11 @@ color:#353535;
     <string>완료</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
+  <widget class="QLineEdit" name="new_pw">
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>180</y>
-     <width>81</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>이메일 주소</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="id_Btn">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>140</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>확인</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="id_Edit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>140</y>
+     <y>160</y>
      <width>261</width>
      <height>31</height>
     </rect>
@@ -202,13 +128,16 @@ QLineEdit:focus{
 border:2px solid #353535;
 }</string>
    </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>120</y>
-     <width>67</width>
+     <y>140</y>
+     <width>91</width>
      <height>17</height>
     </rect>
    </property>
@@ -224,15 +153,15 @@ border:2px solid #353535;
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>아이디</string>
+    <string>새로운 비밀번호</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="email_Btn">
+  <widget class="QPushButton" name="pw_Btn">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>200</y>
-     <width>51</width>
+     <x>240</x>
+     <y>270</y>
+     <width>261</width>
      <height>31</height>
     </rect>
    </property>
@@ -257,47 +186,14 @@ color:#353535;
 </string>
    </property>
    <property name="text">
-    <string>전송</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="email_C_Btn">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>260</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
-   </property>
-   <property name="text">
-    <string>확인</string>
+    <string>비밀번호 확인</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>50</y>
+     <y>80</y>
      <width>401</width>
      <height>31</height>
     </rect>
@@ -308,7 +204,7 @@ background-color:#353535;
 color:#fff;</string>
    </property>
    <property name="text">
-    <string>                                            비밀번호 찾기</string>
+    <string>                                            비밀번호 변경</string>
    </property>
   </widget>
   <widget class="QPushButton" name="donation_icon">
@@ -572,16 +468,12 @@ border:2px solid #fff;
   </widget>
   <zorder>textBrowser_4</zorder>
   <zorder>textBrowser</zorder>
-  <zorder>email_Edit</zorder>
   <zorder>label_6</zorder>
-  <zorder>emailnum_Edit</zorder>
-  <zorder>join_Btn</zorder>
-  <zorder>label_5</zorder>
-  <zorder>id_Edit</zorder>
+  <zorder>re_pw</zorder>
+  <zorder>change_pw_Btn</zorder>
+  <zorder>new_pw</zorder>
   <zorder>label</zorder>
-  <zorder>id_Btn</zorder>
-  <zorder>email_Btn</zorder>
-  <zorder>email_C_Btn</zorder>
+  <zorder>pw_Btn</zorder>
   <zorder>label_2</zorder>
   <zorder>donation_icon</zorder>
   <zorder>home_icon</zorder>
@@ -590,23 +482,6 @@ border:2px solid #fff;
   <zorder>shopping_icon</zorder>
   <zorder>user_icon</zorder>
  </widget>
- <tabstops>
-  <tabstop>id_Edit</tabstop>
-  <tabstop>email_Edit</tabstop>
-  <tabstop>emailnum_Edit</tabstop>
-  <tabstop>join_Btn</tabstop>
-  <tabstop>home_icon</tabstop>
-  <tabstop>search_icon</tabstop>
-  <tabstop>shopping_icon</tabstop>
-  <tabstop>return_icon</tabstop>
-  <tabstop>donation_icon</tabstop>
-  <tabstop>user_icon</tabstop>
-  <tabstop>email_C_Btn</tabstop>
-  <tabstop>textBrowser</tabstop>
-  <tabstop>email_Btn</tabstop>
-  <tabstop>id_Btn</tabstop>
-  <tabstop>textBrowser_4</tabstop>
- </tabstops>
  <resources>
   <include location="re.qrc"/>
  </resources>
