@@ -569,6 +569,24 @@ border:2px solid #fff;
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
  </widget>
+ <tabstops>
+  <tabstop>id_Edit</tabstop>
+  <tabstop>pw_Edit</tabstop>
+  <tabstop>login_Btn</tabstop>
+  <tabstop>join_Btn</tabstop>
+  <tabstop>id_Find</tabstop>
+  <tabstop>pw_Find</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>home_icon</tabstop>
+  <tabstop>search_icon</tabstop>
+  <tabstop>shopping_icon</tabstop>
+  <tabstop>return_icon</tabstop>
+  <tabstop>donation_icon</tabstop>
+  <tabstop>user_icon</tabstop>
+  <tabstop>textBrowser_3</tabstop>
+  <tabstop>email_Btn</tabstop>
+  <tabstop>email_C_Btn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

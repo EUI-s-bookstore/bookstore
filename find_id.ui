@@ -94,6 +94,9 @@ border:2px solid #353535;
    </property>
   </widget>
   <widget class="QPushButton" name="join_Btn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -510,6 +513,21 @@ border:2px solid #fff;
   <zorder>search_icon</zorder>
   <zorder>donation_icon</zorder>
  </widget>
+ <tabstops>
+  <tabstop>email_Edit</tabstop>
+  <tabstop>emailnum_Edit</tabstop>
+  <tabstop>join_Btn</tabstop>
+  <tabstop>home_icon</tabstop>
+  <tabstop>search_icon</tabstop>
+  <tabstop>shopping_icon</tabstop>
+  <tabstop>return_icon</tabstop>
+  <tabstop>donation_icon</tabstop>
+  <tabstop>user_icon</tabstop>
+  <tabstop>email_Btn</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>email_C_Btn</tabstop>
+  <tabstop>textBrowser_4</tabstop>
+ </tabstops>
  <resources>
   <include location="re.qrc"/>
  </resources>
