@@ -391,7 +391,7 @@ border:1px solid #000;
     <bool>true</bool>
    </property>
    <property name="selectionMode">
-    <enum>QAbstractItemView::SingleSelection</enum>
+    <enum>QAbstractItemView::MultiSelection</enum>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">

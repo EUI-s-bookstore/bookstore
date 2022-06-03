@@ -103,7 +103,6 @@ class Login(QDialog):  # 로그인창 시작
         user = ck.split("/")
         if user[0] == "!OK":
             rent = user[3:6]
-            print(user[2])
             return_book = user[7:]
             while 'X' in rent:
                 rent.remove('X')
@@ -418,9 +417,9 @@ class shopping_Window(QDialog):  # 도서대여화면 시작
         limit_time = datetime.strptime(user[6], '%Y-%m-%d').date()
         date_time = limit_time-today
         date_time = str(date_time).split('days')
-        print(date_time)
         if len(rent) <= 2:
-            if '연체' not in user[3:6]:
+            if '연체' not in rent[0] and rent[1] and rent[2] :
+                print(rent)
                 if today >= limit_time:
                     if sys.getsizeof(shopping_Cart) >= 90:
                         data = self.shopping_list.currentItem().text()
@@ -556,11 +555,15 @@ class user_Window(QDialog):  # 나의정보화면 시작
 
         self.profile.setPixmap(QPixmap('profile/prof'+user[2]+'.png'))
         for book in rent:
+            book = book+'|X'
             book = book.split('|')
-            book = book[1]+" | "+book[2]
+            if len(book) <=3:
+                continue
             if book[4] == '연체':
-                book = book+book[4]
+                book =  book[1]+" | "+book[2]+" | "+book[4]
                 self.overdue_list.append(book)
+            else:
+                book = book[1]+" | "+book[2]
             self.rent_list.append(book)
         for book in return_book:
             self.return_list.append(book)

@@ -6,7 +6,7 @@ from datetime import date
 import sys
 
 PORT = 2091
-BUF_SIZE = 1024
+BUF_SIZE = 2048
 lock = threading.Lock()
 clnt_imfor = []  # [[소켓, id]]
 clnt_cnt = 0
@@ -209,11 +209,13 @@ def overdue(book1, book2, book3, id):
                 data[3], '%Y%m%d').date()  # 문자열  datetime 타입으로 바꾸기
             result = today - data[3]  # 오늘 날짜에서 빌린 날짜 빼기
             if result > cur:          # 연체이면
-                book_info = data[1] + '|연체'  # 도서코드/도서명 뒤에 '|연체' 붙이기
+                data[3] = data[3].isoformat()
+                data.append('연체')   # 도서코드/도서명 뒤에 '|연체' 붙이기
+                data = '|'.join(data)
                 book = "book" + str((i+1))
                 lock.acquire()
                 query = "UPDATE Users SET %s = ? WHERE id=?" % book
-                c.execute(query, (book_info, id))  # '|연체' 추가한 내용으로 DB 수정
+                c.execute(query, (data, id))  # '|연체' 추가한 내용으로 DB 수정
                 con.commit()
                 lock.release()
             else:         # 연체 아니면
@@ -249,6 +251,7 @@ def send_user_information(clnt_num):
     # 버퍼 비우기
 
     clnt_sock.send(('!OK/'+user_data).encode())
+    print(user_data)
     con.close()
 
 
@@ -419,6 +422,9 @@ def return_book(clnt_num, msg):
             if book_data[4] == '연체':
                 c.execute("UPDATE Users SET can_rental = ? WHERE id=?", (today, id))
                 con.commit()
+            else :
+                book_data[4] = 'X'
+
             book = "book" + str(i)
             lock.acquire()
             query = "UPDATE Users SET %s = NULL WHERE id=?" % book
