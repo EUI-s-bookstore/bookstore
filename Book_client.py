@@ -103,7 +103,6 @@ class Login(QDialog):  # 로그인창 시작
         user = ck.split("/")
         if user[0] == "!OK":
             rent = user[3:6]
-            print(user[2])
             return_book = user[7:]
             while 'X' in rent:
                 rent.remove('X')
