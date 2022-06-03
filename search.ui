@@ -529,6 +529,25 @@ background:#fff;
   <zorder>writer_check</zorder>
   <zorder>search_list</zorder>
  </widget>
+ <tabstops>
+  <tabstop>search_box</tabstop>
+  <tabstop>search_Btn</tabstop>
+  <tabstop>home_icon</tabstop>
+  <tabstop>search_icon</tabstop>
+  <tabstop>shopping_icon</tabstop>
+  <tabstop>return_icon</tabstop>
+  <tabstop>donation_icon</tabstop>
+  <tabstop>user_icon</tabstop>
+  <tabstop>email_Btn</tabstop>
+  <tabstop>email_C_Btn</tabstop>
+  <tabstop>textBrowser_3</tabstop>
+  <tabstop>search_add</tabstop>
+  <tabstop>textBrowser_2</tabstop>
+  <tabstop>search_clear</tabstop>
+  <tabstop>book_check</tabstop>
+  <tabstop>writer_check</tabstop>
+  <tabstop>search_list</tabstop>
+ </tabstops>
  <resources>
   <include location="icon/resource.qrc"/>
  </resources>
