@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>도서 반납</string>
+   <string>나의 정보</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -323,84 +323,108 @@ border:2px solid #fff;
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="return_end">
+  <widget class="QLabel" name="prof3">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>330</y>
-     <width>381</width>
-     <height>41</height>
+     <x>380</x>
+     <y>20</y>
+     <width>180</width>
+     <height>180</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-border:1px solid #353535;
-background-color:#353535;
-color:#fff;
-}
-
-QPushButton:hover{
-background-color:#fff;
-color:#353535;
-}
-</string>
    </property>
    <property name="text">
-    <string>반납 하기</string>
+    <string/>
    </property>
-  </widget>
-  <widget class="QTextBrowser" name="textBrowser_2">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>40</y>
-     <width>441</width>
-     <height>371</height>
-    </rect>
+   <property name="pixmap">
+    <pixmap>profile/prof3.png</pixmap>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:#dedede;</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="return_list">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>110</y>
-     <width>381</width>
-     <height>221</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">
-border:1px solid #000;
-
-</string>
-   </property>
-   <property name="dragEnabled">
-    <bool>false</bool>
-   </property>
-   <property name="alternatingRowColors">
+   <property name="scaledContents">
     <bool>true</bool>
    </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::MultiSelection</enum>
-   </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="prof2">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>80</y>
-     <width>381</width>
-     <height>31</height>
+     <x>160</x>
+     <y>20</y>
+     <width>180</width>
+     <height>180</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>profile/prof2.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="prof4">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>230</y>
+     <width>180</width>
+     <height>180</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>profile/prof4.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="prof5">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>230</y>
+     <width>180</width>
+     <height>180</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>profile/prof5.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="prof6">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>230</y>
+     <width>180</width>
+     <height>180</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>profile/prof6.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>200</y>
+     <width>180</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -409,13 +433,96 @@ background-color:#353535;
 color:#fff;</string>
    </property>
    <property name="text">
-    <string>대여중인 도서</string>
+    <string>Server : 이유진</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <zorder>textBrowser_2</zorder>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>200</y>
+     <width>180</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>Server : 성민식</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>410</y>
+     <width>180</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>UI : 큐티뽀짝 의현</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>410</y>
+     <width>180</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>Client : 정정빈</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>410</y>
+     <width>180</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #353535;
+background-color:#353535;
+color:#fff;</string>
+   </property>
+   <property name="text">
+    <string>Client : 방은혁</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>textBrowser_3</zorder>
   <zorder>email_C_Btn</zorder>
   <zorder>search_icon</zorder>
@@ -425,12 +532,17 @@ color:#fff;</string>
   <zorder>home_icon</zorder>
   <zorder>email_Btn</zorder>
   <zorder>user_icon</zorder>
-  <zorder>return_end</zorder>
-  <zorder>return_list</zorder>
+  <zorder>prof3</zorder>
+  <zorder>prof2</zorder>
+  <zorder>prof4</zorder>
+  <zorder>prof5</zorder>
+  <zorder>prof6</zorder>
+  <zorder>label</zorder>
   <zorder>label_2</zorder>
+  <zorder>label_3</zorder>
+  <zorder>label_4</zorder>
+  <zorder>label_5</zorder>
  </widget>
- <resources>
-  <include location="icon/resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

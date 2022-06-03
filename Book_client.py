@@ -103,6 +103,7 @@ class Login(QDialog):  # 로그인창 시작
         user = ck.split("/")
         if user[0] == "!OK":
             rent = user[3:6]
+            print(user[2])
             return_book = user[7:]
             while 'X' in rent:
                 rent.remove('X')
@@ -146,23 +147,29 @@ class ID_Find(QDialog):  # 아이디찾기 시작
         ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
             func_result = send_email_to_clnt(self)
+            QMessageBox().about(self, "     ", "인증번호가 전송되었습니다.")
             if func_result == "success":
                 self.emailnum_Edit.setEnabled(True)
                 self.email_C_Btn.setEnabled(True)
+        else:
+            QMessageBox().about(self, "     ", "등록되지 않는 email입니다.")
 
     def check_code(self):
         ck_code = self.emailnum_Edit.text()
         if ck_code == check_msg:
-            self.join_Btn.setEnable(True)
+            QMessageBox().about(self, "     ", "인증번호가 일치합니다.")
+            self.join_Btn.setEnabled(True)
             self.email_Btn.setEnabled(False)
             self.email_Edit.setEnabled(False)
             self.emailnum_Edit.setEnabled(False)
             self.email_C_Btn.setEnabled(False)
+        else:
+            QMessageBox().about(self, "     ", "인증번호가 일치하지 않습니다.")
 
     def end(self):
         sock.send("plz_id".encode())
         ck = check_rcv()
-        # 아이디를 이메일로 보내주고 종료
+        QMessageBox().about(self, "     ", "아이디는 "+ck+"입니다")
         self.close()
 
     def closeEvent(self, event):
@@ -199,23 +206,29 @@ class PW_Find(QDialog):  # 비밀번호찾기 시작
         ck = check_rcv()
         if ck == "!OK":  # 아이디 중복확인이 완료했을시 입력칸 잠금해제
             func_result = send_email_to_clnt(self)
+            QMessageBox().about(self, "     ", "인증번호가 전송되었습니다.")
             if func_result == "success":
                 self.emailnum_Edit.setEnabled(True)
                 self.email_C_Btn.setEnabled(True)
+        else:
+            QMessageBox().about(self, "     ", "등록되지 않는 email입니다.")
 
     def check_E_num(self):
         check_num = self.emailnum_Edit.text()
         if check_num == check_msg:
+            QMessageBox().about(self, "     ", "인증번호가 일치합니다.")
             self.join_Btn.setEnabled(True)
             self.email_Btn.setEnabled(False)
             self.email_Edit.setEnabled(False)
             self.emailnum_Edit.setEnabled(False)
             self.email_C_Btn.setEnabled(False)
+        else:
+            QMessageBox().about(self, "     ", "인증번호가 일치하지 않습니다.")
 
     def end(self):
         sock.send("plz_pw".encode())
         ck = check_rcv()
-        # 비밀번호를 이메일로 보내주고 종료
+        QMessageBox().about(self, "     ", "비밀번호는 "+ck+"입니다")
         self.close()
 
     def closeEvent(self, event):
@@ -508,6 +521,7 @@ class donate_Window(QDialog):  # 도서기증화면 시작
         writer_name = self.book_writer.text()
         donate_msg = "donate/"+books_name+"/"+writer_name + '|'
         sock.send(donate_msg.encode())
+        QMessageBox().about(self, "     ", books_name+" 를 기증하였습니다.")
         self.book_name.clear()
         self.book_writer.clear()
 # 도서기증화면 종료
@@ -523,6 +537,7 @@ class user_Window(QDialog):  # 나의정보화면 시작
 
         self.name_change.clicked.connect(self.c_name)
         self.pw_change.clicked.connect(self.c_pw)
+        self.credit_Btn.clicked.connect(self.open_credit)
 
         self.user_out.clicked.connect(self.remove_user)
         self.profile_change.clicked.connect(self.change_pp)
@@ -549,6 +564,10 @@ class user_Window(QDialog):  # 나의정보화면 시작
             self.rent_list.append(book)
         for book in return_book:
             self.return_list.append(book)
+
+    def open_credit(self):
+        c_op = Credit_Window()
+        c_op.exec_()
 
     def change_pp(self):
         c_pp = Change_profile()
@@ -644,6 +663,12 @@ class Change_profile (QDialog):
     def closeEvent(self, event):
         window = user_Window()
         window.show()
+
+
+class Credit_Window(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("credit.ui", self)
 
 
 if __name__ == '__main__':
