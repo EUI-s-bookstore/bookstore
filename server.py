@@ -258,7 +258,7 @@ def find_id(clnt_sock, email):
     c.execute("SELECT id FROM Users where email=?",
               (email,))  # DB에 있는 email과 일치시 id 가져오기
     id = c.fetchone()
-    id = ''.join(id)  # 문자열로 바꾸기
+    
 
     if id == None:      # DB에 없는 email이면 None이므로 !NO 전송
         clnt_sock.send('!NO'.encode())
@@ -272,7 +272,7 @@ def find_id(clnt_sock, email):
         if msg == "Q_id_Find":    # Q_id_Find 전송받으면 find_id 함수 종료
             pass
         elif msg == 'plz_id':     # plz_id 전송받으면 id 전송
-
+            id = ''.join(id)  # 문자열로 바꾸기
             clnt_sock.send(id.encode())
             print('send_id')
         con.close()
