@@ -310,6 +310,9 @@ def find_pw(clnt_sock, id):
             print('send_pw')
         else:
             pass
+    else:
+        clnt_sock.send('!NO'.encode())
+        print('emailerror')
     con.close()
     return
 
