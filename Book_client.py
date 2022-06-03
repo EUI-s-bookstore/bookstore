@@ -418,30 +418,30 @@ class shopping_Window(QDialog):  # 도서대여화면 시작
         date_time = limit_time-today
         date_time = str(date_time).split('days')
         if len(rent) <= 2:
-            if '연체' not in rent[0] and rent[1] and rent[2] :
-                print(rent)
-                if today >= limit_time:
-                    if sys.getsizeof(shopping_Cart) >= 90:
-                        data = self.shopping_list.currentItem().text()
-                        rent.append(data)
-                        if data in shopping_Cart:
-                            shopping_Cart.remove(data)
-                        self.shopping_list.clear()
-                        for list in shopping_Cart:
-                            self.shopping_list.addItem(list)
-                        data = data.split('|')
-                        # 서버로 책 고유번호 전송
-                        sock.send(
-                            ('rental' + data[0] + '|' + data[1] + '|' + data[2]).encode())
-                        QMessageBox().information(
-                            self, "    ", "%s(을)를 빌렸습니다." % data[1])
-                    else:
-                        QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
-                else:
+            for i in rent:
+                if '연체' in i:
+                    QMessageBox().information(self, "    ", "연체된 도서가 있습니다.")
+                    return
+            if today >= limit_time:
+                if sys.getsizeof(shopping_Cart) >= 90:
+                    data = self.shopping_list.currentItem().text()
+                    rent.append(data)
+                    if data in shopping_Cart:
+                        shopping_Cart.remove(data)
+                    self.shopping_list.clear()
+                    for list in shopping_Cart:
+                        self.shopping_list.addItem(list)
+                    data = data.split('|')
+                    # 서버로 책 고유번호 전송
+                    sock.send(
+                        ('rental' + data[0] + '|' + data[1] + '|' + data[2]).encode())
                     QMessageBox().information(
-                        self, "    ", date_time[0][0:]+"일 뒤 대여할수 있습니다.")
+                        self, "    ", "%s(을)를 빌렸습니다." % data[1])
+                else:
+                    QMessageBox().information(self, "    ", "아무것도 선택하지 않았습니다.")
             else:
-                QMessageBox().information(self, "    ", "연체된 도서가 있습니다.")
+                QMessageBox().information(
+                    self, "    ", date_time[0][0:]+"일 뒤 대여할수 있습니다.")
         else:
             QMessageBox().information(self, "    ", "최대 대여개수를 초과하였습니다.")
 
